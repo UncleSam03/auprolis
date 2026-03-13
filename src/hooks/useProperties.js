@@ -14,6 +14,7 @@ export const useProperties = (options = {}) => {
 
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { toast } = useToast();
 
   const fetchProperties = useCallback(async () => {
@@ -21,6 +22,7 @@ export const useProperties = (options = {}) => {
     
     try {
       setLoading(true);
+      setError(null);
       let query = supabase
         .from('properties')
         .select('*, profiles:seller_id(name, email, phone)')
@@ -49,6 +51,7 @@ export const useProperties = (options = {}) => {
       setProperties(data || []);
     } catch (error) {
       console.error('Error fetching properties:', error);
+      setError(error);
       
       let errorMsg = "Please check your connection and try again.";
       if (error.code === '406' || error.status === 406) {
@@ -150,5 +153,5 @@ export const useProperties = (options = {}) => {
     };
   }, [fetchProperties, enableRealtime, sellerId, enabled, limit, status]);
 
-  return { properties, loading, refresh: fetchProperties };
+  return { properties, loading, error, refresh: fetchProperties };
 };

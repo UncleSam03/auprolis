@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const FeaturedProperties = ({ id = "featured-properties" }) => {
   const navigate = useNavigate();
-  const { properties, loading, refresh } = useProperties({ limit: 3, status: 'approved' });
+  const { properties, loading, error, refresh } = useProperties({ limit: 3, status: 'approved' });
   const subscriptionType = 'basic'; // Default for featured section search
 
   return (

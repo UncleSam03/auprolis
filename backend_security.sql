@@ -1,6 +1,20 @@
--- 1. Enable RLS on Tables
 ALTER TABLE properties ENABLE ROW LEVEL SECURITY;
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+
+-- 1.1 Ensure Relationships exist (PostgREST needs explicit FKs for joins)
+ALTER TABLE properties ADD COLUMN IF NOT EXISTS seller_id UUID REFERENCES profiles(id);
+
+-- Fix for specific relationship issue
+DO $$ 
+BEGIN 
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.table_constraints 
+        WHERE constraint_name = 'properties_seller_id_fkey'
+    ) THEN
+        ALTER TABLE properties ADD CONSTRAINT properties_seller_id_fkey 
+        FOREIGN KEY (seller_id) REFERENCES profiles(id);
+    END IF;
+END $$;
 
 -- 2. Properties Table Policies
 

@@ -1,0 +1,13 @@
+--- VERIFICATION LOG ---
+--- STARTING VERIFICATION ---
+Testing properties fetch with profiles join...
+FETCH ERROR DETECTED
+Status: undefined
+Code: PGRST200
+Message: Could not find a relationship between 'properties' and 'seller_id' in the schema cache
+Relationship error confirmed (406/PGRST200).
+Attempting simple properties fetch to check columns...
+Properties seller_id check error: column properties.seller_id does not exist
+Attempting simple profiles fetch...
+Simple profiles success. Columns: id, email, name, user_type, subscription_type, created_at, phone, institution, status
+--- VERIFICATION COMPLETE ---
