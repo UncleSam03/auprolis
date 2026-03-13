@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { Loader2, ArrowLeft, Upload, MapPin } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { loadGoogleMaps } from '@/lib/googleMaps';
 
 const GOOGLE_MAPS_API_KEY = "AIzaSyC3VcZh-50x8BYjzqWdduRaBOTIEnPRpXs";
@@ -28,14 +29,29 @@ const PropertyForm = () => {
   
   const [formData, setFormData] = useState({
     title: '',
-    location: '', // acts as address string
+    case_number: '',
+    listing_type: 'Sale', // Sale, Auction, Rental
+    location: '', 
     latitude: null,
     longitude: null,
     price: '',
     type: 'Residential',
     condition: 'Good',
     auction_date: '',
+    auction_time: '',
+    auction_venue: '',
+    address_lot_number: '',
+    size_m2: '',
+    title_deed_number: '',
+    bedrooms: '',
     description: '',
+    terms_of_sale: '',
+    seller_contact_entity: '',
+    contact_numbers: '',
+    attorney: '',
+    plaintiff: '',
+    defendant_owner: '',
+    notice_date: '',
     images: [],
     status: 'pending'
   });
@@ -181,20 +197,75 @@ const PropertyForm = () => {
       
       setFormData({
         title: data.title,
+        case_number: data.case_number || '',
+        listing_type: data.listing_type || 'Sale',
         location: data.location,
         latitude: data.latitude,
         longitude: data.longitude,
         price: data.price || '',
         type: data.type,
         condition: data.condition,
-        auction_date: data.auction_date ? new Date(data.auction_date).toISOString().slice(0, 16) : '',
+        auction_date: data.auction_date ? new Date(data.auction_date).toISOString().split('T')[0] : '',
+        auction_time: data.auction_time || '',
+        auction_venue: data.auction_venue || '',
+        address_lot_number: data.address_lot_number || '',
+        size_m2: data.size_m2 || '',
+        title_deed_number: data.title_deed_number || '',
+        bedrooms: data.bedrooms || '',
         description: data.description,
+        terms_of_sale: data.terms_of_sale || '',
+        seller_contact_entity: data.seller_contact_entity || '',
+        contact_numbers: data.contact_numbers || '',
+        attorney: data.attorney || '',
+        plaintiff: data.plaintiff || '',
+        defendant_owner: data.defendant_owner || '',
+        notice_date: data.notice_date || '',
         images: data.images || [],
         status: data.status || 'pending'
       });
     } catch (error) {
       toast({ variant: "destructive", title: "Error", description: "Failed to load property details." });
       navigate('/dashboard');
+    }
+  };
+
+  const handleImageUpload = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+
+    setIsLoading(true);
+    const uploadedUrls = [];
+
+    try {
+      for (const file of files) {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+        const filePath = `properties/${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('property-images')
+          .upload(filePath, file);
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('property-images')
+          .getPublicUrl(filePath);
+
+        uploadedUrls.push(publicUrl);
+      }
+
+      setFormData(prev => ({
+        ...prev,
+        images: [...prev.images, ...uploadedUrls]
+      }));
+
+      toast({ title: "Images uploaded", description: `${uploadedUrls.length} images successfully uploaded.` });
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast({ variant: "destructive", title: "Upload Failed", description: error.message || "Failed to upload images." });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -216,19 +287,32 @@ const PropertyForm = () => {
       let statusToSave = formData.status;
       if (!id) statusToSave = isAdmin ? 'approved' : 'pending';
 
-      const imagesToSave = formData.images.length > 0 ? formData.images : ['https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3'];
-
       const propertyData = {
         title: formData.title,
+        case_number: formData.case_number,
+        listing_type: formData.listing_type,
         location: formData.location,
         latitude: formData.latitude,
         longitude: formData.longitude,
         price: formData.price ? parseFloat(formData.price) : 0,
         type: formData.type,
         condition: formData.condition,
-        auction_date: formData.auction_date ? new Date(formData.auction_date).toISOString() : null,
+        auction_date: formData.auction_date || null,
+        auction_time: formData.auction_time || null,
+        auction_venue: formData.auction_venue || null,
+        address_lot_number: formData.address_lot_number || null,
+        size_m2: formData.size_m2 || null,
+        title_deed_number: formData.title_deed_number || null,
+        bedrooms: formData.bedrooms ? parseInt(formData.bedrooms) : null,
         description: formData.description,
-        images: imagesToSave,
+        terms_of_sale: formData.terms_of_sale || null,
+        seller_contact_entity: formData.seller_contact_entity || null,
+        contact_numbers: formData.contact_numbers || null,
+        attorney: formData.attorney || null,
+        plaintiff: formData.plaintiff || null,
+        defendant_owner: formData.defendant_owner || null,
+        notice_date: formData.notice_date || null,
+        images: formData.images,
         seller_id: user.id,
         status: statusToSave
       };
@@ -275,122 +359,226 @@ const PropertyForm = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="title">Property Title</Label>
-                  <Input id="title" name="title" value={formData.title} onChange={handleChange} required placeholder="e.g. Seized Asset - 4 Bedroom House" />
-                </div>
-                
-                {/* Google Maps Location Section */}
-                <div className="space-y-2">
-                  <Label htmlFor="location">Address / Location Search</Label>
-                  <div className="relative">
-                    <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                    <Input 
-                      ref={searchInputRef}
-                      id="location" 
-                      name="location" 
-                      value={formData.location} 
-                      onChange={handleChange} 
-                      required 
-                      placeholder="Search for a street, area, or landmark..." 
-                      className="pl-10"
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <Tabs defaultValue="basic" className="w-full">
+                <TabsList className="grid w-full grid-cols-3 mb-8">
+                  <TabsTrigger value="basic">1. Basic Info</TabsTrigger>
+                  <TabsTrigger value="legal">2. Legal & Auction</TabsTrigger>
+                  <TabsTrigger value="media">3. Media & Description</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="basic" className="space-y-6 animate-in fade-in slide-in-from-left-4 duration-300">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="title">Property Title</Label>
+                      <Input id="title" name="title" value={formData.title} onChange={handleChange} required placeholder="e.g. Seized Asset - 4 Bedroom House" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="listing_type">Listing Type</Label>
+                      <select 
+                        id="listing_type" name="listing_type" 
+                        value={formData.listing_type} 
+                        onChange={handleChange}
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                      >
+                        <option value="Sale">Sale</option>
+                        <option value="Auction">Auction</option>
+                        <option value="Rental">Rental</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                     <div className="space-y-2">
+                      <Label htmlFor="price">Price / Reserve (BWP)</Label>
+                      <Input id="price" name="price" type="number" min="0" value={formData.price} onChange={handleChange} required placeholder="e.g. 1500000" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="type">Property Type</Label>
+                      <select 
+                        id="type" name="type" 
+                        value={formData.type} 
+                        onChange={handleChange}
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                      >
+                        <option value="Residential">Residential</option>
+                        <option value="Commercial">Commercial</option>
+                        <option value="Land">Land</option>
+                        <option value="Industrial">Industrial</option>
+                        <option value="Vehicle">Vehicle</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div className="space-y-2">
+                       <Label htmlFor="size_m2">Size (m²)</Label>
+                       <Input id="size_m2" name="size_m2" value={formData.size_m2} onChange={handleChange} placeholder="e.g. 320m2" />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t">
+                    <div className="space-y-2">
+                      <Label htmlFor="bedrooms">Bedrooms</Label>
+                      <Input id="bedrooms" name="bedrooms" type="number" value={formData.bedrooms} onChange={handleChange} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="condition">Condition</Label>
+                      <select 
+                        id="condition" name="condition" 
+                        value={formData.condition} 
+                        onChange={handleChange}
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                      >
+                        <option value="Excellent">Excellent</option>
+                        <option value="Good">Good</option>
+                        <option value="Fair">Fair</option>
+                        <option value="Poor">Poor</option>
+                        <option value="Distressed">Distressed</option>
+                        <option value="Developed Property">Developed Property</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 pt-4 border-t">
+                    <Label htmlFor="location">Google Maps Address</Label>
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Input 
+                        ref={searchInputRef}
+                        id="location" 
+                        name="location" 
+                        value={formData.location} 
+                        onChange={handleChange} 
+                        required 
+                        placeholder="Search for a street, area, or landmark..." 
+                        className="pl-10"
+                      />
+                    </div>
+                    
+                    <div className="mt-2 h-[300px] w-full rounded-md border border-gray-200 overflow-hidden relative bg-gray-100 shadow-inner">
+                       {!isMapsLoaded && <div className="absolute inset-0 flex items-center justify-center text-gray-400">Loading Maps...</div>}
+                       <div ref={mapRef} className="w-full h-full" />
+                    </div>
+                    <div className="flex gap-4 text-[10px] text-gray-400 font-mono">
+                      <span>LAT: {formData.latitude?.toFixed(6) || 'N/A'}</span>
+                      <span>LNG: {formData.longitude?.toFixed(6) || 'N/A'}</span>
+                      <span className="ml-auto italic">Drag pin to calibrate exact location</span>
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="legal" className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="case_number">Case Number</Label>
+                      <Input id="case_number" name="case_number" value={formData.case_number} onChange={handleChange} placeholder="e.g. CVHGB-002250-22" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="title_deed_number">Title Deed Number</Label>
+                      <Input id="title_deed_number" name="title_deed_number" value={formData.title_deed_number} onChange={handleChange} placeholder="Deed of Transfer No. 1118/2019" />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t">
+                    <div className="space-y-2">
+                      <Label htmlFor="auction_date">Auction Date</Label>
+                      <Input id="auction_date" name="auction_date" type="date" value={formData.auction_date} onChange={handleChange} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="auction_time">Auction Time</Label>
+                      <Input id="auction_time" name="auction_time" type="time" value={formData.auction_time} onChange={handleChange} />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="auction_venue">Auction Venue</Label>
+                    <Input id="auction_venue" name="auction_venue" value={formData.auction_venue} onChange={handleChange} placeholder="e.g. On-Site: Lot 59217" />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t">
+                    <div className="space-y-2">
+                      <Label htmlFor="plaintiff">Plaintiff</Label>
+                      <Input id="plaintiff" name="plaintiff" value={formData.plaintiff} onChange={handleChange} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="defendant_owner">Defendant / Owner</Label>
+                      <Input id="defendant_owner" name="defendant_owner" value={formData.defendant_owner} onChange={handleChange} />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="attorney">Attorney</Label>
+                    <Input id="attorney" name="attorney" value={formData.attorney} onChange={handleChange} />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t">
+                    <div className="space-y-2">
+                      <Label htmlFor="seller_contact_entity">Deputy Sheriff / Contact</Label>
+                      <Input id="seller_contact_entity" name="seller_contact_entity" value={formData.seller_contact_entity} onChange={handleChange} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="contact_numbers">Contact Numbers</Label>
+                      <Input id="contact_numbers" name="contact_numbers" value={formData.contact_numbers} onChange={handleChange} />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="terms_of_sale">Terms of Sale</Label>
+                    <Input id="terms_of_sale" name="terms_of_sale" value={formData.terms_of_sale} onChange={handleChange} placeholder="e.g. Bank transfer (EFT), 10% deposit" />
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="media" className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
+                  <div className="space-y-2">
+                    <Label htmlFor="description">Full Property Description</Label>
+                    <textarea
+                      id="description"
+                      name="description"
+                      rows={8}
+                      value={formData.description}
+                      onChange={handleChange}
+                      className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 transition-all"
+                      placeholder="Provide detailed information about the property, its features, and any other relevant auction details..."
                     />
                   </div>
-                  <div className="text-xs text-gray-500">Start typing to search Google Maps</div>
-                  
-                  {/* The Map Container */}
-                  <div className="mt-2 h-[300px] w-full rounded-md border border-gray-200 overflow-hidden relative bg-gray-100">
-                     {!isMapsLoaded && <div className="absolute inset-0 flex items-center justify-center text-gray-400">Loading Maps...</div>}
-                     <div ref={mapRef} className="w-full h-full" />
+
+                  <div className="space-y-4 pt-4 border-t">
+                    <Label>Property Images</Label>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                      {formData.images.map((img, index) => (
+                        <div key={index} className="relative aspect-square rounded-lg overflow-hidden bg-gray-100 border group shadow-sm">
+                          <img src={img} alt={`Property ${index}`} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                          <button 
+                            type="button" 
+                            onClick={() => setFormData(prev => ({...prev, images: prev.images.filter((_, i) => i !== index)}))}
+                            className="absolute top-2 right-2 bg-red-500/80 backdrop-blur-sm text-white rounded-full p-1.5 hover:bg-red-600 shadow-md transition-all scale-0 group-hover:scale-100"
+                          >
+                            <ShieldAlert className="h-3 w-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <label className="border-2 border-dashed border-gray-300 hover:border-blue-400 rounded-xl p-8 text-center hover:bg-blue-50/50 transition-all cursor-pointer block group">
+                      <div className="mx-auto h-12 w-12 text-gray-400 group-hover:text-blue-500 group-hover:bounce transition-all"><Upload /></div>
+                      <p className="mt-3 text-sm font-medium text-gray-700">Click to upload property images</p>
+                      <p className="text-xs text-gray-500 mt-1">Professional high-res photos recommended (JPG, PNG, WebP)</p>
+                      <input type="file" multiple accept="image/*" onChange={handleImageUpload} className="hidden" />
+                    </label>
                   </div>
-                  <div className="flex gap-4 text-xs text-gray-400">
-                    <span>Lat: {formData.latitude?.toFixed(6) || 'N/A'}</span>
-                    <span>Lng: {formData.longitude?.toFixed(6) || 'N/A'}</span>
-                  </div>
-                </div>
-              </div>
+                </TabsContent>
+              </Tabs>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                 <div className="space-y-2">
-                  <Label htmlFor="price">Starting Bid / Reserve Price (BWP)</Label>
-                  <Input id="price" name="price" type="number" min="0" value={formData.price} onChange={handleChange} required placeholder="e.g. 1500000" />
+              <div className="flex justify-between items-center pt-8 border-t gap-4">
+                <p className="text-xs text-muted-foreground max-w-[200px]">
+                  Fields marked with * are required for public listing.
+                </p>
+                <div className="flex gap-3">
+                  <Button type="button" variant="outline" onClick={() => navigate(-1)} className="px-8">Cancel</Button>
+                  <Button type="submit" disabled={isLoading} className="bg-blue-600 hover:bg-blue-700 px-10 shadow-lg shadow-blue-200">
+                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {id ? 'Save Changes' : 'Publish Listing'}
+                  </Button>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="type">Property Type</Label>
-                  <select 
-                    id="type" name="type" 
-                    value={formData.type} 
-                    onChange={handleChange}
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    <option value="Residential">Residential</option>
-                    <option value="Commercial">Commercial</option>
-                    <option value="Land">Land</option>
-                    <option value="Industrial">Industrial</option>
-                    <option value="Vehicle">Vehicle</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                 <div className="space-y-2">
-                  <Label htmlFor="condition">Condition</Label>
-                  <select 
-                    id="condition" name="condition" 
-                    value={formData.condition} 
-                    onChange={handleChange}
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    <option value="Excellent">Excellent</option>
-                    <option value="Good">Good</option>
-                    <option value="Fair">Fair</option>
-                    <option value="Poor">Poor</option>
-                    <option value="Distressed">Distressed</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                    <Label htmlFor="auction_date">Auction Date & Time</Label>
-                    <Input 
-                    id="auction_date" 
-                    name="auction_date" 
-                    type="datetime-local" 
-                    value={formData.auction_date} 
-                    onChange={handleChange} 
-                    />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="description">Description & Legal Notices</Label>
-                <textarea
-                  id="description"
-                  name="description"
-                  rows={5}
-                  value={formData.description}
-                  onChange={handleChange}
-                  className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  placeholder="Describe the property, auction terms, and viewing details..."
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label>Images</Label>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => toast({description: "Image upload is simulated. A default image will be used."})}>
-                  <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                  <p className="mt-2 text-sm text-gray-600">Click to upload property images</p>
-                  <p className="text-xs text-gray-500">(Feature currently simulated)</p>
-                </div>
-              </div>
-
-              <div className="flex justify-end gap-4">
-                <Button type="button" variant="outline" onClick={() => navigate(-1)}>Cancel</Button>
-                <Button type="submit" disabled={isLoading} className="bg-[#2563eb] hover:bg-[#1d4ed8]">
-                  {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  {id ? 'Update Property' : 'List Property'}
-                </Button>
               </div>
             </form>
           </CardContent>

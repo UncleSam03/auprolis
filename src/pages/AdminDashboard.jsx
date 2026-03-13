@@ -17,23 +17,77 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [currentUser, setCurrentUser] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [usersLoading, setUsersLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
   
-  // Task 8: Update AdminDashboard to display with Enterprise tier filtering
   const displayTier = 'enterprise';
 
-  const { properties } = usePropertyData();
+  const { properties, loading: propertiesLoading, refresh: refreshProperties } = useProperties({ 
+    searchQuery, 
+    status: statusFilter 
+  });
   
-  // Mock users for display
-  const users = [
-    { id: 1, name: 'Admin User', email: 'admin@example.com', user_type: 'admin', subscription_type: 'enterprise' },
-    { id: 2, name: 'Basic User', email: 'user@example.com', user_type: 'buyer', subscription_type: 'basic' }
-  ];
-
   const { showWarning, remainingTime, handleStayLoggedIn, handleLogoutNow } = useInactivityLogout(!!currentUser);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      setUsersLoading(true);
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      setUsers(data || []);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      toast({ variant: "destructive", title: "User error", description: "Failed to load user directory." });
+    } finally {
+      setUsersLoading(false);
+    }
+  };
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     navigate('/signin');
+  };
+
+  const handleUpdateStatus = async (id, newStatus) => {
+    try {
+      const { error } = await supabase
+        .from('properties')
+        .update({ status: newStatus })
+        .eq('id', id);
+      
+      if (error) throw error;
+      toast({ title: "Status Updated", description: `Property is now ${newStatus}.` });
+      refreshProperties();
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: error.message });
+    }
+  };
+
+  const handleDeleteProperty = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this listing?")) return;
+    
+    try {
+      const { error } = await supabase
+        .from('properties')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+      toast({ title: "Property Deleted", description: "The listing has been removed." });
+      refreshProperties();
+    } catch (error) {
+      toast({ variant: "destructive", title: "Error", description: error.message });
+    }
   };
 
   return (
@@ -58,23 +112,62 @@ const AdminDashboard = () => {
         <div className="max-w-7xl mx-auto px-4 py-8">
            <Tabs defaultValue="all" className="space-y-4">
             <TabsList>
-              <TabsTrigger value="all">All Listings (Static)</TabsTrigger>
-              <TabsTrigger value="users">Users</TabsTrigger>
+              <TabsTrigger value="all">Listings ({properties.length})</TabsTrigger>
+              <TabsTrigger value="users">Users ({users.length})</TabsTrigger>
             </TabsList>
 
             <TabsContent value="all">
                <Card>
-                  <CardHeader className="flex flex-row justify-between">
-                     <CardTitle>Global Listings Review</CardTitle>
+                  <CardHeader className="flex flex-row items-center justify-between pb-2">
+                     <CardTitle>Properties for Review</CardTitle>
+                     <Button size="sm" onClick={() => navigate('/add-property')}>Add Property</Button>
                   </CardHeader>
                   <CardContent>
-                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {properties.map(prop => (
-                           <div key={prop.id}>
-                              <PropertyCard property={prop} subscriptionType={displayTier} />
-                           </div>
-                        ))}
+                     <div className="flex flex-col md:flex-row gap-4 mb-6">
+                        <div className="flex-1 relative">
+                           <Input 
+                             placeholder="Search by title, case number, or location..." 
+                             value={searchQuery}
+                             onChange={(e) => setSearchQuery(e.target.value)}
+                             className="pl-10"
+                           />
+                           <Loader2 className={`absolute left-3 top-3 h-4 w-4 text-slate-400 ${propertiesLoading ? 'animate-spin' : ''}`} />
+                        </div>
+                        <Tabs defaultValue="all" value={statusFilter} onValueChange={setStatusFilter} className="w-full md:w-auto">
+                           <TabsList className="grid grid-cols-3 w-full">
+                              <TabsTrigger value="all">All</TabsTrigger>
+                              <TabsTrigger value="pending">Pending</TabsTrigger>
+                              <TabsTrigger value="approved">Approved</TabsTrigger>
+                           </TabsList>
+                        </Tabs>
                      </div>
+
+                     {propertiesLoading && properties.length === 0 ? (
+                        <div className="flex justify-center py-12"><Loader2 className="animate-spin h-8 w-8 text-slate-400" /></div>
+                     ) : (
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                           {properties.map(prop => (
+                              <div key={prop.id} className="relative group border rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
+                                 <PropertyCard property={prop} subscriptionType={displayTier} />
+                                 <div className="p-4 bg-slate-50 border-t flex flex-wrap gap-2 justify-between items-center">
+                                    <div className="flex gap-2">
+                                       {prop.status === 'pending' && (
+                                          <Button size="sm" className="bg-green-600 hover:bg-green-700 font-medium" onClick={() => handleUpdateStatus(prop.id, 'approved')}>Approve</Button>
+                                       )}
+                                       {prop.status === 'approved' && (
+                                          <Button size="sm" variant="outline" className="text-amber-600 border-amber-200 hover:bg-amber-50" onClick={() => handleUpdateStatus(prop.id, 'pending')}>Mark Pending</Button>
+                                       )}
+                                       <Button size="sm" variant="ghost" className="hover:bg-slate-200" onClick={() => navigate(`/dashboard/properties/edit/${prop.id}`)}>Edit</Button>
+                                    </div>
+                                    <Button size="sm" variant="ghost" className="text-red-500 hover:text-red-700 hover:bg-red-50" onClick={() => handleDeleteProperty(prop.id)}>Delete</Button>
+                                 </div>
+                              </div>
+                           ))}
+                           {properties.length === 0 && (
+                              <div className="col-span-full py-12 text-center text-slate-500">No properties found matching your criteria.</div>
+                           )}
+                        </div>
+                     )}
                   </CardContent>
                </Card>
             </TabsContent>
@@ -83,20 +176,24 @@ const AdminDashboard = () => {
                 <Card>
                    <CardHeader><CardTitle>User Directory</CardTitle></CardHeader>
                    <CardContent>
-                      <div className="divide-y">
-                         {users.map(u => (
-                            <div key={u.id} className="py-2 flex justify-between">
-                               <div>
-                                  <div className="font-medium">{u.name}</div>
-                                  <div className="text-xs text-slate-500">{u.email}</div>
-                               </div>
-                               <div className="flex gap-2">
-                                  <Badge variant="outline">{u.user_type}</Badge>
-                                  <Badge>{u.subscription_type}</Badge>
-                               </div>
-                            </div>
-                         ))}
-                      </div>
+                      {usersLoading ? (
+                        <div className="flex justify-center py-12"><Loader2 className="animate-spin h-8 w-8 text-slate-400" /></div>
+                      ) : (
+                        <div className="divide-y">
+                           {users.map(u => (
+                              <div key={u.id} className="py-2 flex justify-between">
+                                 <div>
+                                    <div className="font-medium">{u.name || u.email}</div>
+                                    <div className="text-xs text-slate-500">{u.email}</div>
+                                 </div>
+                                 <div className="flex gap-2">
+                                    <Badge variant="outline">{u.user_type}</Badge>
+                                    <Badge variant="secondary">{u.subscription_type}</Badge>
+                                 </div>
+                              </div>
+                           ))}
+                        </div>
+                      )}
                    </CardContent>
                 </Card>
              </TabsContent>

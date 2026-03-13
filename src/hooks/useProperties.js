@@ -7,8 +7,9 @@ export const useProperties = (options = {}) => {
     sellerId = null, 
     enableRealtime = true,
     enabled = true,
+    searchQuery = null,
     limit = null,
-    status = null // 'approved', 'pending', etc. If null, fetches all (useful for admin)
+    status = null 
   } = options;
 
   const [properties, setProperties] = useState([]);
@@ -29,8 +30,12 @@ export const useProperties = (options = {}) => {
         query = query.eq('seller_id', sellerId);
       }
 
-      if (status) {
+      if (status && status !== 'all') {
         query = query.eq('status', status);
+      }
+
+      if (searchQuery) {
+        query = query.or(`title.ilike.%${searchQuery}%,case_number.ilike.%${searchQuery}%,location.ilike.%${searchQuery}%`);
       }
 
       if (limit) {
@@ -54,7 +59,7 @@ export const useProperties = (options = {}) => {
     } finally {
       setLoading(false);
     }
-  }, [sellerId, toast, enabled, limit, status]);
+  }, [sellerId, toast, enabled, limit, status, searchQuery]);
 
   // Helper to fetch a single fresh record with relations for realtime updates
   const fetchSingleProperty = async (id) => {

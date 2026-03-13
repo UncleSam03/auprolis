@@ -39,9 +39,9 @@ const PropertyCardContent = ({ property, subscriptionType = 'free' }) => {
   const { toast } = useToast();
   
   // Safe access to properties with defaults
-  const title = property.listing_title || 'Untitled Property';
-  const type = property.property_type || 'Unknown';
-  const address = property.address_lot_number || 'Location not specified';
+  const title = property.title || 'Untitled Property';
+  const type = property.type || 'Unknown';
+  const address = property.address_lot_number || property.location || 'Location not specified';
   const date = property.auction_date;
   const status = property.status;
 
