@@ -1,14 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { usePropertyData } from '@/hooks/usePropertyData';
+import { useProperties } from '@/hooks/useProperties';
 import PropertyCard from '@/components/PropertyCard';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const FeaturedProperties = ({ id = "featured-properties" }) => {
   const navigate = useNavigate();
-  const { properties, loading, error, subscriptionType } = usePropertyData();
+  const { properties, loading, refresh } = useProperties({ limit: 3, status: 'approved' });
+  const subscriptionType = 'basic'; // Default for featured section search
 
   return (
     <section className="py-20 bg-gray-50" id={id}>

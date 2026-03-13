@@ -8,28 +8,29 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ShieldAlert, LogOut, Loader2 } from 'lucide-react';
-import { usePropertyData } from '@/hooks/usePropertyData'; 
+import { useProperties } from '@/hooks/useProperties'; 
 import { useInactivityLogout } from '@/hooks/useInactivityLogout';
+import { useAuth } from '@/contexts/SupabaseAuthContext';
 import InactivityWarning from '@/components/InactivityWarning';
 import PropertyCard from '@/components/PropertyCard';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [currentUser, setCurrentUser] = useState(null);
+  const { user, profile } = useAuth();
   const [users, setUsers] = useState([]);
   const [usersLoading, setUsersLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   
-  const displayTier = 'enterprise';
+  const displayTier = profile?.subscription_type || 'enterprise';
 
   const { properties, loading: propertiesLoading, refresh: refreshProperties } = useProperties({ 
     searchQuery, 
     status: statusFilter 
   });
   
-  const { showWarning, remainingTime, handleStayLoggedIn, handleLogoutNow } = useInactivityLogout(!!currentUser);
+  const { showWarning, remainingTime, handleStayLoggedIn, handleLogoutNow } = useInactivityLogout(!!user);
 
   useEffect(() => {
     fetchUsers();

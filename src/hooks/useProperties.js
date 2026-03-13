@@ -49,11 +49,18 @@ export const useProperties = (options = {}) => {
       setProperties(data || []);
     } catch (error) {
       console.error('Error fetching properties:', error);
+      
+      let errorMsg = "Please check your connection and try again.";
+      if (error.code === '406' || error.status === 406) {
+        errorMsg = "Database access denied or invalid request format (406).";
+        console.warn('PostgREST 406 error detected. This usually indicates an RLS policy issue or incompatible Accept headers.');
+      }
+
       if (error.code !== 'PGRST116') {
         toast({
           variant: "destructive",
           title: "Error loading properties",
-          description: "Please check your connection and try again.",
+          description: errorMsg,
         });
       }
     } finally {
