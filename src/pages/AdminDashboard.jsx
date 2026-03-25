@@ -188,7 +188,7 @@ const AdminDashboard = () => {
                                     <div className="text-xs text-slate-500">{u.email}</div>
                                  </div>
                                  <div className="flex gap-2">
-                                    <Badge variant="outline">{u.user_type}</Badge>
+                                    <Badge variant="outline">{u.role}</Badge>
                                     <Badge variant="secondary">{u.subscription_type}</Badge>
                                  </div>
                               </div>

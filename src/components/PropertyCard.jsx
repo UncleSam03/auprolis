@@ -104,9 +104,15 @@ const PropertyCardContent = ({ property, subscriptionType = 'free' }) => {
             }}
           />
         ) : (
-          <div className="text-slate-400 flex flex-col items-center">
-            {getPropertyIcon(type)}
-            <span className="text-xs mt-2">No Image</span>
+          <div className="text-slate-300 flex flex-col items-center justify-center w-full h-full bg-gradient-to-br from-slate-50 to-slate-100">
+            {type === 'Commercial' ? (
+              <Building className="h-16 w-16 stroke-[1]" />
+            ) : type === 'Land' ? (
+              <Map className="h-16 w-16 stroke-[1]" />
+            ) : (
+              <Home className="h-16 w-16 stroke-[1]" />
+            )}
+            <span className="text-xs mt-2 text-slate-400 font-medium">{type || 'Property'}</span>
           </div>
         )}
         <div className="absolute top-3 right-3 flex gap-2">

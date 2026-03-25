@@ -52,7 +52,7 @@ const AgentDashboard = () => {
 
       if (error) throw error;
 
-      if (!['sheriff', 'bank', 'admin'].includes(profileData.user_type)) {
+      if (!['seller', 'admin'].includes(profileData.role)) {
         toast({
           variant: "destructive",
           title: "Access Denied",
@@ -168,7 +168,7 @@ const AgentDashboard = () => {
               <div className="flex items-center gap-4">
                 <div className="hidden md:flex flex-col items-end mr-2">
                   <span className="text-sm font-medium">{profile?.name}</span>
-                  <span className="text-xs text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-full capitalize">{profile?.user_type}</span>
+                  <span className="text-xs text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-full capitalize">{profile?.role}</span>
                 </div>
                 <Button variant="ghost" size="sm" onClick={handleSignOut} className="text-slate-300 hover:text-white hover:bg-slate-800">
                   <LogOut className="h-4 w-4 mr-2" /> Sign Out
@@ -272,7 +272,7 @@ const AgentDashboard = () => {
                                               </div>
                                               <div className="flex items-center text-slate-900 font-semibold">
                                                   <DollarSign className="w-4 h-4 mr-1 text-green-600" />
-                                                  {property.price ? property.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : 'Not Set'} <span className="text-xs text-slate-400 font-normal ml-1"> (USD)</span>
+                                                  {property.price_usd ? property.price_usd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : 'Not Set'} <span className="text-xs text-slate-400 font-normal ml-1"> (USD)</span>
                                               </div>
                                           </div>
                                           

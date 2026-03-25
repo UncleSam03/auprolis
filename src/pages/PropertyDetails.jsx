@@ -138,7 +138,7 @@ const PropertyDetails = () => {
                    
                    <div className="mb-6">
                       <p className="text-sm text-gray-500">Starting Bid</p>
-                      <p className="text-4xl font-bold text-blue-600">${property.price ? property.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'}</p>
+                      <p className="text-4xl font-bold text-blue-600">${property.price_usd ? property.price_usd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'}</p>
                    </div>
 
                    <Button className="w-full size-lg text-lg bg-slate-900 hover:bg-slate-800 mb-4 h-12">

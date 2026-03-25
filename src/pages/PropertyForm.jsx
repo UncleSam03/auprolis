@@ -34,7 +34,7 @@ const PropertyForm = () => {
     location: '', 
     latitude: null,
     longitude: null,
-    price: '',
+    price_usd: '',
     type: 'Residential',
     condition: 'Good',
     auction_date: '',
@@ -178,8 +178,8 @@ const PropertyForm = () => {
   const checkUserRole = async () => {
     const { data: { session } } = await supabase.auth.getSession();
     if (session) {
-       const { data: profile } = await supabase.from('profiles').select('user_type').eq('id', session.user.id).single();
-       if (profile?.user_type === 'admin') {
+       const { data: profile } = await supabase.from('profiles').select('role').eq('id', session.user.id).single();
+       if (profile?.role === 'admin') {
          setIsAdmin(true);
        }
     }
@@ -202,7 +202,7 @@ const PropertyForm = () => {
         location: data.location,
         latitude: data.latitude,
         longitude: data.longitude,
-        price: data.price || '',
+        price_usd: data.price_usd || '',
         type: data.type,
         condition: data.condition,
         auction_date: data.auction_date ? new Date(data.auction_date).toISOString().split('T')[0] : '',
@@ -294,7 +294,7 @@ const PropertyForm = () => {
         location: formData.location,
         latitude: formData.latitude,
         longitude: formData.longitude,
-        price: formData.price ? parseFloat(formData.price) : 0,
+        price_usd: formData.price_usd ? parseFloat(formData.price_usd) : 0,
         type: formData.type,
         condition: formData.condition,
         auction_date: formData.auction_date || null,
@@ -390,8 +390,8 @@ const PropertyForm = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                      <div className="space-y-2">
-                      <Label htmlFor="price">Price / Reserve (USD)</Label>
-                      <Input id="price" name="price" type="number" min="0" value={formData.price} onChange={handleChange} required placeholder="e.g. 150000" />
+                      <Label htmlFor="price_usd">Price / Reserve (USD)</Label>
+                      <Input id="price_usd" name="price_usd" type="number" min="0" value={formData.price_usd} onChange={handleChange} required placeholder="e.g. 150000" />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="type">Property Type</Label>

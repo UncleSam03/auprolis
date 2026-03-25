@@ -42,21 +42,13 @@ const SignUp = () => {
     setIsLoading(true);
 
     try {
-      // Determine initial status based on role
-      // Buyers are active immediately, agents are pending
-      const initialStatus = formData.userType === 'buyer' ? 'active' : 'pending';
-
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
           data: {
             name: formData.name,
-            user_type: formData.userType,
-            subscription_type: 'free',
-            phone: formData.phone,
-            institution: formData.institution,
-            status: initialStatus
+            role: 'buyer'
           },
         },
       });
@@ -69,7 +61,6 @@ const SignUp = () => {
             title: "Application Received",
             description: "Your account is pending approval. You will be notified once an administrator reviews your details.",
           });
-          // Redirect to a page that handles pending state or just dashboard (which should handle it)
           navigate('/agent-dashboard'); 
         } else {
           toast({
@@ -96,7 +87,7 @@ const SignUp = () => {
     }
   };
 
-  const isAgent = formData.userType === 'sheriff' || formData.userType === 'bank';
+  const isSeller = formData.userType === 'seller';
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -135,22 +126,15 @@ const SignUp = () => {
                 <div className={`flex items-center space-x-2 border rounded-lg p-3 cursor-pointer hover:bg-gray-50 ${formData.userType === 'buyer' ? 'border-[#2563eb] ring-1 ring-[#2563eb] bg-blue-50/50' : 'border-gray-200'}`}>
                   <RadioGroupItem value="buyer" id="buyer" />
                   <Label htmlFor="buyer" className="cursor-pointer flex-1">
-                    <span className="block font-medium">Buyer</span>
-                    <span className="block text-xs text-gray-500">Looking to purchase properties</span>
+                    <span className="block font-medium">Buyer / Investor</span>
+                    <span className="block text-xs text-gray-500">Looking to purchase or invest in properties</span>
                   </Label>
                 </div>
-                <div className={`flex items-center space-x-2 border rounded-lg p-3 cursor-pointer hover:bg-gray-50 ${formData.userType === 'sheriff' ? 'border-[#2563eb] ring-1 ring-[#2563eb] bg-blue-50/50' : 'border-gray-200'}`}>
-                  <RadioGroupItem value="sheriff" id="sheriff" />
-                  <Label htmlFor="sheriff" className="cursor-pointer flex-1">
-                    <span className="block font-medium">Sheriff</span>
-                    <span className="block text-xs text-gray-500">Official listing properties for auction</span>
-                  </Label>
-                </div>
-                <div className={`flex items-center space-x-2 border rounded-lg p-3 cursor-pointer hover:bg-gray-50 ${formData.userType === 'bank' ? 'border-[#2563eb] ring-1 ring-[#2563eb] bg-blue-50/50' : 'border-gray-200'}`}>
-                  <RadioGroupItem value="bank" id="bank" />
-                  <Label htmlFor="bank" className="cursor-pointer flex-1">
-                    <span className="block font-medium">Bank Agent</span>
-                    <span className="block text-xs text-gray-500">Managing distressed bank assets</span>
+                <div className={`flex items-center space-x-2 border rounded-lg p-3 cursor-pointer hover:bg-gray-50 ${formData.userType === 'seller' ? 'border-[#2563eb] ring-1 ring-[#2563eb] bg-blue-50/50' : 'border-gray-200'}`}>
+                  <RadioGroupItem value="seller" id="seller" />
+                  <Label htmlFor="seller" className="cursor-pointer flex-1">
+                    <span className="block font-medium">Seller / Agent</span>
+                    <span className="block text-xs text-gray-500">Sheriff, bank agent, or property listing agent</span>
                   </Label>
                 </div>
               </RadioGroup>
@@ -204,7 +188,7 @@ const SignUp = () => {
               </div>
             </div>
 
-            {isAgent && (
+            {isSeller && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
@@ -213,7 +197,7 @@ const SignUp = () => {
               >
                 <div className="bg-blue-50 p-4 rounded-md text-sm text-blue-800">
                   <p className="font-medium">Verification Required</p>
-                  <p>As a {formData.userType === 'sheriff' ? 'Sheriff' : 'Bank Agent'}, your account will require administrator approval before you can list properties.</p>
+                  <p>As a Seller/Agent, your account will require administrator approval before you can list properties.</p>
                 </div>
 
                 <div>
@@ -249,7 +233,7 @@ const SignUp = () => {
                       value={formData.institution}
                       onChange={handleChange}
                       className="pl-10"
-                      placeholder={formData.userType === 'sheriff' ? "e.g. Sheriff's Office Gaborone" : "e.g. First National Bank"}
+                      placeholder="e.g. Sheriff's Office, First National Bank"
                     />
                   </div>
                 </div>
@@ -265,10 +249,10 @@ const SignUp = () => {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {isAgent ? 'Submit for Approval' : 'Create Account'}
+                    {isSeller ? 'Submit for Approval' : 'Create Account'}
                   </>
                 ) : (
-                  isAgent ? 'Register & Request Access' : 'Create Account'
+                  isSeller ? 'Register & Request Access' : 'Create Account'
                 )}
               </Button>
             </div>

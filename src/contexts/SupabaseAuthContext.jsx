@@ -52,8 +52,19 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     // Initial session check
     const getSession = async () => {
-      const { data: { session: initialSession } } = await supabase.auth.getSession();
-      await handleSession(initialSession);
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error("Supabase getSession error:", error);
+        }
+        
+        const initialSession = data?.session || null;
+        await handleSession(initialSession);
+      } catch (err) {
+        console.error("Supabase getSession caught exception:", err);
+        setLoading(false);
+      }
     };
 
     getSession();
@@ -136,10 +147,9 @@ export const AuthProvider = ({ children }) => {
     signUp,
     signIn,
     signOut,
-    isAdmin: profile?.user_type === 'admin', // Convenience accessor
-    isSheriff: profile?.user_type === 'sheriff',
-    isBank: profile?.user_type === 'bank',
-    isBuyer: profile?.user_type === 'buyer',
+    isAdmin: profile?.role === 'admin', // Convenience accessor
+    isSeller: profile?.role === 'seller',
+    isBuyer: profile?.role === 'buyer',
   }), [user, session, profile, loading, signUp, signIn, signOut]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

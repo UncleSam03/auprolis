@@ -44,11 +44,11 @@ const Dashboard = () => {
   }
 
   // Admin and Agent Dashboards take precedence based on user_type
-  if (profile.user_type === 'admin') {
+  if (profile.role === 'admin') {
     return <AdminDashboard />;
   }
 
-  if (['sheriff', 'bank', 'agent'].includes(profile.user_type)) {
+  if (profile.role === 'seller') {
     return <AgentDashboard />;
   }
 

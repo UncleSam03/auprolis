@@ -37,10 +37,10 @@ const ProtectedRoute = ({ children, allowedTypes = [] }) => {
   if (!user) return <Navigate to="/signin" replace />;
   
   // If allowedTypes is provided, check permission
-  if (allowedTypes.length > 0 && profile && !allowedTypes.includes(profile.user_type)) {
+  if (allowedTypes.length > 0 && profile && !allowedTypes.includes(profile.role)) {
      // Redirect based on role if they try to access wrong dashboard
-     if (profile.user_type === 'admin') return <Navigate to="/admin" replace />;
-     if (['sheriff','bank','agent'].includes(profile.user_type)) return <Navigate to="/seller-dashboard" replace />;
+     if (profile.role === 'admin') return <Navigate to="/admin" replace />;
+     if (profile.role === 'seller') return <Navigate to="/seller-dashboard" replace />;
      return <Navigate to="/dashboard" replace />;
   }
 
@@ -82,11 +82,11 @@ function AppRoutes() {
         {/* Role Specific Dashboards */}
         <Route 
           path="/seller-dashboard" 
-          element={<ProtectedRoute allowedTypes={['sheriff', 'bank', 'agent']}><SellerDashboard /></ProtectedRoute>} 
+          element={<ProtectedRoute allowedTypes={['seller']}><SellerDashboard /></ProtectedRoute>} 
         />
         <Route 
           path="/buyer-dashboard" 
-          element={<ProtectedRoute allowedTypes={['buyer', 'investor']}><BuyerDashboard /></ProtectedRoute>} 
+          element={<ProtectedRoute allowedTypes={['buyer']}><BuyerDashboard /></ProtectedRoute>} 
         />
         <Route 
           path="/admin" 

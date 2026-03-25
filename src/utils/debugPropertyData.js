@@ -47,7 +47,7 @@ export const debugPropertyData = async () => {
         // 3. Validate key columns expected by app
         const expectedColumns = [
           'id', 'listing_title', 'property_type', 'address_lot_number', 
-          'auction_date', 'price', 'status'
+          'auction_date', 'price_usd', 'status'
         ];
         
         const rowKeys = Object.keys(data[0]);

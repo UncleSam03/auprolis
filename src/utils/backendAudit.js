@@ -45,11 +45,11 @@ export const runBackendAudit = async () => {
 
     // 3. Schema Checks (Sample Columns)
     // We check properties specific columns by trying to select them
-    const { error: colError } = await supabase.from('properties').select('title, price, location, latitude, longitude').limit(1);
+    const { error: colError } = await supabase.from('properties').select('title, price_usd, location, latitude, longitude').limit(1);
     if (colError) {
       addResult('Schema Check: Properties', 'fail', `Missing columns or schema mismatch: ${colError.message}`, 'critical');
     } else {
-      addResult('Schema Check: Properties', 'pass', 'Critical columns (title, price, location, lat, lng) verified');
+      addResult('Schema Check: Properties', 'pass', 'Critical columns (title, price_usd, location, lat, lng) verified');
     }
 
     // 4. Location Data Verification
