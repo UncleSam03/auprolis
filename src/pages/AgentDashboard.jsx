@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { 
-  Loader2, Plus, Gavel, Users, Calendar, LogOut, Trash2, Edit, MapPin, DollarSign, Clock, CheckCircle
+  Loader2, Plus, Gavel, Users, Calendar, LogOut, Trash2, Edit, MapPin, DollarSign, Clock, CheckCircle, Home
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { useInactivityLogout } from '@/hooks/useInactivityLogout';
@@ -243,8 +243,9 @@ const AgentDashboard = () => {
                                       {property.images && property.images.length > 0 ? (
                                           <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover" />
                                       ) : (
-                                          <div className="w-full h-full flex items-center justify-center text-slate-400">
-                                              <span className="text-sm">No Image</span>
+                                          <div className="w-full h-full flex flex-col items-center justify-center text-slate-400 bg-slate-100">
+                                              <Home className="w-8 h-8 mb-2 opacity-50" />
+                                              <span className="text-sm font-medium">No Image</span>
                                           </div>
                                       )}
                                       <div className="absolute top-2 left-2 flex flex-col gap-1">
@@ -271,7 +272,7 @@ const AgentDashboard = () => {
                                               </div>
                                               <div className="flex items-center text-slate-900 font-semibold">
                                                   <DollarSign className="w-4 h-4 mr-1 text-green-600" />
-                                                  {property.price ? property.price.toLocaleString() : 'Not Set'} <span className="text-xs text-slate-400 font-normal ml-1"> (BWP)</span>
+                                                  {property.price ? property.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : 'Not Set'} <span className="text-xs text-slate-400 font-normal ml-1"> (USD)</span>
                                               </div>
                                           </div>
                                           

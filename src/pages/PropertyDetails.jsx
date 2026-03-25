@@ -16,11 +16,29 @@ const PropertyDetails = () => {
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
   const mapRef = useRef(null);
-  const [isMapsLoaded, setIsMapsLoaded] = useState(false);
+  const [isStale, setIsStale] = useState(false);
 
   useEffect(() => {
     fetchProperty();
     loadGoogleMaps(GOOGLE_MAPS_API_KEY).then(() => setIsMapsLoaded(true));
+
+    const channel = supabase.channel(`public:properties:id=${id}`)
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'properties', filter: `id=eq.${id}` }, 
+        (payload) => {
+          setProperty(prev => ({...prev, ...payload.new}));
+          setIsStale(false);
+        })
+      .subscribe((status) => {
+        if (status === 'SUBSCRIBED') {
+          setIsStale(false);
+        } else if (status === 'CLOSED' || status === 'CHANNEL_ERROR') {
+          setIsStale(true);
+        }
+      });
+      
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [id]);
 
   useEffect(() => {
@@ -106,19 +124,38 @@ const PropertyDetails = () => {
              <div className="space-y-6">
                 <div className="bg-slate-50 p-6 rounded-xl border border-slate-200">
                    <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Current Status</h3>
-                   <div className="flex items-center gap-2 mb-4">
-                      <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">Active Auction</Badge>
-                      <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-200">Verify Required</Badge>
+                   <div className="flex flex-col gap-2 mb-4">
+                      <div className="flex items-center gap-2">
+                        <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">Active Auction</Badge>
+                        <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-200">Verify Required</Badge>
+                      </div>
+                      {isStale && (
+                        <div className="flex items-center text-xs text-red-500 bg-red-50 p-2 rounded border border-red-100 mt-2">
+                           ⚠️ Live connection lost. Prices may not be up to date.
+                        </div>
+                      )}
                    </div>
                    
                    <div className="mb-6">
                       <p className="text-sm text-gray-500">Starting Bid</p>
-                      <p className="text-4xl font-bold text-blue-600">P{property.price?.toLocaleString()}</p>
+                      <p className="text-4xl font-bold text-blue-600">${property.price ? property.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'}</p>
                    </div>
 
-                   <Button className="w-full size-lg text-lg bg-slate-900 hover:bg-slate-800">
+                   <Button className="w-full size-lg text-lg bg-slate-900 hover:bg-slate-800 mb-4 h-12">
                      <Gavel className="mr-2 h-5 w-5" /> Place Bid
                    </Button>
+
+                   {/* Trust Bar */}
+                   <div className="flex items-center justify-center gap-4 py-3 border-t border-slate-200 text-xs text-slate-500">
+                      <div className="flex items-center">
+                        <CheckCircle className="w-4 h-4 text-green-500 mr-1" />
+                        <span>Secure Transaction</span>
+                      </div>
+                      <div className="flex items-center">
+                        <CheckCircle className="w-4 h-4 text-blue-500 mr-1" />
+                        <span>Skillbridge Africa Verified</span>
+                      </div>
+                   </div>
                 </div>
 
                 {/* Map Section */}
