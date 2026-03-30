@@ -12,6 +12,9 @@ import AgentDashboard from '@/pages/AgentDashboard';
 import Messages from '@/pages/Messages';
 import AdminSetup from '@/pages/AdminSetup';
 import AuditPage from '@/pages/AuditPage';
+import TermsOfService from '@/pages/TermsOfService';
+import FAQs from '@/pages/FAQs';
+import LegalGuide from '@/pages/LegalGuide';
 import SellerDashboard from '@/components/dashboard/SellerDashboard'; 
 import BuyerDashboard from '@/components/dashboard/BuyerDashboard'; 
 import { Toaster } from '@/components/ui/toaster';
@@ -104,6 +107,9 @@ function AppRoutes() {
         <Route path="/agent-dashboard" element={<ProtectedRoute><AgentDashboard /></ProtectedRoute>} /> 
         <Route path="/setup-admin" element={<AdminSetup />} />
         <Route path="/audit" element={<AuditPage />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/faqs" element={<FAQs />} />
+        <Route path="/legal-guide" element={<LegalGuide />} />
       </Routes>
     </>
   );
