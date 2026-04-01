@@ -20,15 +20,48 @@ module.exports = {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
-				background: 'hsl(var(--background))',
-				foreground: 'hsl(var(--foreground))',
+				background: 'var(--surface)',
+				foreground: 'var(--on-surface)',
+				
+				/* New Design System Colors */
 				primary: {
-					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))',
+					DEFAULT: 'var(--primary)',
+					deep: 'var(--primary-deep)',
+					foreground: 'var(--on-primary)',
+				},
+				surface: {
+					DEFAULT: 'var(--surface)',
+					container: {
+						low: 'var(--surface-container-low)',
+						lowest: 'var(--surface-container-lowest)',
+						high: 'var(--surface-container-high)',
+						highest: 'var(--surface-container-highest)',
+					}
+				},
+				navy: {
+					DEFAULT: 'var(--navy)',
+					light: 'var(--navy-light)',
+					foreground: 'var(--on-navy)',
+					variant: 'var(--on-navy-variant)',
+				},
+				on: {
+					surface: 'var(--on-surface)',
+					secondary: '#ffffff',
 				},
 				secondary: {
-					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))',
+					DEFAULT: 'var(--secondary)',
+					foreground: 'var(--secondary-foreground)',
+				},
+				tertiary: {
+					DEFAULT: 'var(--tertiary)',
+					container: 'var(--tertiary-container)',
+					fixed: 'var(--tertiary-fixed)',
+					'on-fixed': 'var(--on-tertiary-fixed)',
+					'on-fixed-variant': 'var(--on-tertiary-fixed-variant)',
+				},
+				outline: {
+					DEFAULT: 'var(--outline)',
+					variant: 'var(--outline-variant)',
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
@@ -51,10 +84,20 @@ module.exports = {
 					foreground: 'hsl(var(--card-foreground))',
 				},
 			},
+			fontFamily: {
+				headline: ['var(--font-headline)', 'sans-serif'],
+				body: ['var(--font-body)', 'sans-serif'],
+				label: ['var(--font-body)', 'sans-serif'],
+			},
 			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)',
+				lg: 'var(--radius-md)',
+				xl: 'var(--radius-xl)',
+				full: 'var(--radius-full)',
+				md: 'calc(var(--radius-md) - 2px)',
+				sm: 'calc(var(--radius-md) - 4px)',
+			},
+			boxShadow: {
+				ambient: 'var(--shadow-ambient)',
 			},
 			keyframes: {
 				'accordion-down': {

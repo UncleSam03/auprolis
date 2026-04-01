@@ -18,8 +18,7 @@ const PropertyForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isMapsLoaded, setIsMapsLoaded] = useState(false);
+  const { user, profile, isAdmin, loading: authLoading } = useAuth();
   
   const mapRef = useRef(null);
   const searchInputRef = useRef(null);
@@ -60,7 +59,6 @@ const PropertyForm = () => {
   const defaultCenter = { lat: -24.6282, lng: 25.9231 };
 
   useEffect(() => {
-    checkUserRole();
     if (id) {
       fetchProperty();
     }
@@ -72,6 +70,13 @@ const PropertyForm = () => {
       toast({ variant: "destructive", description: "Could not load Google Maps" });
     });
   }, [id]);
+
+  // Initial redirect if not logged in
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate('/signin');
+    }
+  }, [user, authLoading, navigate]);
 
   // Initialize Map and Autocomplete once API is loaded
   useEffect(() => {
@@ -96,7 +101,7 @@ const PropertyForm = () => {
     googleMapInstance.current = new google.maps.Map(mapRef.current, {
       center: defaultCenter,
       zoom: 13,
-      mapId: "DEMO_MAP_ID" // Required for AdvancedMarkerElement if used, safe to include string
+      mapId: "DEMO_MAP_ID" 
     });
 
     // Create Marker
@@ -113,7 +118,6 @@ const PropertyForm = () => {
       const lng = event.latLng.lng();
       setFormData(prev => ({ ...prev, latitude: lat, longitude: lng }));
       
-      // Reverse geocode to update address string (optional, keeps UI in sync)
       const geocoder = new google.maps.Geocoder();
       geocoder.geocode({ location: { lat, lng } }, (results, status) => {
         if (status === "OK" && results[0]) {
@@ -172,16 +176,6 @@ const PropertyForm = () => {
   const updateMarker = (location) => {
     if (markerInstance.current) {
       markerInstance.current.setPosition(location);
-    }
-  };
-
-  const checkUserRole = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session) {
-       const { data: profile } = await supabase.from('profiles').select('role').eq('id', session.user.id).single();
-       if (profile?.role === 'admin') {
-         setIsAdmin(true);
-       }
     }
   };
 
@@ -281,7 +275,6 @@ const PropertyForm = () => {
     setIsLoading(true);
 
     try {
-      const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
       let statusToSave = formData.status;
@@ -327,8 +320,8 @@ const PropertyForm = () => {
         toast({ title: isAdmin ? "Success" : "Submitted", description: isAdmin ? "Property listed and approved." : "Your listing is pending admin approval." });
       }
       
-      if (isAdmin) navigate('/admin');
-      else navigate('/agent-dashboard');
+      const targetPath = isAdmin ? '/dashboard' : '/agent-dashboard';
+      navigate(targetPath);
 
     } catch (error) {
       console.error(error);

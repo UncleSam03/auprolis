@@ -25,7 +25,7 @@ export const useProperties = (options = {}) => {
       setError(null);
       let query = supabase
         .from('properties')
-        .select('*, profiles:seller_id(name, email, phone)')
+        .select('*, profiles:seller_id(name, email, phone), reservations(id)')
         .order('created_at', { ascending: false });
 
       if (sellerId) {
@@ -76,7 +76,7 @@ export const useProperties = (options = {}) => {
     try {
       const { data, error } = await supabase
         .from('properties')
-        .select('*, profiles:seller_id(name, email, phone)')
+        .select('*, profiles:seller_id(name, email, phone), reservations(id)')
         .eq('id', id)
         .single();
       

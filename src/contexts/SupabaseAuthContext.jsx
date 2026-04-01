@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
-
 import { supabase } from '@/lib/customSupabaseClient';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -13,24 +12,31 @@ export const AuthProvider = ({ children }) => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Helper to fetch profile data
-  const fetchProfile = async (userId) => {
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single();
-      
-      if (error) {
-        console.error('Error fetching profile:', error);
-        return null;
+  // Helper to fetch profile data with retry logic
+  const fetchProfileWithRetry = async (userId, retries = 3) => {
+    for (let i = 0; i < retries; i++) {
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', userId)
+          .single();
+        
+        if (data) return data;
+        
+        if (error && error.code !== 'PGRST116') { // PGRST116 is 'no rows found'
+          console.error('Error fetching profile:', error);
+        }
+        
+        // Wait before retrying (exponential backoff or simple delay)
+        if (i < retries - 1) {
+          await new Promise(resolve => setTimeout(resolve, 500 * (i + 1)));
+        }
+      } catch (err) {
+        console.error('Unexpected error fetching profile:', err);
       }
-      return data;
-    } catch (err) {
-      console.error('Unexpected error fetching profile:', err);
-      return null;
     }
+    return null;
   };
 
   const handleSession = useCallback(async (currentSession) => {
@@ -39,8 +45,9 @@ export const AuthProvider = ({ children }) => {
     setUser(currentUser);
 
     if (currentUser) {
-      // Fetch detailed profile information including role
-      const userProfile = await fetchProfile(currentUser.id);
+      // Fetch detailed profile information
+      // We use retry logic because the database trigger might have a slight delay
+      const userProfile = await fetchProfileWithRetry(currentUser.id);
       setProfile(userProfile);
     } else {
       setProfile(null);
@@ -72,8 +79,7 @@ export const AuthProvider = ({ children }) => {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, currentSession) => {
-        // Optimization: if the session user ID hasn't changed, we might not need to re-fetch the profile
-        // But for safety on role updates, we re-fetch if it's a new sign-in or session update
+        // We always refresh on auth state changes as roles might have changed
         await handleSession(currentSession);
       }
     );
@@ -113,8 +119,6 @@ export const AuthProvider = ({ children }) => {
       });
     }
     
-    // Explicitly handle session update immediately after successful sign-in
-    // to ensure redirection logic has access to the profile data immediately
     if (data.session) {
       await handleSession(data.session);
     }
@@ -131,7 +135,7 @@ export const AuthProvider = ({ children }) => {
         description: error.message || "Something went wrong",
       });
     }
-    // State clearing is handled by onAuthStateChange, but we can force it here for immediate UI feedback
+    
     setSession(null);
     setUser(null);
     setProfile(null);
@@ -142,14 +146,15 @@ export const AuthProvider = ({ children }) => {
   const value = useMemo(() => ({
     user,
     session,
-    profile, // Export profile so components can check role directly
+    profile, 
     loading,
     signUp,
     signIn,
     signOut,
-    isAdmin: profile?.role === 'admin', // Convenience accessor
-    isSeller: profile?.role === 'seller',
-    isBuyer: profile?.role === 'buyer',
+    isAdmin: profile?.user_type === 'admin',
+    isSeller: ['seller', 'agent', 'bank', 'sheriff'].includes(profile?.user_type),
+    isBuyer: profile?.user_type === 'buyer',
+    status: profile?.status || 'active'
   }), [user, session, profile, loading, signUp, signIn, signOut]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
