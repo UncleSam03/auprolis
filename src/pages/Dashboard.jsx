@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { Loader2 } from 'lucide-react';
 import FreeDashboard from '@/components/dashboard/FreeDashboard';
 import PremiumDashboard from '@/components/dashboard/PremiumDashboard';
+import SellerDashboard from '@/components/dashboard/SellerDashboard';
 import AgentDashboard from '@/pages/AgentDashboard';
 import AdminDashboard from '@/pages/AdminDashboard';
 import { useToast } from '@/components/ui/use-toast';
@@ -26,7 +27,6 @@ const Dashboard = () => {
       title: "Upgrade Request",
       description: `Redirecting to payment for ${plan} plan...`
     });
-    // Implement actual payment redirection logic here later
   };
 
   if (loading) {
@@ -45,19 +45,23 @@ const Dashboard = () => {
     );
   }
 
-  // Admin and Agent Dashboards take precedence based on user_type
+  console.log('Dashboard: Current user type:', profile.user_type);
+
+  // Admin Dashboard
   if (profile.user_type === 'admin') {
     return <AdminDashboard />;
+  }
+
+  // Seller/Agent Dashboards
+  if (profile.user_type === 'seller') {
+    return <SellerDashboard />;
   }
 
   if (SELLER_ROLES.includes(profile.user_type)) {
     return <AgentDashboard />;
   }
 
-  // Subscription based routing
-  // 'free' -> FreeDashboard
-  // 'basic', 'pro', 'enterprise', 'premium' -> PremiumDashboard (internal logic handles tiers)
-  
+  // Buyer Dashboards based on subscription
   if (profile.subscription_type === 'free' || !profile.subscription_type) {
     return <FreeDashboard onUpgrade={handleUpgrade} user={user} />;
   }

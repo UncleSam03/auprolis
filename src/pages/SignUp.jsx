@@ -41,6 +41,8 @@ const SignUp = () => {
     e.preventDefault();
     setIsLoading(true);
 
+    const initialStatus = formData.userType === 'buyer' ? 'active' : 'pending';
+
     try {
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
@@ -48,7 +50,10 @@ const SignUp = () => {
         options: {
           data: {
             name: formData.name,
-            role: 'buyer'
+            phone: formData.phone || '',
+            user_type: formData.userType,
+            institution: formData.institution || '',
+            status: initialStatus
           },
         },
       });
@@ -61,14 +66,13 @@ const SignUp = () => {
             title: "Application Received",
             description: "Your account is pending approval. You will be notified once an administrator reviews your details.",
           });
-          navigate('/agent-dashboard'); 
         } else {
           toast({
             title: "Account created!",
             description: "Welcome to Auprolis. You have been signed in.",
           });
-          navigate('/dashboard');
         }
+        navigate('/dashboard');
       } else if (data.user) {
         toast({
           title: "Account created!",
@@ -123,14 +127,20 @@ const SignUp = () => {
             <div>
               <Label className="mb-3 block">I am a...</Label>
               <RadioGroup defaultValue="buyer" onValueChange={handleUserTypeChange} className="grid grid-cols-1 gap-4">
-                <div className={`flex items-center space-x-2 border rounded-lg p-3 cursor-pointer hover:bg-gray-50 ${formData.userType === 'buyer' ? 'border-[#2563eb] ring-1 ring-[#2563eb] bg-blue-50/50' : 'border-gray-200'}`}>
+                <div 
+                  className={`flex items-center space-x-2 border rounded-lg p-3 cursor-pointer hover:bg-gray-50 ${formData.userType === 'buyer' ? 'border-[#2563eb] ring-1 ring-[#2563eb] bg-blue-50/50' : 'border-gray-200'}`}
+                  onClick={() => handleUserTypeChange('buyer')}
+                >
                   <RadioGroupItem value="buyer" id="buyer" />
                   <Label htmlFor="buyer" className="cursor-pointer flex-1">
                     <span className="block font-medium">Buyer / Investor</span>
                     <span className="block text-xs text-gray-500">Looking to purchase or invest in properties</span>
                   </Label>
                 </div>
-                <div className={`flex items-center space-x-2 border rounded-lg p-3 cursor-pointer hover:bg-gray-50 ${formData.userType === 'seller' ? 'border-[#2563eb] ring-1 ring-[#2563eb] bg-blue-50/50' : 'border-gray-200'}`}>
+                <div 
+                  className={`flex items-center space-x-2 border rounded-lg p-3 cursor-pointer hover:bg-gray-50 ${formData.userType === 'seller' ? 'border-[#2563eb] ring-1 ring-[#2563eb] bg-blue-50/50' : 'border-gray-200'}`}
+                  onClick={() => handleUserTypeChange('seller')}
+                >
                   <RadioGroupItem value="seller" id="seller" />
                   <Label htmlFor="seller" className="cursor-pointer flex-1">
                     <span className="block font-medium">Seller / Agent</span>
