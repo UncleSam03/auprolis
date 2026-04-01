@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { Loader2 } from 'lucide-react';
 import FreeDashboard from '@/components/dashboard/FreeDashboard';
@@ -7,6 +7,8 @@ import PremiumDashboard from '@/components/dashboard/PremiumDashboard';
 import AgentDashboard from '@/pages/AgentDashboard';
 import AdminDashboard from '@/pages/AdminDashboard';
 import { useToast } from '@/components/ui/use-toast';
+
+const SELLER_ROLES = ['seller', 'agent', 'bank', 'sheriff'];
 
 const Dashboard = () => {
   const { user, profile, loading } = useAuth();
@@ -44,11 +46,11 @@ const Dashboard = () => {
   }
 
   // Admin and Agent Dashboards take precedence based on user_type
-  if (profile.role === 'admin') {
+  if (profile.user_type === 'admin') {
     return <AdminDashboard />;
   }
 
-  if (profile.role === 'seller') {
+  if (SELLER_ROLES.includes(profile.user_type)) {
     return <AgentDashboard />;
   }
 
