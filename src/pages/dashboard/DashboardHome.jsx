@@ -1,12 +1,26 @@
-/* src/pages/dashboard/DashboardHome.jsx */
 import React from 'react';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import PlanCard from '../../components/dashboard/PlanCard';
 import PropertyCard from '../../components/dashboard/PropertyCard';
 import EmptyState from '../../components/dashboard/EmptyState';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/SupabaseAuthContext';
 
 const DashboardHome = () => {
+  const { profile, loading } = useAuth();
+  const navigate = useNavigate();
+
+  // Role-based redirection for consolidated dashboard entry point
+  React.useEffect(() => {
+    if (!loading && profile) {
+      if (['seller', 'agent', 'bank', 'sheriff'].includes(profile.user_type)) {
+        navigate('/seller', { replace: true });
+      } else if (profile.user_type === 'admin') {
+        navigate('/admin', { replace: true });
+      }
+    }
+  }, [profile, loading, navigate]);
+
   const plans = [
     {
       name: 'Basic',

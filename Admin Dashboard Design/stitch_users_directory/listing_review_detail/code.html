@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Listing Review Detail - Auprolis Admin Console</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "outline-variant": "#c4c5d8",
+                "on-tertiary-container": "#fffbff",
+                "primary-fixed-dim": "#b9c3ff",
+                "surface": "#f9f9ff",
+                "primary": "#264bdd",
+                "primary-fixed": "#dee1ff",
+                "error-container": "#ffdad6",
+                "surface-container": "#e9edff",
+                "secondary-container": "#6df5e1",
+                "inverse-on-surface": "#edf0ff",
+                "on-secondary": "#ffffff",
+                "tertiary": "#6b38d4",
+                "on-surface": "#141b2b",
+                "secondary-fixed": "#71f8e4",
+                "outline": "#747686",
+                "tertiary-fixed": "#e9ddff",
+                "inverse-primary": "#b9c3ff",
+                "surface-container-lowest": "#ffffff",
+                "surface-bright": "#f9f9ff",
+                "on-error": "#ffffff",
+                "on-secondary-container": "#006f64",
+                "on-tertiary": "#ffffff",
+                "surface-tint": "#2a4edf",
+                "on-error-container": "#93000a",
+                "on-surface-variant": "#444655",
+                "surface-variant": "#dce2f7",
+                "on-tertiary-fixed": "#23005c",
+                "on-tertiary-fixed-variant": "#5516be",
+                "tertiary-container": "#8455ef",
+                "tertiary-fixed-dim": "#d0bcff",
+                "primary-container": "#4666f7",
+                "on-primary-fixed-variant": "#0033c2",
+                "inverse-surface": "#293040",
+                "on-background": "#141b2b",
+                "on-primary": "#ffffff",
+                "on-secondary-fixed-variant": "#005048",
+                "on-primary-container": "#fffbff",
+                "secondary": "#006b5f",
+                "on-secondary-fixed": "#00201c",
+                "surface-container-low": "#f1f3ff",
+                "on-primary-fixed": "#001258",
+                "secondary-fixed-dim": "#4fdbc8",
+                "background": "#f9f9ff",
+                "surface-dim": "#d3daef",
+                "surface-container-highest": "#dce2f7",
+                "surface-container-high": "#e1e8fd",
+                "error": "#ba1a1a"
+              },
+              fontFamily: {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex">
+<!-- SideNavBar (Fixed Left) -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-[#0F1F3D] flex flex-col py-6 z-50">
+<div class="px-6 mb-10">
+<h1 class="text-2xl font-black text-white tracking-tight font-headline">Auprolis</h1>
+<p class="text-white/50 text-xs uppercase tracking-widest font-medium mt-1">Admin Console</p>
+</div>
+<nav class="flex-1 flex flex-col gap-1 overflow-y-auto">
+<!-- Nav Item: Overview -->
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 mx-2 rounded-lg hover:bg-white/5 transition-colors duration-200 group" href="#">
+<span class="material-symbols-outlined text-white/70 group-hover:text-white">dashboard</span>
+<span class="text-xs font-bold tracking-widest uppercase font-label">Overview</span>
+</a>
+<!-- Nav Item: Listings -->
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 mx-2 rounded-lg hover:bg-white/5 transition-colors duration-200 group" href="#">
+<span class="material-symbols-outlined text-white/70 group-hover:text-white">list_alt</span>
+<span class="text-xs font-bold tracking-widest uppercase font-label">Listings</span>
+</a>
+<!-- Nav Item: Pending Review (ACTIVE) -->
+<a class="flex items-center gap-3 bg-[#4B6BFB]/15 text-[#4B6BFB] border-r-4 border-[#4B6BFB] px-4 py-3 mx-2 font-bold group" href="#">
+<span class="material-symbols-outlined">pending_actions</span>
+<span class="text-xs font-bold tracking-widest uppercase font-label">Pending Review</span>
+</a>
+<!-- Nav Item: Users -->
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 mx-2 rounded-lg hover:bg-white/5 transition-colors duration-200 group" href="#">
+<span class="material-symbols-outlined text-white/70 group-hover:text-white">group</span>
+<span class="text-xs font-bold tracking-widest uppercase font-label">Users</span>
+</a>
+<!-- Nav Item: Agents -->
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 mx-2 rounded-lg hover:bg-white/5 transition-colors duration-200 group" href="#">
+<span class="material-symbols-outlined text-white/70 group-hover:text-white">account_balance</span>
+<span class="text-xs font-bold tracking-widest uppercase font-label">Agents / Institutions</span>
+</a>
+<!-- Nav Item: Audit Log -->
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 mx-2 rounded-lg hover:bg-white/5 transition-colors duration-200 group" href="#">
+<span class="material-symbols-outlined text-white/70 group-hover:text-white">history_edu</span>
+<span class="text-xs font-bold tracking-widest uppercase font-label">Audit Log</span>
+</a>
+<!-- Nav Item: Reports -->
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 mx-2 rounded-lg hover:bg-white/5 transition-colors duration-200 group" href="#">
+<span class="material-symbols-outlined text-white/70 group-hover:text-white">assessment</span>
+<span class="text-xs font-bold tracking-widest uppercase font-label">Reports</span>
+</a>
+<!-- Nav Item: Notifications -->
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 mx-2 rounded-lg hover:bg-white/5 transition-colors duration-200 group" href="#">
+<span class="material-symbols-outlined text-white/70 group-hover:text-white">notifications</span>
+<span class="text-xs font-bold tracking-widest uppercase font-label">Notifications</span>
+</a>
+</nav>
+<div class="mt-auto px-2">
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 rounded-lg hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+<span class="text-xs font-bold tracking-widest uppercase font-label">Superadmin</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Shell -->
+<main class="flex-1 ml-[260px] flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center px-8 py-4 sticky top-0 z-40 bg-surface/80 backdrop-blur-md">
+<div class="flex items-center gap-4 bg-surface-container-low px-4 py-2 rounded-full w-96 focus-within:ring-2 focus-within:ring-primary/30 transition-all">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full font-body placeholder:text-outline/60" placeholder="Search across intelligence database..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-sm font-bold text-on-surface">Reviewer #042</p>
+<p class="text-[10px] text-outline uppercase tracking-tighter">Level 3 Officer</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white font-bold">
+                        R
+                    </div>
+</div>
+<button class="text-slate-500 hover:text-primary transition-colors text-sm font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-lg">logout</span>
+                    Sign Out
+                </button>
+</div>
+</header>
+<!-- Page Canvas -->
+<div class="p-8 flex flex-col gap-8 max-w-[1440px] mx-auto w-full">
+<!-- Breadcrumbs & Title -->
+<div class="flex flex-col gap-2">
+<nav class="flex items-center gap-2 text-xs font-label uppercase tracking-widest text-outline">
+<span>Admin</span>
+<span class="material-symbols-outlined text-[12px]">chevron_right</span>
+<span>Pending Review</span>
+<span class="material-symbols-outlined text-[12px]">chevron_right</span>
+<span class="text-primary">Gaborone-IND-772</span>
+</nav>
+<div class="flex items-center justify-between">
+<h1 class="text-4xl font-extrabold tracking-tight text-on-surface font-headline">Moderation: Gaborone Industrial Unit</h1>
+<div class="flex gap-3">
+<button class="p-2 rounded-full bg-white hover:bg-surface-container transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">share</span>
+</button>
+<button class="p-2 rounded-full bg-white hover:bg-surface-container transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">print</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Status Banner -->
+<section class="bg-[#FFF8E1] border-l-4 border-[#FFB300] p-5 rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-[#FFB300]/20 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[#B48400]">priority_high</span>
+</div>
+<div>
+<h3 class="text-sm font-bold text-[#6D4C00] uppercase tracking-wider font-label">Pending Approval</h3>
+<p class="text-xs text-[#827717] mt-1 font-body">Submitted by <span class="font-bold">PropertyFirst Agents</span> • 4 hours remaining for SLA compliance.</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-bold text-[#6D4C00] uppercase tracking-widest">Case ID</p>
+<p class="text-sm font-mono text-[#6D4C00]">#AU-772-2023-GAB</p>
+</div>
+</section>
+<!-- Split Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+<!-- Left Column: Intelligence Dossier -->
+<div class="lg:col-span-2 flex flex-col gap-8">
+<!-- Property Image Gallery -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden group relative h-[420px]">
+<img alt="Industrial Unit" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Modern high-end industrial warehouse unit in Gaborone with clean lines, large loading bays, and professional commercial landscaping under clear blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjuGwPXU-iLq9ZRa8fwvXXnN08eXChkV0_9zLiyKZLU-67PBhbNJBfbsa10Sz9L54pNYsF0DGGJzHqH5B72K2F4kYPac8WhVBQpL8Vr7jPpRNiOAEg3bL3d_UDTlseBhVDobzwClV8Y4lxDlNkMU818msqM22OpH7I5Y55IHj1wY_uDnCskyGrM0EpNzy4BGyBuJ-NH0ZfgAo1PQ7zu2bfyhU9fLOs3qCOMNcqHUaFR0zVBt_tYByo3ZioVeF40fCsu9UAKVwVO20h"/>
+<div class="absolute bottom-6 left-6 flex gap-2">
+<div class="px-3 py-1.5 glass-panel rounded-full text-xs font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">photo_library</span>
+                                1 of 12 Photos
+                            </div>
+<div class="px-3 py-1.5 glass-panel rounded-full text-xs font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">360</span>
+                                Virtual Tour Available
+                            </div>
+</div>
+<div class="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col gap-2">
+<button class="w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center hover:bg-white transition-all shadow-lg shadow-black/10">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Intelligence Cluster: Key Facts -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm">
+<h2 class="text-xs font-bold tracking-[0.2em] text-outline uppercase mb-8 font-label">Asset Intelligence</h2>
+<div class="grid grid-cols-2 gap-y-10 gap-x-12">
+<div class="flex flex-col gap-1">
+<span class="text-[10px] uppercase tracking-widest text-outline font-bold">Asking Price</span>
+<span class="text-3xl font-black text-primary tracking-tight font-headline">BWP 4,250,000</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[10px] uppercase tracking-widest text-outline font-bold">Location Hierarchy</span>
+<span class="text-lg font-bold text-on-surface font-body">Gaborone West Industrial, Phase 4</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[10px] uppercase tracking-widest text-outline font-bold">Seller Intelligence</span>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-outline">corporate_fare</span>
+</div>
+<span class="text-sm font-semibold text-on-surface">Kalahari Logistics Group PTY</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[10px] uppercase tracking-widest text-outline font-bold">Asset Type</span>
+<span class="text-sm font-semibold text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                                    Light Industrial / Warehouse
+                                </span>
+</div>
+</div>
+<!-- Document Ledger -->
+<div class="mt-12">
+<h3 class="text-xs font-bold tracking-[0.2em] text-outline uppercase mb-4 font-label">Legal Documentation</h3>
+<div class="space-y-2">
+<div class="flex items-center justify-between p-4 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">description</span>
+<span class="text-sm font-medium text-on-surface">Certificate_of_Title_GAB772.pdf</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">VERIFIED</span>
+<button class="text-outline group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="text-sm font-medium text-on-surface">Valuation_Report_Oct_2023.pdf</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">PENDING</span>
+<button class="text-outline group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<span class="text-sm font-medium text-on-surface">Distressed_Asset_Disclosure.pdf</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">VERIFIED</span>
+<button class="text-outline group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Moderation Panel -->
+<aside class="flex flex-col gap-6 sticky top-28">
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-lg shadow-on-surface/[0.03] border border-on-surface/[0.03]">
+<div class="flex items-center justify-between mb-8">
+<h2 class="text-xs font-bold tracking-[0.2em] text-outline uppercase font-label">Moderation Panel</h2>
+<span class="material-symbols-outlined text-outline/30" style="font-size: 24px;">shield</span>
+</div>
+<!-- Checklist -->
+<div class="mb-10">
+<h3 class="text-[10px] font-black tracking-widest text-on-surface-variant uppercase mb-6 font-label">Verification Checklist</h3>
+<div class="flex flex-col gap-4">
+<label class="flex items-start gap-4 cursor-pointer group">
+<div class="relative mt-1">
+<input class="peer h-5 w-5 rounded border-outline-variant text-primary focus:ring-primary/30 transition-all" type="checkbox"/>
+</div>
+<span class="text-sm font-medium text-on-surface-variant group-hover:text-on-surface transition-colors">Documents complete &amp; legible</span>
+</label>
+<label class="flex items-start gap-4 cursor-pointer group">
+<div class="relative mt-1">
+<input class="peer h-5 w-5 rounded border-outline-variant text-primary focus:ring-primary/30 transition-all" type="checkbox"/>
+</div>
+<span class="text-sm font-medium text-on-surface-variant group-hover:text-on-surface transition-colors">Legal flags checked (Zero hits)</span>
+</label>
+<label class="flex items-start gap-4 cursor-pointer group">
+<div class="relative mt-1">
+<input class="peer h-5 w-5 rounded border-outline-variant text-primary focus:ring-primary/30 transition-all" type="checkbox"/>
+</div>
+<span class="text-sm font-medium text-on-surface-variant group-hover:text-on-surface transition-colors">Valuation accurate to market data</span>
+</label>
+</div>
+</div>
+<!-- Reviewer Notes -->
+<div class="mb-10">
+<h3 class="text-[10px] font-black tracking-widest text-on-surface-variant uppercase mb-4 font-label">Reviewer Notes</h3>
+<textarea class="w-full bg-surface-container-low border-none rounded-xl text-sm font-body p-4 focus:ring-2 focus:ring-primary/30 resize-none placeholder:text-outline/40" placeholder="Add reviewer notes for the agent or internal records..." rows="4"></textarea>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-3">
+<button class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-white rounded-full font-bold text-sm shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                                Approve Listing
+                            </button>
+<button class="w-full py-4 bg-surface-container-high text-on-primary-fixed-variant rounded-full font-bold text-sm hover:bg-surface-container-highest transition-all">
+                                Request Changes
+                            </button>
+<button class="w-full py-4 text-error font-bold text-xs uppercase tracking-widest hover:bg-error/5 rounded-full transition-all mt-2">
+                                Reject Listing
+                            </button>
+</div>
+</div>
+<!-- History / Timeline Preview -->
+<div class="bg-surface-container-low/50 p-6 rounded-xl">
+<h4 class="text-[10px] font-bold tracking-widest text-outline uppercase mb-4">Case History</h4>
+<div class="space-y-4">
+<div class="flex gap-3">
+<div class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0"></div>
+<div>
+<p class="text-xs font-bold">Submitted for Review</p>
+<p class="text-[10px] text-outline">Today, 09:42 AM by Agent Sarah M.</p>
+</div>
+</div>
+<div class="flex gap-3 opacity-50">
+<div class="w-2 h-2 rounded-full bg-outline-variant mt-1.5 shrink-0"></div>
+<div>
+<p class="text-xs font-bold">Draft Created</p>
+<p class="text-[10px] text-outline">Yesterday, 04:15 PM</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</div>
+<!-- Footer Metric / Bottom Bar -->
+<footer class="mt-auto px-8 py-6 flex items-center justify-between bg-surface-container-low border-t border-on-surface/5">
+<div class="flex gap-8">
+<div class="flex flex-col">
+<span class="text-[9px] font-bold text-outline uppercase tracking-widest">Listing Quality Score</span>
+<span class="text-sm font-bold text-emerald-600">92 / 100</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[9px] font-bold text-outline uppercase tracking-widest">Market Alignment</span>
+<span class="text-sm font-bold text-on-surface">Within 2.5%</span>
+</div>
+</div>
+<div class="text-[10px] text-outline font-medium font-label">
+                © 2023 AUPROLIS ADMIN CONSOLE • ALL RIGHTS RESERVED • SYSTEM v2.4.0
+            </div>
+</footer>
+</main>
+</body></html>

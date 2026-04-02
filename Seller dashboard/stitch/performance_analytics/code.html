@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Auprolis | Performance Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-highest": "#d8e2ff",
+              "tertiary-container": "#8455ef",
+              "on-tertiary-fixed-variant": "#5516be",
+              "error-container": "#ffdad6",
+              "secondary-container": "#6df5e1",
+              "tertiary": "#6b38d4",
+              "on-secondary-fixed": "#00201c",
+              "inverse-surface": "#21304f",
+              "on-primary-fixed-variant": "#0033c2",
+              "tertiary-fixed-dim": "#d0bcff",
+              "on-tertiary": "#ffffff",
+              "on-secondary-fixed-variant": "#005048",
+              "on-primary": "#ffffff",
+              "error": "#ba1a1a",
+              "inverse-primary": "#b9c3ff",
+              "surface-container-high": "#e1e8ff",
+              "primary-fixed": "#dee1ff",
+              "primary": "#264bdd",
+              "tertiary-fixed": "#e9ddff",
+              "surface-tint": "#2a4edf",
+              "secondary": "#006b5f",
+              "surface": "#faf9ff",
+              "surface-container-low": "#f1f3ff",
+              "surface-bright": "#faf9ff",
+              "on-surface-variant": "#444655",
+              "on-primary-fixed": "#001258",
+              "background": "#faf9ff",
+              "on-error": "#ffffff",
+              "primary-fixed-dim": "#b9c3ff",
+              "surface-container": "#e9edff",
+              "surface-dim": "#ccdaff",
+              "outline": "#747686",
+              "on-tertiary-fixed": "#23005c",
+              "on-secondary-container": "#006f64",
+              "outline-variant": "#c4c5d8",
+              "primary-container": "#4666f7",
+              "secondary-fixed": "#71f8e4",
+              "secondary-fixed-dim": "#4fdbc8",
+              "on-surface": "#0a1b39",
+              "on-primary-container": "#fffbff",
+              "on-tertiary-container": "#fffbff",
+              "on-error-container": "#93000a",
+              "on-background": "#0a1b39",
+              "surface-variant": "#d8e2ff",
+              "inverse-on-surface": "#edf0ff"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .chart-grid {
+            background-image: linear-gradient(to right, #e1e8ff 1px, transparent 1px), linear-gradient(to bottom, #e1e8ff 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface antialiased overflow-x-hidden">
+<!-- SideNavBar Anchor -->
+<aside class="fixed h-screen w-[260px] left-0 top-0 bg-[#0F1F3D] dark:bg-[#0a162b] flex flex-col justify-between py-8 px-4 z-50">
+<div class="space-y-8">
+<div class="px-4">
+<h1 class="text-2xl font-extrabold tracking-tighter text-white">Auprolis</h1>
+<p class="text-slate-400 text-xs font-medium tracking-wide">Seller Dashboard</p>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+<span class="font-medium">My Listings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="add_box">add_box</span>
+<span class="font-medium">New Listing</span>
+</a>
+<!-- ACTIVE TAB: Performance -->
+<a class="flex items-center gap-3 px-4 py-3 bg-[#4B6BFB]/15 text-[#4B6BFB] rounded-full font-semibold" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="font-medium">Performance</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-medium">Inquiries</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-medium">Documents</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-medium">Notifications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="font-medium">Account</span>
+</a>
+</nav>
+</div>
+<div class="px-4 space-y-4">
+<button class="w-full py-3 bg-primary-container text-white rounded-full font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-lg" data-icon="add">add</span>
+                New Listing
+            </button>
+<div class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="stars">stars</span>
+<span class="font-medium">Seller Plan</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-[260px] min-h-screen">
+<!-- TopNavBar Anchor -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-16 bg-[#faf9ff]/80 backdrop-blur-xl flex items-center justify-between px-8 z-40">
+<div class="flex items-center gap-4 bg-surface-container-high rounded-full px-4 py-2 w-96">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full" placeholder="Search analytics..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant/30"></div>
+<div class="flex items-center gap-3">
+<img alt="Seller Avatar" class="w-8 h-8 rounded-full border-2 border-primary/20" data-alt="professional headshot of a businessman in a navy suit with warm friendly expression and soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkonnqmvyAbJ8xqi8bss3cNUzDV2LN8Mduh_ke6hve9vtpIOjxqtMkBSQ_iwhmRxrg-U2AjKfSxH-2hZJ-mmHFYQqhDFS8aJ_WrwZ53Ai8AIGEbDT5nQA804VPTZe0byP9p6fuKY12N1PhqK7mrPqgn5WRSj7YujA80NchtMEIA39cutj7Oe0xSLlBk--7buzaNmZ12i1fnIdP1E2a9E2NN6xVCHg-dM9tdi8G0oL8IzKc3KcjoQgkiJpv2w3dKQbhm9qHgSfJqBg9"/>
+<span class="font-semibold text-sm">Marcus Sterling</span>
+</div>
+</div>
+</header>
+<!-- Editorial Content -->
+<div class="pt-24 px-12 pb-16 max-w-[1200px] mx-auto space-y-12">
+<!-- Page Header & Filter -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<span class="label-sm text-primary font-semibold tracking-widest uppercase">Performance Intel</span>
+<h2 class="display-lg font-headline -mt-2">Market Intelligence</h2>
+</div>
+<div class="flex items-center bg-surface-container-low p-1.5 rounded-full">
+<button class="px-6 py-2 text-sm font-semibold text-slate-500 hover:text-primary transition-all">7 Days</button>
+<button class="px-6 py-2 text-sm font-bold bg-white text-primary shadow-sm rounded-full transition-all">Last 30 Days</button>
+<button class="px-6 py-2 text-sm font-semibold text-slate-500 hover:text-primary transition-all">90 Days</button>
+<div class="w-[1px] h-4 bg-outline-variant/50 mx-2"></div>
+<button class="px-4 py-2 flex items-center gap-2 text-sm font-semibold text-slate-700">
+<span class="material-symbols-outlined text-lg" data-icon="calendar_today">calendar_today</span>
+                        Custom Range
+                    </button>
+</div>
+</div>
+<!-- Primary Metric Chart: Intelligence Card -->
+<section class="bg-surface-container-lowest rounded-xl p-10 shadow-[0_20px_40px_rgba(10,27,57,0.06)] relative overflow-hidden group">
+<div class="flex justify-between items-start mb-12">
+<div>
+<h3 class="headline-md font-headline text-on-surface">Total Listing Views</h3>
+<p class="body-md text-on-surface-variant max-w-md mt-2">Aggregated traffic across all active properties including sheriff sales and premium distressed assets.</p>
+</div>
+<div class="text-right">
+<div class="flex items-center justify-end gap-2 text-secondary font-bold text-lg">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+                            +12.4%
+                        </div>
+<span class="text-3xl font-headline font-extrabold text-on-surface">24,592</span>
+</div>
+</div>
+<!-- Chart Visualization -->
+<div class="relative h-[320px] w-full mt-4 chart-grid rounded-lg border-l border-b border-outline-variant/30 p-4">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none">
+<!-- Gradient Fill -->
+<defs>
+<lineargradient id="chartGradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#4B6BFB;stop-opacity:0.2"></stop>
+<stop offset="100%" style="stop-color:#4B6BFB;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+<!-- Area -->
+<path d="M0,280 L50,260 L150,220 L250,240 L350,180 L450,140 L550,160 L650,80 L750,100 L850,40 L950,60 L1050,20 L1050,320 L0,320 Z" fill="url(#chartGradient)"></path>
+<!-- Line -->
+<polyline fill="none" points="0,280 50,260 150,220 250,240 350,180 450,140 550,160 650,80 750,100 850,40 950,60 1050,20" stroke="#4B6BFB" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></polyline>
+<!-- Data Points -->
+<circle class="shadow-lg" cx="650" cy="80" fill="#4B6BFB" r="6"></circle>
+<circle cx="650" cy="80" fill="#4B6BFB" fill-opacity="0.2" r="12"></circle>
+</svg>
+<!-- X Axis Labels -->
+<div class="absolute -bottom-8 left-0 w-full flex justify-between text-xs font-semibold text-outline tracking-wider uppercase px-2">
+<span>Oct 01</span>
+<span>Oct 08</span>
+<span>Oct 15</span>
+<span>Oct 22</span>
+<span>Oct 29</span>
+</div>
+</div>
+</section>
+<!-- Secondary Metrics: Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Inquiry Count Card -->
+<div class="bg-surface-container-lowest rounded-xl p-8 shadow-[0_20px_40px_rgba(10,27,57,0.06)] flex flex-col justify-between h-[240px]">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-primary/10 text-primary rounded-2xl">
+<span class="material-symbols-outlined text-3xl" data-icon="chat_bubble">chat_bubble</span>
+</div>
+<div class="text-right">
+<span class="label-sm text-outline uppercase font-bold tracking-widest">Qualified Leads</span>
+<h4 class="text-4xl font-headline font-extrabold mt-1">142</h4>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Response Rate</span>
+<span class="font-bold text-secondary">98%</span>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 98%"></div>
+</div>
+</div>
+</div>
+<!-- Auction Watchlist Card -->
+<div class="bg-surface-container-lowest rounded-xl p-8 shadow-[0_20px_40px_rgba(10,27,57,0.06)] flex flex-col justify-between h-[240px]">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-tertiary/10 text-tertiary rounded-2xl">
+<span class="material-symbols-outlined text-3xl" data-icon="visibility">visibility</span>
+</div>
+<div class="text-right">
+<span class="label-sm text-outline uppercase font-bold tracking-widest">Active Watchers</span>
+<h4 class="text-4xl font-headline font-extrabold mt-1">856</h4>
+</div>
+</div>
+<div class="flex items-center gap-3 text-sm text-on-surface-variant bg-surface-container-low p-4 rounded-xl">
+<span class="material-symbols-outlined text-tertiary" data-icon="info">info</span>
+                        Watchlist activity has increased by 14% since you boosted Listing #4092.
+                    </div>
+</div>
+</div>
+<!-- Breakdown & Empty State Areas -->
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="title-md font-headline text-on-surface text-xl">Top Performing Listings</h3>
+<button class="text-primary font-bold text-sm hover:underline">View All Performance</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Listing Breakdown Card -->
+<div class="bg-white rounded-xl p-6 shadow-sm group hover:shadow-md transition-shadow">
+<div class="aspect-video w-full rounded-lg mb-4 bg-surface-container overflow-hidden">
+<img alt="Property Image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="luxurious modern architectural house with large glass windows and clean concrete lines at twilight with soft interior glowing lights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwXtfkjfpgU_r5t02bm7JLe2X-Ph1ZGvqFhlc0OpnquMpv6vuXnSFlB4HDAUrPoGBo7a8pFx75JEwZbuA7LJBLzt-16eC4EVrm4J7HkYrkB5HqXpOXs8IsWOXjMwrIME8VetM7kqW8tAqJphErAxcAdyBQPxPcDJaPtVHyGLJw-L-uGuCFb37bpvoB9ccHf0kf2CND4YXDM5FqGlSWWUsiGZwRjfD5NnBw76N-qLJscl9pdmiUQMP1nlRsV_HjQHL3FHHHMgZtYhzG"/>
+</div>
+<h5 class="font-bold text-on-surface truncate">The Harrison Estates, Unit 4B</h5>
+<p class="text-xs text-on-surface-variant mt-1">Auction ends in 4 days</p>
+<div class="mt-4 pt-4 border-t border-outline-variant/20 flex justify-between items-center">
+<div class="text-xs text-outline uppercase font-bold tracking-tighter">Views</div>
+<div class="font-headline font-bold text-primary">4,102</div>
+</div>
+</div>
+<!-- Empty State Area -->
+<div class="md:col-span-2 bg-surface-container-low rounded-xl border-2 border-dashed border-outline-variant/40 flex flex-col items-center justify-center p-12 text-center">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-outline" data-icon="bar_chart_4_bars">bar_chart_4_bars</span>
+</div>
+<h4 class="font-headline text-lg text-on-surface">Regional Insights Pending</h4>
+<p class="body-md text-on-surface-variant max-w-xs mx-auto mt-2">
+                            Detailed comparative data will populate as your listings go live in this specific jurisdiction.
+                        </p>
+<button class="mt-6 text-primary font-bold text-sm bg-primary/10 px-6 py-2 rounded-full">
+                            Learn more about intel
+                        </button>
+</div>
+</div>
+</div>
+<!-- Footer Meta -->
+<footer class="pt-12 border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-sm text-outline">© 2024 Auprolis Intelligence. All reports generated are encrypted and strictly confidential.</p>
+<div class="flex items-center gap-6">
+<a class="text-sm text-outline hover:text-primary" href="#">Export PDF Report</a>
+<a class="text-sm text-outline hover:text-primary" href="#">API Settings</a>
+</div>
+</footer>
+</div>
+</main>
+</body></html>

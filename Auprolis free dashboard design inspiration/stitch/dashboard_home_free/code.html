@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-fixed-variant": "#773200",
+              "secondary-fixed-dim": "#b7c6ed",
+              "on-tertiary": "#ffffff",
+              "tertiary-fixed-dim": "#ffb68f",
+              "surface-container-high": "#e6e8ec",
+              "on-surface": "#181c1f",
+              "on-error": "#ffffff",
+              "primary-container": "#4666f7",
+              "on-primary": "#ffffff",
+              "error-container": "#ffdad6",
+              "primary-fixed": "#dee1ff",
+              "on-primary-fixed-variant": "#0033c2",
+              "on-secondary-container": "#4e5d7e",
+              "on-secondary-fixed-variant": "#384667",
+              "secondary-container": "#c8d7fe",
+              "tertiary": "#994200",
+              "surface-tint": "#2a4edf",
+              "on-tertiary-fixed": "#331100",
+              "outline-variant": "#c4c5d8",
+              "on-error-container": "#93000a",
+              "surface-dim": "#d8dade",
+              "surface-container": "#eceef2",
+              "inverse-primary": "#b9c3ff",
+              "inverse-on-surface": "#eff1f5",
+              "primary-fixed-dim": "#b9c3ff",
+              "error": "#ba1a1a",
+              "on-primary-container": "#fffbff",
+              "surface-container-highest": "#e0e3e6",
+              "tertiary-fixed": "#ffdbca",
+              "surface-container-low": "#f2f4f8",
+              "background": "#f7f9fd",
+              "secondary": "#505e80",
+              "surface": "#f7f9fd",
+              "on-background": "#181c1f",
+              "surface-variant": "#e0e3e6",
+              "primary": "#264bdd",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-fixed": "#0a1b39",
+              "tertiary-container": "#bf5500",
+              "surface-bright": "#f7f9fd",
+              "inverse-surface": "#2d3134",
+              "on-tertiary-container": "#fffbff",
+              "secondary-fixed": "#d8e2ff",
+              "on-surface-variant": "#444655",
+              "on-primary-fixed": "#001258",
+              "on-secondary": "#ffffff",
+              "outline": "#747686"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        font-size: 24px;
+      }
+      .font-headline { font-family: 'Manrope', sans-serif; }
+      .font-body { font-family: 'Inter', sans-serif; }
+      .glass-panel {
+        background: rgba(247, 249, 253, 0.7);
+        backdrop-filter: blur(20px);
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-screen w-[260px] bg-[#0F1F3D] dark:bg-[#0F1F3D] flex flex-col py-8 justify-between z-50">
+<div>
+<div class="px-8 mb-10">
+<h1 class="text-2xl font-black tracking-tighter text-white font-headline">AUPROLIS</h1>
+<p class="text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold mt-1">Intelligence Dossier</p>
+</div>
+<nav class="space-y-1">
+<!-- Home (Active) -->
+<a class="flex items-center gap-3 px-8 py-3 bg-[#4B6BFB]/15 text-[#4B6BFB] rounded-r-full border-r-4 border-[#4B6BFB] transition-all group" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label text-sm font-semibold">Home</span>
+</a>
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all group" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label text-sm">Search</span>
+</a>
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all group" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label text-sm">Favorites</span>
+</a>
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all group" href="#">
+<span class="material-symbols-outlined">lock</span>
+<span class="font-label text-sm">Messages</span>
+</a>
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all group" href="#">
+<span class="material-symbols-outlined">lock</span>
+<span class="font-label text-sm">Documents</span>
+</a>
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all group" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label text-sm">Notifications</span>
+</a>
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all group" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label text-sm">Account</span>
+</a>
+</nav>
+</div>
+<div class="px-8">
+<div class="p-4 rounded-xl bg-white/5 flex items-center gap-3">
+<span class="material-symbols-outlined text-[#4B6BFB]">workspace_premium</span>
+<span class="font-label text-xs font-medium text-white/80">Free plan</span>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 left-[260px] right-0 h-20 glass-panel flex justify-between items-center px-12 z-40">
+<div class="flex items-center gap-8 w-1/2">
+<h2 class="font-headline text-xl font-extrabold tracking-tight text-on-secondary-fixed">Dossier Explorer</h2>
+<div class="relative flex-grow max-w-md">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+<input class="w-full pl-12 pr-4 py-2 bg-surface-container-lowest border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/40 placeholder:text-outline/60" placeholder="Search repossessed assets..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-sm">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="professional portrait of a confident real estate investor in a modern office setting with natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZe3zoOe83CSaoWnefQZJGYfM0EhWFIaUc17l7n5js4zGVwUNBfl0HeKbHHchkzCMGVpZWAfDmMAcosMW-_wf3lJaaKwvzCKxVhGj-PBYALFAy484uLMocnpGhGpPDwdUdlTDRVFqSqC5v2Pa3FJm13XK9hoWHGKrVnvgTzwjD0PoIIR0j99SI-v1PRRe0RolzmuMnZ3S7POoAyn9NBzqdHdvZBs84PrOVEbqWYzjoyk2vzXbCg7abKc7wvp5Du6I5j6-l2l_VF0I"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-[260px] pt-20 p-12 min-h-screen bg-[#F5F7FB]">
+<!-- Welcome Row -->
+<section class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="font-headline text-4xl font-extrabold tracking-tighter text-on-secondary-fixed mb-2">Welcome, user!</h1>
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-primary/10 text-primary text-[11px] font-bold uppercase tracking-widest rounded-full">Current plan: Free</span>
+<p class="text-secondary text-sm font-medium">Upgrade to unlock full property intelligence.</p>
+</div>
+</div>
+<button class="px-6 py-3 bg-primary text-white font-headline text-xs font-black uppercase tracking-widest rounded-lg shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+                Unlock All Data
+            </button>
+</section>
+<!-- Upgrade Cards (Bento style) -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-16">
+<!-- Basic Card -->
+<div class="md:col-span-5 bg-surface-container-lowest p-8 rounded-[1.5rem] shadow-sm flex flex-col justify-between">
+<div>
+<h3 class="font-headline text-2xl font-extrabold text-on-secondary-fixed mb-1">Basic</h3>
+<p class="text-secondary text-sm mb-6">Foundational access for casual research.</p>
+<div class="flex items-baseline gap-1 mb-8">
+<span class="text-4xl font-headline font-extrabold text-on-secondary-fixed">$15</span>
+<span class="text-outline font-medium">/mo</span>
+</div>
+<ul class="space-y-4 mb-10">
+<li class="flex items-center gap-3 text-sm text-secondary font-medium">
+<span class="material-symbols-outlined text-primary text-lg">check_circle</span> 10 Property lookups / day
+                        </li>
+<li class="flex items-center gap-3 text-sm text-secondary font-medium">
+<span class="material-symbols-outlined text-primary text-lg">check_circle</span> Auction dates &amp; locations
+                        </li>
+<li class="flex items-center gap-3 text-sm text-secondary font-medium">
+<span class="material-symbols-outlined text-outline/30 text-lg">block</span> No historical price data
+                        </li>
+</ul>
+</div>
+<button class="w-full py-4 bg-[#4B6BFB] text-white font-headline text-xs font-black uppercase tracking-widest rounded-xl hover:bg-primary transition-colors">
+                    Start Basic
+                </button>
+</div>
+<!-- Pro Card -->
+<div class="md:col-span-7 bg-[#FFF9F2] p-8 rounded-[1.5rem] shadow-sm flex flex-col justify-between relative overflow-hidden ring-1 ring-tertiary/10">
+<div class="absolute top-4 right-[-40px] bg-tertiary text-white px-12 py-1 rotate-45 text-[10px] font-black uppercase tracking-widest">Recommended</div>
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h3 class="font-headline text-2xl font-extrabold text-on-tertiary-fixed-variant">Pro Intelligence</h3>
+<span class="material-symbols-outlined text-tertiary">bolt</span>
+</div>
+<p class="text-on-tertiary-fixed-variant/70 text-sm mb-6 max-w-sm">The gold standard for serious investors and commercial property agents.</p>
+<div class="flex items-baseline gap-1 mb-8">
+<span class="text-4xl font-headline font-extrabold text-on-tertiary-fixed-variant">$30</span>
+<span class="text-on-tertiary-fixed-variant/40 font-medium">/mo</span>
+</div>
+<div class="grid grid-cols-2 gap-x-8 gap-y-4 mb-10">
+<div class="flex items-center gap-3 text-sm text-on-tertiary-fixed-variant font-semibold">
+<span class="material-symbols-outlined text-tertiary text-lg">check_circle</span> Unlimited lookups
+                        </div>
+<div class="flex items-center gap-3 text-sm text-on-tertiary-fixed-variant font-semibold">
+<span class="material-symbols-outlined text-tertiary text-lg">check_circle</span> AI-Driven Valuation
+                        </div>
+<div class="flex items-center gap-3 text-sm text-on-tertiary-fixed-variant font-semibold">
+<span class="material-symbols-outlined text-tertiary text-lg">check_circle</span> Historical dossiers
+                        </div>
+<div class="flex items-center gap-3 text-sm text-on-tertiary-fixed-variant font-semibold">
+<span class="material-symbols-outlined text-tertiary text-lg">check_circle</span> Tax delinquency alerts
+                        </div>
+</div>
+</div>
+<button class="w-full py-4 bg-[#4B6BFB] text-white font-headline text-xs font-black uppercase tracking-widest rounded-xl hover:bg-primary transition-colors shadow-lg shadow-[#4B6BFB]/20">
+                    Get Pro Access
+                </button>
+</div>
+</section>
+<!-- Preview Properties Section -->
+<section class="mb-12">
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-headline text-2xl font-extrabold tracking-tight text-on-secondary-fixed">Preview Properties</h2>
+<a class="text-sm font-bold text-primary flex items-center gap-1 group" href="#">
+                    View Dossier Database <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Listing Card 1 -->
+<div class="bg-surface-container-lowest rounded-[1.5rem] overflow-hidden group hover:shadow-xl hover:shadow-on-secondary-fixed/5 transition-all">
+<div class="h-48 relative overflow-hidden">
+<img alt="Property 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="modern luxury residence with clean lines, large glass windows, and minimalist landscaping under clear blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuzTX3rIJaGfFQFvcuikjMbWf-oou1Kw5B3V9GLUlrObnIRVpMl_JXBPbof_Q3B3I8GKT3v8nFM6U-Cg4Xc_YWxgreASSEsF466av53bFi_PiRkHWCLtUSLF29kyb6Dzm73Ywr9KDkcfGY2f76eXYrGLS2mkZg-dr_kF9wACmvQuTNlCII44R8utRcF0Act9Gum0OT2nW_Z6kjBZ6P8jIcVu8W1JC_ZGnS4X0Tphtll_4L6LkcOCE7jcT2KNSYW5636FMB-VmGAC8"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="px-2 py-1 bg-tertiary-container text-white text-[9px] font-black uppercase tracking-widest rounded-md">Repossessed</span>
+<span class="px-2 py-1 bg-on-secondary-fixed text-white text-[9px] font-black uppercase tracking-widest rounded-md">Auction</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline font-extrabold text-lg leading-tight">Emerald Heights Estate</h4>
+<p class="font-headline font-extrabold text-primary">$1.2M</p>
+</div>
+<p class="text-xs text-outline font-medium mb-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span> Seattle, WA • District 4
+                        </p>
+<div class="flex items-center justify-between pt-4 border-t border-outline/5">
+<span class="text-[10px] font-bold text-outline uppercase tracking-wider">Asset ID: AU-9902</span>
+<button class="text-primary-container font-black text-[10px] uppercase tracking-widest">Details</button>
+</div>
+</div>
+</div>
+<!-- Listing Card 2 -->
+<div class="bg-surface-container-lowest rounded-[1.5rem] overflow-hidden group hover:shadow-xl hover:shadow-on-secondary-fixed/5 transition-all">
+<div class="h-48 relative overflow-hidden">
+<img alt="Property 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="quaint colonial style suburban house with white siding and a manicured green lawn in a peaceful residential neighborhood" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvlgS54kybRb_Mojm6X8OlfKPDexGPbre4aKDHN4gQcCLLnfySJH3IqlvM484m9wn7pAuCd9FEKWCSXV0TuztS-8A_dvkKqox115hjULYlOzYrdZXWP1uLuuXVbLbAdXTxVuPFk8cCHP5BPaxO8dHXmNqeTmj1qmlWtnWxFPtqeaaya0imcJdh5foEsv96x7g4fjzwvLozBLavEOzk1S87RYpAJVyKORKmuPdyHnzFSAT-_6aB6psfRp0ON8lqcFoM8RBjS_4AkbE"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="px-2 py-1 bg-tertiary-container text-white text-[9px] font-black uppercase tracking-widest rounded-md">Repossessed</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline font-extrabold text-lg leading-tight">Willow Creek Villa</h4>
+<p class="font-headline font-extrabold text-primary">$450K</p>
+</div>
+<p class="text-xs text-outline font-medium mb-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span> Austin, TX • West Hills
+                        </p>
+<div class="flex items-center justify-between pt-4 border-t border-outline/5">
+<span class="text-[10px] font-bold text-outline uppercase tracking-wider">Asset ID: AU-7124</span>
+<button class="text-primary-container font-black text-[10px] uppercase tracking-widest">Details</button>
+</div>
+</div>
+</div>
+<!-- Listing Card 3 -->
+<div class="bg-surface-container-lowest rounded-[1.5rem] overflow-hidden group hover:shadow-xl hover:shadow-on-secondary-fixed/5 transition-all">
+<div class="h-48 relative overflow-hidden">
+<img alt="Property 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="architecturally unique geometric modern home with wood accents nestled in a pine forest setting during overcast day" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5oxCM87NTRtU2tTjvNaYgVvx0PUmW7v46oV9cT8Aoc8rQQDdN9FkgRRWwkp-Cv6M5K6vA64WF23wZPuj8zNsVx4nmFf5tAItflrxwWbkmh2VVtdx_Eui90k3AzH9vrrVhDKwHP65mJI-gfTDITGjlmxUDVE36P1afZXCFSu799dyeJ5c7RyV0zJBqr9uuU8bwDY3R0iMVXA-q9QJQgncugHFXuMNpk4pK-I_RaE1y1ZU5-838CgQ3CNaVjYNVADCjgN1c5h-dczM"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="px-2 py-1 bg-on-secondary-fixed text-white text-[9px] font-black uppercase tracking-widest rounded-md">Auction</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline font-extrabold text-lg leading-tight">The Monolith Lofts</h4>
+<p class="font-headline font-extrabold text-primary">$2.8M</p>
+</div>
+<p class="text-xs text-outline font-medium mb-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span> Brooklyn, NY • DUMBO
+                        </p>
+<div class="flex items-center justify-between pt-4 border-t border-outline/5">
+<span class="text-[10px] font-bold text-outline uppercase tracking-wider">Asset ID: AU-4410</span>
+<button class="text-primary-container font-black text-[10px] uppercase tracking-widest">Details</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Info Banner -->
+<div class="bg-tertiary-fixed p-6 rounded-2xl flex items-center justify-between border border-tertiary/10">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-tertiary shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">lock</span>
+</div>
+<p class="font-semibold text-on-tertiary-fixed text-sm">Basic info only - <span class="text-on-tertiary-fixed/60 font-medium">Upgrade to Pro for full specs, including interior photography and structural surveys.</span></p>
+</div>
+<a class="font-headline text-xs font-black uppercase tracking-widest text-primary hover:underline" href="#">Compare Plans</a>
+</div>
+</main>
+</body></html>

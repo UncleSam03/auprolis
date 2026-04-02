@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "outline-variant": "#c4c5d8",
+                        "on-tertiary-container": "#fffbff",
+                        "primary-fixed-dim": "#b9c3ff",
+                        "surface": "#f9f9ff",
+                        "primary": "#264bdd",
+                        "primary-container": "#4666f7",
+                        "on-primary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f1f3ff",
+                        "surface-container": "#e9edff",
+                        "surface-container-high": "#e1e8fd",
+                        "on-surface": "#141b2b",
+                        "on-surface-variant": "#444655",
+                        "secondary": "#006b5f",
+                        "tertiary": "#6b38d4",
+                        "error": "#ba1a1a"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar (Authority Source: JSON) -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-[#0F1F3D] flex flex-col py-6 z-50">
+<div class="px-6 mb-10">
+<h1 class="text-2xl font-black text-white tracking-tight">Auprolis</h1>
+<p class="text-[10px] uppercase tracking-widest text-[#4B6BFB] font-bold mt-1">Admin Console</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Navigation Items mapping JSON -->
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-xs font-medium uppercase tracking-widest">Overview</span>
+</a>
+<!-- ACTIVE TAB: Listings -->
+<a class="flex items-center gap-3 bg-[#4B6BFB]/15 text-[#4B6BFB] border-r-4 border-[#4B6BFB] px-4 py-3 font-bold scale-102 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+<span class="text-xs font-medium uppercase tracking-widest">Listings</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+<span class="text-xs font-medium uppercase tracking-widest">Pending Review</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-xs font-medium uppercase tracking-widest">Users</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+<span class="text-xs font-medium uppercase tracking-widest">Agents / Institutions</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+<span class="text-xs font-medium uppercase tracking-widest">Audit Log</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="text-xs font-medium uppercase tracking-widest">Reports</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="text-xs font-medium uppercase tracking-widest">Notifications</span>
+</a>
+</nav>
+<div class="mt-auto px-4 space-y-1">
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-xs font-medium uppercase tracking-widest">Settings</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-xs font-medium uppercase tracking-widest">Account</span>
+</a>
+<div class="mt-4 pt-4 border-t border-white/10 flex items-center gap-3 px-4">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-white text-[10px] font-bold">SA</div>
+<div>
+<p class="text-[10px] font-bold text-white uppercase tracking-tighter leading-none">Superadmin</p>
+<p class="text-[8px] text-white/50">Admin Panel Settings</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar (Authority Source: JSON) -->
+<header class="ml-[260px] bg-[#F7F9FD] flex justify-between items-center px-8 py-4 sticky top-0 z-40">
+<div class="flex items-center gap-4 w-1/3">
+<div class="relative w-full focus-within:ring-2 focus-within:ring-[#4B6BFB]/30 rounded-lg transition-all">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg py-2 pl-10 pr-4 text-sm font-body text-on-surface focus:ring-0" placeholder="Search property identifiers..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-slate-500 hover:text-[#264BDD] transition-colors text-sm font-medium">Support</button>
+<div class="h-4 w-[1px] bg-outline-variant/30"></div>
+<button class="text-[#264BDD] font-bold text-sm">Sign Out</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-[260px] p-8 min-h-screen">
+<!-- Editorial Header -->
+<div class="mb-10 flex justify-between items-end">
+<div>
+<span class="text-[10px] font-bold uppercase tracking-[0.2em] text-primary mb-2 block">Property Management</span>
+<h1 class="text-4xl font-extrabold tracking-tight text-on-surface">Listings Management</h1>
+<p class="text-on-surface-variant mt-1 font-body">High-density data view of active and pending administrative intelligence.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-6 py-3 bg-surface-container-high text-on-primary-fixed-variant rounded-md font-bold text-sm transition-transform hover:scale-102">
+<span class="material-symbols-outlined text-lg">download</span>
+                    Export CSV
+                </button>
+<button class="flex items-center gap-2 px-6 py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-md font-bold text-sm shadow-lg shadow-primary/20 transition-transform hover:scale-102">
+<span class="material-symbols-outlined text-lg">add</span>
+                    New Listing
+                </button>
+</div>
+</div>
+<!-- Toolbar Section -->
+<div class="flex flex-wrap items-center gap-4 mb-8">
+<div class="flex items-center bg-surface-container-lowest px-4 py-2 rounded-lg gap-2">
+<span class="text-[10px] font-bold uppercase tracking-widest text-outline">Status:</span>
+<select class="bg-transparent border-none text-xs font-bold text-on-surface focus:ring-0 py-0 pr-8">
+<option>All Statuses</option>
+<option>Live</option>
+<option>Pending</option>
+<option>Suspended</option>
+</select>
+</div>
+<div class="flex items-center bg-surface-container-lowest px-4 py-2 rounded-lg gap-2">
+<span class="text-[10px] font-bold uppercase tracking-widest text-outline">Type:</span>
+<select class="bg-transparent border-none text-xs font-bold text-on-surface focus:ring-0 py-0 pr-8">
+<option>Commercial</option>
+<option>Residential</option>
+<option>Industrial</option>
+</select>
+</div>
+<div class="flex items-center bg-surface-container-lowest px-4 py-2 rounded-lg gap-2">
+<span class="text-[10px] font-bold uppercase tracking-widest text-outline">Sort By:</span>
+<select class="bg-transparent border-none text-xs font-bold text-on-surface focus:ring-0 py-0 pr-8">
+<option>Latest Submission</option>
+<option>Most Viewed</option>
+<option>High Valuation</option>
+</select>
+</div>
+<button class="ml-auto flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest">
+<span class="material-symbols-outlined text-lg">filter_list</span>
+                Advanced Filters
+            </button>
+</div>
+<!-- Data Table: High-Density Authority View -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead class="sticky top-0 bg-surface-container-low z-10">
+<tr>
+<th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-outline border-b border-outline-variant/10">ID</th>
+<th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-outline border-b border-outline-variant/10">Title</th>
+<th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-outline border-b border-outline-variant/10">Seller</th>
+<th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-outline border-b border-outline-variant/10">Status</th>
+<th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-outline border-b border-outline-variant/10">Submitted Date</th>
+<th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-outline border-b border-outline-variant/10 text-right">Views</th>
+<th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-outline border-b border-outline-variant/10 text-center">Actions</th>
+</tr>
+</thead>
+<tbody class="text-sm font-body divide-y divide-surface-container">
+<!-- Row 1: Live Status -->
+<tr class="hover:bg-surface-container-high transition-colors">
+<td class="px-6 py-4 font-mono text-xs text-on-surface-variant">#AUR-8821</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-md overflow-hidden flex-shrink-0 bg-surface-container">
+<img alt="Modern villa" class="w-full h-full object-cover" data-alt="Modern architectural villa with clean lines, large glass windows at dusk with warm interior lighting and desert landscaping" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfALcWo-jA5wrLSEJAF6ttj9MQJShOBsB35Vz1Z0fARchBPXbl_thnF-Znjk_gJVmNtStJghdI57BxQDhjG1a3pd5loJ5O_Ms1y8Vl6JVG2LqWocc8owcr6Duebk2HdbJHfxg2_unWL8hHlaXh0mBIVZkag3aIRNjdNneETHBGqHeAUOj0NJf1-kLDrqcgXS2Zjl8F2GpmHb0Sn_NS1tnPpppA9BUqArILHE9aGBEsSsl8NhNx1VA7A2EBu0K-m0wO8wPzy8OP1DNv"/>
+</div>
+<div>
+<span class="block font-bold text-on-surface">Mokolodi Estate - Phase 2</span>
+<span class="text-xs text-on-surface-variant">Residential • Gaborone West</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">Lobatse Properties Ltd.</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-secondary/10 text-secondary text-[10px] font-black uppercase tracking-wider">
+                                Live
+                            </span>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">Oct 12, 2023</td>
+<td class="px-6 py-4 text-right font-bold">1,204</td>
+<td class="px-6 py-4 text-center">
+<button class="material-symbols-outlined text-outline-variant hover:text-primary transition-colors">more_horiz</button>
+</td>
+</tr>
+<!-- Row 2: Hover State Emulated -->
+<tr class="bg-surface-container-low shadow-inner relative z-20 scale-[1.002]">
+<td class="px-6 py-4 font-mono text-xs text-on-surface-variant">#AUR-7712</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-md overflow-hidden flex-shrink-0 bg-surface-container">
+<img alt="Office building" class="w-full h-full object-cover" data-alt="Sleek glass skyscrapers in a corporate district reflecting a bright blue sky with dramatic low angle perspective" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsQg6DCHUz3953fl9H0NRivc09A9HyDgZ9tUVg9k2IJUNete94GiXEMDALF5hTxB45z86TMV-cgrpISK3t4OfPUr1yHh3pa_EgsbxypYFe_BtrpgKCIL1LD5fGIIDHR2s-Ul3JBUPhxe9yOeUGZXuctxkyRdctUFr0o_c0QK-nJr-C5o7zMWZAzA4BKnozg4mhtdx8AlQzihkgxpJC0FwOI1rd30Tqj6aVt7Wlrfxsp7kiGpLfEHXBy4B6PZS8DROvfEhE5QpBu6OE"/>
+</div>
+<div>
+<span class="block font-bold text-on-surface">iTowers Corporate Suite</span>
+<span class="text-xs text-on-surface-variant">Commercial • CBD Gaborone</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">Prime Assets Group</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-wider">
+                                Pending
+                            </span>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">Oct 14, 2023</td>
+<td class="px-6 py-4 text-right font-bold">842</td>
+<td class="px-6 py-4 text-center">
+<button class="material-symbols-outlined text-primary">more_horiz</button>
+</td>
+</tr>
+<!-- Row 3: Suspended -->
+<tr class="hover:bg-surface-container-high transition-colors">
+<td class="px-6 py-4 font-mono text-xs text-on-surface-variant">#AUR-4490</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-md overflow-hidden flex-shrink-0 bg-surface-container">
+<img alt="Industrial lot" class="w-full h-full object-cover" data-alt="Wide shot of an industrial warehouse facility with metal cladding under a clear desert sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBphFKXEMyYn0GG8wtJFwM5_3cxg-yREr5ZIV4-lJBMpmQUzofnCZbi1FJF4VyAJQN76EST9nOpiH5wLuIrgJk4sjMufq1vuCEplUTXowNwy2dBnMJrrhMmEkgFsm3xO5RMi8oC_uC0CL-9t9I2Qr7cRSchV87is3J3XtfqMS2pq4jQXLiek-jeaZs_UMPGcI-44GfrK6K2e9Ocw9g1-ZP-R7KWu148QqKqVL87Nu7OfFSr-b3zb2IdAdVgok5EhEbLKfzB6KSqIo1J"/>
+</div>
+<div>
+<span class="block font-bold text-on-surface">Broadhurst Industrial Yard</span>
+<span class="text-xs text-on-surface-variant">Industrial • Block 6</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">Eco-Logic Mining</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-error/10 text-error text-[10px] font-black uppercase tracking-wider">
+                                Suspended
+                            </span>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">Oct 05, 2023</td>
+<td class="px-6 py-4 text-right font-bold">2,410</td>
+<td class="px-6 py-4 text-center">
+<button class="material-symbols-outlined text-outline-variant hover:text-primary transition-colors">more_horiz</button>
+</td>
+</tr>
+<!-- Row 4: Live -->
+<tr class="hover:bg-surface-container-high transition-colors">
+<td class="px-6 py-4 font-mono text-xs text-on-surface-variant">#AUR-9902</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-md overflow-hidden flex-shrink-0 bg-surface-container">
+<img alt="Luxury home" class="w-full h-full object-cover" data-alt="Stunning luxury home with a swimming pool reflecting the sunset sky and tall palm trees" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqr4sbfBUglKqaKl4TccAcH6XDgZkLYejf_gFJT_9RZ3IvpJxchRG1rHEzm7haZNj9O_ewLOXBoVxOZ-roVde0DxhJQKToutmp8kjTcQCGHiiuxn1B_0eIUeVmXPhFERhlLI4ffGirBIf0LJhJ4RnLTiexs9XTGvXZTBrQGDzgXFyXXX9E3fu80rR5FlLu5UcMdCLYIyFcbax-PtTbYDoGgEMp3KmRumryV7yFq98N0K3Wmz0f5mFSAv8hDOhbEPatAFXMHFUHE5xP"/>
+</div>
+<div>
+<span class="block font-bold text-on-surface">Phakalane Golf Estate</span>
+<span class="text-xs text-on-surface-variant">Residential • Phakalane</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">Private Seller - N. Kole</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-secondary/10 text-secondary text-[10px] font-black uppercase tracking-wider">
+                                Live
+                            </span>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">Sep 28, 2023</td>
+<td class="px-6 py-4 text-right font-bold">4,119</td>
+<td class="px-6 py-4 text-center">
+<button class="material-symbols-outlined text-outline-variant hover:text-primary transition-colors">more_horiz</button>
+</td>
+</tr>
+<!-- Row 5: Pending -->
+<tr class="hover:bg-surface-container-high transition-colors">
+<td class="px-6 py-4 font-mono text-xs text-on-surface-variant">#AUR-2110</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-md overflow-hidden flex-shrink-0 bg-surface-container">
+<img alt="Apartment complex" class="w-full h-full object-cover" data-alt="Elegant Mediterranean style apartment complex with terracotta roofs and lush balconies under a warm sun" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7dQ8BC_v_y32E0yJbj6knblLZtNnZ6hWQfpHboPzHh-bBI1vErMXIOva6-9tJQJaH2eucgoS0ywBQmIHHxbXkEQHO17zhFR7uYW432hCOQbfwxbSYhM916fMWJCFhujRAQgLmSB-luvUVcXb_UZZA80_hcP4Xu4VOUx1XQ7pZH7HBIOxkBKDG4KCEkRv2zwGmegFa7XBiJHiFxl7KkPt1duINQG5CUiSefYNTHIfwPJmqRPWJXrSdfpRA35SOBXxsPLAaV6-vgUrH"/>
+</div>
+<div>
+<span class="block font-bold text-on-surface">Sarona City Apartments</span>
+<span class="text-xs text-on-surface-variant">Residential • Tsholofelo</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">Urban Develop Co.</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-wider">
+                                Pending
+                            </span>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">Oct 16, 2023</td>
+<td class="px-6 py-4 text-right font-bold">128</td>
+<td class="px-6 py-4 text-center">
+<button class="material-symbols-outlined text-outline-variant hover:text-primary transition-colors">more_horiz</button>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Table Footer/Pagination -->
+<div class="px-6 py-4 flex items-center justify-between border-t border-surface-container bg-surface-container-low/50">
+<p class="text-xs text-on-surface-variant">Showing <span class="font-bold text-on-surface">5</span> of <span class="font-bold text-on-surface">1,248</span> listings</p>
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-md bg-surface-container text-on-surface-variant hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md bg-primary text-white font-bold text-xs">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md bg-surface-container text-on-surface-variant hover:bg-surface-container-high text-xs">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md bg-surface-container text-on-surface-variant hover:bg-surface-container-high text-xs">3</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md bg-surface-container text-on-surface-variant hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Metric Cluster Bento - Editorial Intelligence Style -->
+<div class="mt-12 grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="p-6 bg-surface-container-lowest rounded-xl border-l-4 border-primary">
+<span class="text-[10px] font-bold uppercase tracking-widest text-outline block mb-2">Total Intelligence</span>
+<p class="text-3xl font-black text-on-surface tracking-tighter">1,248</p>
+<p class="text-[10px] text-secondary font-bold mt-1">+12% vs last month</p>
+</div>
+<div class="p-6 bg-surface-container-lowest rounded-xl">
+<span class="text-[10px] font-bold uppercase tracking-widest text-outline block mb-2">Pending Verification</span>
+<p class="text-3xl font-black text-on-surface tracking-tighter">42</p>
+<p class="text-[10px] text-primary font-bold mt-1">Requires attention</p>
+</div>
+<div class="p-6 bg-surface-container-lowest rounded-xl">
+<span class="text-[10px] font-bold uppercase tracking-widest text-outline block mb-2">Avg. Valuation</span>
+<p class="text-3xl font-black text-on-surface tracking-tighter">BWP 4.2M</p>
+<p class="text-[10px] text-on-surface-variant mt-1">Market aggregated</p>
+</div>
+<div class="p-6 bg-surface-container-lowest rounded-xl">
+<span class="text-[10px] font-bold uppercase tracking-widest text-outline block mb-2">Network Reach</span>
+<p class="text-3xl font-black text-on-surface tracking-tighter">8.2k</p>
+<p class="text-[10px] text-on-surface-variant mt-1">Unique weekly views</p>
+</div>
+</div>
+</main>
+</body></html>

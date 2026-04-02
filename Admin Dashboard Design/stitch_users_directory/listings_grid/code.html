@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Listings - Auprolis Admin Console</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "outline-variant": "#c4c5d8",
+              "on-tertiary-container": "#fffbff",
+              "primary-fixed-dim": "#b9c3ff",
+              "surface": "#f9f9ff",
+              "primary": "#264bdd",
+              "primary-fixed": "#dee1ff",
+              "error-container": "#ffdad6",
+              "surface-container": "#e9edff",
+              "secondary-container": "#6df5e1",
+              "inverse-on-surface": "#edf0ff",
+              "on-secondary": "#ffffff",
+              "tertiary": "#6b38d4",
+              "on-surface": "#141b2b",
+              "secondary-fixed": "#71f8e4",
+              "outline": "#747686",
+              "tertiary-fixed": "#e9ddff",
+              "inverse-primary": "#b9c3ff",
+              "surface-container-lowest": "#ffffff",
+              "surface-bright": "#f9f9ff",
+              "on-error": "#ffffff",
+              "on-secondary-container": "#006f64",
+              "on-tertiary": "#ffffff",
+              "surface-tint": "#2a4edf",
+              "on-error-container": "#93000a",
+              "on-surface-variant": "#444655",
+              "surface-variant": "#dce2f7",
+              "on-tertiary-fixed": "#23005c",
+              "on-tertiary-fixed-variant": "#5516be",
+              "tertiary-container": "#8455ef",
+              "tertiary-fixed-dim": "#d0bcff",
+              "primary-container": "#4666f7",
+              "on-primary-fixed-variant": "#0033c2",
+              "inverse-surface": "#293040",
+              "on-background": "#141b2b",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed-variant": "#005048",
+              "on-primary-container": "#fffbff",
+              "secondary": "#006b5f",
+              "on-secondary-fixed": "#00201c",
+              "surface-container-low": "#f1f3ff",
+              "on-primary-fixed": "#001258",
+              "secondary-fixed-dim": "#4fdbc8",
+              "background": "#f9f9ff",
+              "surface-dim": "#d3daef",
+              "surface-container-highest": "#dce2f7",
+              "surface-container-high": "#e1e8fd",
+              "error": "#ba1a1a"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-shadow {
+            box-shadow: 0px 20px 40px rgba(20, 27, 43, 0.06);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- SideNavBar (Authority: JSON & Design System) -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-[#0F1F3D] flex flex-col py-6 z-50">
+<div class="px-6 mb-10">
+<h1 class="text-2xl font-black text-white tracking-tight font-headline">Auprolis</h1>
+<p class="text-white/50 text-[10px] uppercase tracking-widest font-label mt-1">Admin Console</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Navigation Items Mapping -->
+<a class="flex items-center gap-3 text-white/90 px-6 py-3 hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span class="text-xs font-label tracking-widest uppercase">Overview</span>
+</a>
+<!-- Active State: Listings -->
+<a class="flex items-center gap-3 bg-[#4B6BFB]/15 text-[#4B6BFB] border-r-4 border-[#4B6BFB] px-6 py-3 font-bold" href="#">
+<span class="material-symbols-outlined text-xl">list_alt</span>
+<span class="text-xs font-label tracking-widest uppercase">Listings</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-6 py-3 hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-xl">pending_actions</span>
+<span class="text-xs font-label tracking-widest uppercase">Pending Review</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-6 py-3 hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-xl">group</span>
+<span class="text-xs font-label tracking-widest uppercase">Users</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-6 py-3 hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-xl">account_balance</span>
+<span class="text-xs font-label tracking-widest uppercase">Agents / Institutions</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-6 py-3 hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-xl">history_edu</span>
+<span class="text-xs font-label tracking-widest uppercase">Audit Log</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-6 py-3 hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-xl">assessment</span>
+<span class="text-xs font-label tracking-widest uppercase">Reports</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-6 py-3 hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-xl">notifications</span>
+<span class="text-xs font-label tracking-widest uppercase">Notifications</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-6 py-3 hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-xl">settings</span>
+<span class="text-xs font-label tracking-widest uppercase">Settings</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-6 py-3 hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-xl">person</span>
+<span class="text-xs font-label tracking-widest uppercase">Account</span>
+</a>
+</nav>
+<div class="mt-auto px-6 border-t border-white/10 pt-6">
+<div class="flex items-center gap-3 text-white/90">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+<span class="text-xs font-label tracking-widest uppercase">Superadmin</span>
+</div>
+</div>
+</aside>
+<!-- TopNavBar (Authority: JSON & Design System) -->
+<header class="ml-[260px] flex justify-between items-center px-8 py-4 sticky top-0 z-40 bg-[#F7F9FD] dark:bg-slate-900">
+<div class="flex-1 max-w-md">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-md text-sm font-body focus:ring-2 focus:ring-primary/30 transition-all outline-none" placeholder="Search property title, ID..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-slate-500 hover:text-primary transition-colors text-sm font-medium">Help Center</button>
+<button class="text-slate-500 hover:text-primary transition-colors text-sm font-medium">Sign Out</button>
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-white font-bold text-xs">
+                JD
+            </div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-[260px] p-8 min-h-screen">
+<!-- Page Header -->
+<div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="text-4xl font-extrabold tracking-tight text-on-surface mb-1">System Listings</h1>
+<p class="text-on-surface-variant font-body">Manage all property intelligence entries.</p>
+</div>
+<button class="flex items-center gap-2 bg-gradient-to-br from-primary to-primary-container text-white px-6 py-3 rounded-md hover:scale-102 active:scale-98 transition-all editorial-shadow font-semibold">
+<span class="material-symbols-outlined">add</span>
+                New Entry
+            </button>
+</div>
+<!-- Toolbar (Filters) -->
+<section class="mb-10 p-1 bg-surface-container-low rounded-lg inline-flex items-center gap-2 overflow-x-auto max-w-full">
+<div class="flex items-center gap-4 px-4 py-2">
+<div class="flex flex-col">
+<span class="text-[10px] font-label uppercase tracking-widest text-outline">Status</span>
+<select class="bg-transparent border-none p-0 text-sm font-semibold focus:ring-0 cursor-pointer text-on-surface">
+<option>All Listings</option>
+<option>Live</option>
+<option>Pending</option>
+<option>Suspended</option>
+<option>Draft</option>
+</select>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant/30"></div>
+<div class="flex flex-col">
+<span class="text-[10px] font-label uppercase tracking-widest text-outline">Property Type</span>
+<select class="bg-transparent border-none p-0 text-sm font-semibold focus:ring-0 cursor-pointer text-on-surface">
+<option>All Types</option>
+<option>Commercial</option>
+<option>Residential</option>
+<option>Industrial</option>
+</select>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant/30"></div>
+<div class="flex flex-col">
+<span class="text-[10px] font-label uppercase tracking-widest text-outline">Sort By</span>
+<select class="bg-transparent border-none p-0 text-sm font-semibold focus:ring-0 cursor-pointer text-on-surface">
+<option>Newest First</option>
+<option>Oldest First</option>
+<option>High Valuation</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Listings Grid (Bento/Card Hybrid) -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+<!-- Listing Card 1 -->
+<article class="bg-surface-container-lowest rounded-xl editorial-shadow group overflow-hidden transition-all hover:scale-[1.01]">
+<div class="aspect-video w-full overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern architectural glass building in Gaborone reflecting a clear blue sky with professional corporate aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3rJckZaqP-rsfxn7Jz5AO-2-zodIjaqqg48qVuK77dQcLHt11ZQFZa6EieLqkaaR-H8HHhhrwYRq4jPyMrvnkmoD1FI-reCr7HnSFONxpgrqXJDKUWcoaVktcHHYLUDpbpDVHTvLrxRLDDFCUVRVKZjyyu-qE5TCgCA95x3Evh1h0CZh-Sh_4xA-DeCv-gQqpguYSZBXZBnXdpXH6caXJX2mliLMtg5LPf7AJvpobx199haUfNIcKhBXmHh2I5VDxqfwFOAoSno3R"/>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 bg-emerald-500/10 text-emerald-700 text-[10px] font-bold uppercase tracking-widest rounded-full backdrop-blur-md">Live</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-xl font-bold tracking-tight text-on-surface leading-tight">Phakalane Commercial Space</h3>
+<span class="material-symbols-outlined text-outline-variant/50" style="font-variation-settings: 'FILL' 0;">verified_user</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-on-surface-variant font-label mb-6">
+<span class="uppercase tracking-wider">Ref: AUP-9923</span>
+<span class="text-outline-variant">•</span>
+<span>Gaborone North</span>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="p-3 bg-surface-container rounded-md">
+<span class="block text-[10px] font-label text-outline uppercase tracking-tighter">Valuation</span>
+<span class="text-sm font-bold">P 4.2M</span>
+</div>
+<div class="p-3 bg-surface-container rounded-md">
+<span class="block text-[10px] font-label text-outline uppercase tracking-tighter">Yield</span>
+<span class="text-sm font-bold">8.4%</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<div class="flex items-center -space-x-2">
+<button class="p-2 text-primary hover:bg-primary/5 rounded-full transition-colors" title="Edit">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-2 text-error hover:bg-error/5 rounded-full transition-colors" title="Delete">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-surface-container-high text-on-surface-variant text-xs font-bold rounded-md hover:bg-surface-variant transition-colors">Suspend</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Listing Card 2 -->
+<article class="bg-surface-container-lowest rounded-xl editorial-shadow group overflow-hidden transition-all hover:scale-[1.01]">
+<div class="aspect-video w-full overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Luxury residential estate with swimming pool at sunset, soft warm lighting, high-end real estate photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwQXFYjAa6czs7hMKdiYVGaKJ0T-Q4TdJUJG9Lq4BrYPH3mju3VAm71jcvvAQkEbvMDporB4PwTeqpW0_j-cTrGdDlZVeiIpaTB37GPIztp7NTkIIsU7fl9ZWMQDKmYnP-Xq80kolD0nIesCf5XGmlznS_LqR2Yr2fz_DLeA9jEkrLkQGh9OfqJyrJZwmVb4wqFSsC1tqct4YrcL7XcN7DNJO7rxpsVvKdwsTOXTc9nJWGxQLCmobbb4mGRwDK4TPx-64ZobaUc0Uo"/>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 bg-amber-500/10 text-amber-700 text-[10px] font-bold uppercase tracking-widest rounded-full backdrop-blur-md">Pending</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-xl font-bold tracking-tight text-on-surface leading-tight">Mokolodi Estate Villa</h3>
+<span class="material-symbols-outlined text-outline-variant/50" style="font-variation-settings: 'FILL' 0;">verified_user</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-on-surface-variant font-label mb-6">
+<span class="uppercase tracking-wider">Ref: AUP-8120</span>
+<span class="text-outline-variant">•</span>
+<span>South District</span>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="p-3 bg-surface-container rounded-md">
+<span class="block text-[10px] font-label text-outline uppercase tracking-tighter">Valuation</span>
+<span class="text-sm font-bold">P 7.8M</span>
+</div>
+<div class="p-3 bg-surface-container rounded-md">
+<span class="block text-[10px] font-label text-outline uppercase tracking-tighter">Reviewer</span>
+<span class="text-sm font-bold">Admin-04</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<div class="flex items-center -space-x-2">
+<button class="p-2 text-primary hover:bg-primary/5 rounded-full transition-colors" title="Edit">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-2 text-error hover:bg-error/5 rounded-full transition-colors" title="Delete">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-emerald-600 text-white text-xs font-bold rounded-md hover:bg-emerald-700 transition-colors">Approve</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Listing Card 3 -->
+<article class="bg-surface-container-lowest rounded-xl editorial-shadow group overflow-hidden transition-all hover:scale-[1.01]">
+<div class="aspect-video w-full overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Aerial view of industrial warehouse complex with loading docks, clean and organized logistics park layout" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPdhL43QJYtiyvbZa2Tzqm-NqxxPjsw2R00JS6nr2Ly8CxwI7LXeaC84gqgIdyIs6itS8-9mbPvi6xxsi4_cvC8-D7AyrQg2enynz5EFL5rE6JWpiTjjsDxPP9AukysKrj_IH8FUu_Dzh-mCViLt1mBMp3l71feJqLLU_iv_0UrB9xURBHVYQbfsSJky88OJ1wsYJ0uhorjVLI5o8f1O11MXaI0Rlq8yyO8iLMXMrCHKd_vTzX6KAhM9zRqlRbZ6Hj8pJMXzB7VwSA"/>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 bg-emerald-500/10 text-emerald-700 text-[10px] font-bold uppercase tracking-widest rounded-full backdrop-blur-md">Live</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-xl font-bold tracking-tight text-on-surface leading-tight">Commerce Park Hub B2</h3>
+<span class="material-symbols-outlined text-outline-variant/50" style="font-variation-settings: 'FILL' 0;">verified_user</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-on-surface-variant font-label mb-6">
+<span class="uppercase tracking-wider">Ref: AUP-3401</span>
+<span class="text-outline-variant">•</span>
+<span>Industrial South</span>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="p-3 bg-surface-container rounded-md">
+<span class="block text-[10px] font-label text-outline uppercase tracking-tighter">Valuation</span>
+<span class="text-sm font-bold">P 12.5M</span>
+</div>
+<div class="p-3 bg-surface-container rounded-md">
+<span class="block text-[10px] font-label text-outline uppercase tracking-tighter">Yield</span>
+<span class="text-sm font-bold">9.1%</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<div class="flex items-center -space-x-2">
+<button class="p-2 text-primary hover:bg-primary/5 rounded-full transition-colors" title="Edit">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-2 text-error hover:bg-error/5 rounded-full transition-colors" title="Delete">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-surface-container-high text-on-surface-variant text-xs font-bold rounded-md hover:bg-surface-variant transition-colors">Suspend</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Listing Card 4 -->
+<article class="bg-surface-container-lowest rounded-xl editorial-shadow group overflow-hidden transition-all hover:scale-[1.01]">
+<div class="aspect-video w-full overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern office interior with open floor plan, ergonomic furniture, and large windows with bright natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALiqKv3hu3vx2-EEdifie_c2Gfmume5kpwSKtW1vGjJXqGSZkUhX3m8y6Oy2pwFMoLvJLTu5OTsvfXZSt5pHB_F34Ke_kNT0vc6-MttJMGmN0DYcXfMSh8YccuBXcGRLUGIDAQkXVbssm9HRRqL6hk_73eUzEBwoBQMW_Ot-__WKLRLxgJOk75oB1JfEn2-aRyhSQ1agMOA_BRFMiEMeL2YsGkm9qbkm258pbH0huEgphJX1YfWWBBk-B_NH_bcUUcFvP57WfgCtet"/>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 bg-slate-500/10 text-slate-700 text-[10px] font-bold uppercase tracking-widest rounded-full backdrop-blur-md">Draft</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-xl font-bold tracking-tight text-on-surface leading-tight">Main Mall Office Suites</h3>
+<span class="material-symbols-outlined text-outline-variant/50" style="font-variation-settings: 'FILL' 0;">verified_user</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-on-surface-variant font-label mb-6">
+<span class="uppercase tracking-wider">Ref: AUP-0102</span>
+<span class="text-outline-variant">•</span>
+<span>Central District</span>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="p-3 bg-surface-container rounded-md">
+<span class="block text-[10px] font-label text-outline uppercase tracking-tighter">Valuation</span>
+<span class="text-sm font-bold">P 1.8M</span>
+</div>
+<div class="p-3 bg-surface-container rounded-md">
+<span class="block text-[10px] font-label text-outline uppercase tracking-tighter">Status</span>
+<span class="text-sm font-bold">Incomplete</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<div class="flex items-center -space-x-2">
+<button class="p-2 text-primary hover:bg-primary/5 rounded-full transition-colors" title="Edit">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-2 text-error hover:bg-error/5 rounded-full transition-colors" title="Delete">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-primary text-white text-xs font-bold rounded-md hover:bg-primary-container transition-colors">Submit</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Quick Intelligence Metric Card (Asymmetric Layout element) -->
+<article class="xl:col-span-1 bg-primary rounded-xl editorial-shadow p-8 flex flex-col justify-between text-white relative overflow-hidden">
+<div class="relative z-10">
+<span class="text-[10px] font-label uppercase tracking-widest text-white/60">Intelligence Overview</span>
+<h2 class="text-2xl font-extrabold mt-2 leading-tight">Portfolio Health &amp; Audit Metrics</h2>
+<p class="text-white/70 text-sm mt-4 font-body leading-relaxed">
+                        System-wide listings are currently performing at 92% audit compliance. 3 entries require immediate administrative action.
+                    </p>
+</div>
+<div class="mt-8 relative z-10 flex flex-wrap gap-4">
+<div class="bg-white/10 backdrop-blur-md rounded-lg p-4 flex-1">
+<span class="block text-[10px] font-label uppercase text-white/50 tracking-widest">Active</span>
+<span class="text-2xl font-bold">1,204</span>
+</div>
+<div class="bg-white/10 backdrop-blur-md rounded-lg p-4 flex-1">
+<span class="block text-[10px] font-label uppercase text-white/50 tracking-widest">Pending</span>
+<span class="text-2xl font-bold">48</span>
+</div>
+</div>
+<!-- Abstract Design Accent -->
+<div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/5 rounded-full blur-3xl"></div>
+<div class="absolute right-6 top-6">
+<span class="material-symbols-outlined text-white/20 text-6xl" style="font-variation-settings: 'wght' 200;">shield</span>
+</div>
+</article>
+</div>
+<!-- Pagination / Editorial Footer -->
+<footer class="mt-16 flex flex-col md:flex-row items-center justify-between gap-6 pb-12">
+<div class="flex items-center gap-2">
+<span class="text-xs font-label uppercase tracking-widest text-outline">Viewing 4 of 1,252 entries</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-10 h-10 flex items-center justify-center rounded-md border border-outline-variant/30 text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-md bg-primary text-white font-bold text-sm">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-md hover:bg-surface-container text-on-surface font-medium text-sm transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-md hover:bg-surface-container text-on-surface font-medium text-sm transition-colors">3</button>
+<span class="px-2 text-outline-variant">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-md hover:bg-surface-container text-on-surface font-medium text-sm transition-colors">32</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-md border border-outline-variant/30 text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</footer>
+</main>
+</body></html>

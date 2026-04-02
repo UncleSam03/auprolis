@@ -3,47 +3,51 @@
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 
 :root {
-  /* Colors - Based on auprolis_intelligence/DESIGN.md and dashboard_home_free/code.html */
-  --primary: #4B6BFB; /* Updated primary to match DESIGN.md exactly */
-  --primary-deep: #264bdd;
+  /* Colors - Based on Sovereign DESIGN.md */
+  --primary: #4B6BFB; /* High-action Electric Blue */
+  --primary-deep: #264bdd; /* Authoritative analytical blue */
+  --primary-container: #4666f7;
   --on-primary: #ffffff;
   
-  --surface: #f7f9fd;
-  --surface-container-low: #f2f4f8;
+  --surface: #faf9ff; /* Expanded gallery white */
+  --surface-container-low: #f1f3ff; /* Tonal layering */
   --surface-container-lowest: #ffffff;
-  --surface-container-high: #e6e8ec;
-  --surface-container-highest: #e0e3e6;
+  --surface-container-high: #e1e8ff;
+  --surface-container-highest: #d8e2ff;
   
   --navy: #0F1F3D;
-  --navy-light: #162A52;
+  --navy-dark: #0a162b;
   --on-navy: #ffffff;
   --on-navy-variant: rgba(255, 255, 255, 0.4);
   
-  --on-surface: #181c1f;
-  --secondary: #505e80;
-  --outline: #747686;
-  --outline-variant: rgba(196, 197, 216, 0.15); /* 15% opacity for ghost borders */
+  --on-surface: #0a1b39; /* Sovereign Navy */
+  --on-surface-variant: #444655;
+  --secondary: #006b5f; /* Soft Teal for Equity/Success */
+  --secondary-container: #6df5e1;
+  --on-secondary-container: #006f64;
   
-  --tertiary: #994200;
-  --tertiary-container: #bf5500;
+  --tertiary: #6b38d4;
+  --tertiary-container: #8455ef;
   --on-tertiary-container: #fffbff;
-  --tertiary-fixed: #ffdbca;
-  --on-tertiary-fixed: #331100;
-  --on-tertiary-fixed-variant: #773200;
+  
+  --outline: #747686;
+  --outline-variant: rgba(196, 197, 216, 0.15);
 
   /* Typography */
   --font-headline: 'Manrope', sans-serif;
   --font-body: 'Inter', sans-serif;
-  --font-size-base: 13px; /* 3 points smaller than 16px */
+  --font-size-base: 13px;
 
   /* Spacing & Radius */
-  --spacing-12: 3rem;
-  --radius-md: 0.75rem;
+  --spacing-16: 5.5rem; /* Page margin gallery feel */
+  --radius-sm: 0.5rem;
+  --radius-md: 1.5rem;
   --radius-xl: 1.5rem;
+  --radius-3xl: 3rem; /* Signature Intelligence Card radius */
   --radius-full: 9999px;
 
-  /* Shadows - Ambient Occlusion */
-  --shadow-ambient: 0 0 40px 0 rgba(15, 31, 61, 0.06);
+  /* Shadows - Authoritative Whisper */
+  --shadow-authoritative: 0 20px 40px rgba(10, 27, 57, 0.06);
 }
 
 html {
@@ -78,6 +82,7 @@ html {
   word-wrap: normal;
   direction: ltr;
   -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }

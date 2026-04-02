@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Auprolis Seller Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-secondary": "#ffffff",
+                "surface-container-lowest": "#ffffff",
+                "surface-container-highest": "#d8e2ff",
+                "tertiary-container": "#8455ef",
+                "on-tertiary-fixed-variant": "#5516be",
+                "error-container": "#ffdad6",
+                "secondary-container": "#6df5e1",
+                "tertiary": "#6b38d4",
+                "on-secondary-fixed": "#00201c",
+                "inverse-surface": "#21304f",
+                "on-primary-fixed-variant": "#0033c2",
+                "tertiary-fixed-dim": "#d0bcff",
+                "on-tertiary": "#ffffff",
+                "on-secondary-fixed-variant": "#005048",
+                "on-primary": "#ffffff",
+                "error": "#ba1a1a",
+                "inverse-primary": "#b9c3ff",
+                "surface-container-high": "#e1e8ff",
+                "primary-fixed": "#dee1ff",
+                "primary": "#264bdd",
+                "tertiary-fixed": "#e9ddff",
+                "surface-tint": "#2a4edf",
+                "secondary": "#006b5f",
+                "surface": "#faf9ff",
+                "surface-container-low": "#f1f3ff",
+                "surface-bright": "#faf9ff",
+                "on-surface-variant": "#444655",
+                "on-primary-fixed": "#001258",
+                "background": "#faf9ff",
+                "on-error": "#ffffff",
+                "primary-fixed-dim": "#b9c3ff",
+                "surface-container": "#e9edff",
+                "surface-dim": "#ccdaff",
+                "outline": "#747686",
+                "on-tertiary-fixed": "#23005c",
+                "on-secondary-container": "#006f64",
+                "outline-variant": "#c4c5d8",
+                "primary-container": "#4666f7",
+                "secondary-fixed": "#71f8e4",
+                "secondary-fixed-dim": "#4fdbc8",
+                "on-surface": "#0a1b39",
+                "on-primary-container": "#fffbff",
+                "on-tertiary-container": "#fffbff",
+                "on-error-container": "#93000a",
+                "on-background": "#0a1b39",
+                "surface-variant": "#d8e2ff",
+                "inverse-on-surface": "#edf0ff"
+              },
+              fontFamily: {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+            },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .brand-font { font-family: 'Manrope', sans-serif; }
+      </style>
+</head>
+<body class="bg-surface text-on-surface antialiased overflow-x-hidden">
+<!-- SideNavBar -->
+<aside class="fixed h-screen w-[260px] left-0 top-0 bg-[#0F1F3D] dark:bg-[#0a162b] flex flex-col justify-between py-8 px-4 z-50">
+<div class="space-y-8">
+<div class="px-4">
+<h1 class="text-2xl font-extrabold tracking-tighter text-white">Auprolis</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mt-1">Seller Dashboard</p>
+</div>
+<nav class="space-y-1">
+<!-- Dashboard Active -->
+<a class="flex items-center gap-3 px-4 py-3 bg-[#4B6BFB]/15 text-[#4B6BFB] rounded-full font-semibold" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-white/5 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+<span class="text-sm">My Listings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-white/5 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="add_box">add_box</span>
+<span class="text-sm">New Listing</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-white/5 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="text-sm">Performance</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-white/5 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-sm">Inquiries</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-white/5 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="text-sm">Documents</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-white/5 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="text-sm">Notifications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-white/5 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="text-sm">Account</span>
+</a>
+</nav>
+</div>
+<div class="px-4">
+<div class="bg-white/5 rounded-2xl p-4 flex items-center gap-3 cursor-pointer hover:bg-white/10 transition-all">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white" data-icon="stars">stars</span>
+</div>
+<div>
+<p class="text-xs font-bold text-white">Seller Plan</p>
+<p class="text-[10px] text-slate-400">Premium Member</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-16 bg-[#faf9ff]/80 backdrop-blur-xl z-40 flex items-center justify-between px-8">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="w-full bg-surface-container-high border-none rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-slate-500 transition-all" placeholder="Search your assets..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-slate-500">
+<button class="hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+<button class="bg-[#4B6BFB] text-white px-6 py-2 rounded-full font-bold text-sm shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all">
+                + New Listing
+            </button>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-slate-200">
+<img alt="Seller Profile Avatar" data-alt="professional male headshot of a real estate broker in a crisp white shirt against a neutral studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEYf_XqSXb2oFynt7pTeGQLkFpXUBXp4G0FeEKOBWxOytl9fa6lukdNClaTq2HqV3S3QK6XdEIR2Un5jaqxSkdU1XLvT7wvrdpAYH828byp9ITltNaxRb7c3l5XORcHk_ws_yGOcAAEQFx5alK3r0u7Vp7-RoSw4XfTikcrr4oNpNEPmIyFn4vAg5tla5Hd7K9-Ts-AkFbryWukaVIvSqlrBHdMsSFmOtN1oA-eCboi0SJ26Fgm0ZPX8jZxLMwxomJSF_zWc4if47Y"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-[260px] pt-24 pb-16 px-16 min-h-screen space-y-12">
+<!-- Header Section -->
+<div class="flex justify-between items-end">
+<div>
+<h1 class="text-4xl font-[800] tracking-tight text-on-surface mb-2">Seller Dashboard</h1>
+<p class="text-on-surface-variant font-medium">Manage listings and track performance across your portfolio.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 rounded-full border border-outline-variant text-on-surface-variant font-bold text-sm hover:bg-surface-container-low transition-all">
+                    Export Data
+                </button>
+<button class="px-6 py-2.5 rounded-full bg-primary text-white font-bold text-sm shadow-md hover:shadow-primary/20 transition-all">
+                    Analytics Suite
+                </button>
+</div>
+</div>
+<!-- KPI Grid -->
+<section class="grid grid-cols-4 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_20px_40px_rgba(10,27,57,0.06)] flex flex-col justify-between">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary" data-icon="inventory_2">inventory_2</span>
+</div>
+<span class="text-secondary text-xs font-bold bg-secondary/10 px-2 py-1 rounded-full">+2.4%</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total listings</p>
+<p class="text-3xl font-[800] tracking-tight brand-font">124</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_20px_40px_rgba(10,27,57,0.06)] flex flex-col justify-between">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-secondary/10 rounded-lg">
+<span class="material-symbols-outlined text-secondary" data-icon="check_circle">check_circle</span>
+</div>
+<span class="text-secondary text-xs font-bold bg-secondary/10 px-2 py-1 rounded-full">Steady</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Live</p>
+<p class="text-3xl font-[800] tracking-tight brand-font">89</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_20px_40px_rgba(10,27,57,0.06)] flex flex-col justify-between">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-tertiary/10 rounded-lg">
+<span class="material-symbols-outlined text-tertiary" data-icon="hourglass_empty">hourglass_empty</span>
+</div>
+<span class="text-tertiary text-xs font-bold bg-tertiary/10 px-2 py-1 rounded-full">12 New</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Pending review</p>
+<p class="text-3xl font-[800] tracking-tight brand-font">32</p>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_20px_40px_rgba(10,27,57,0.06)] flex flex-col justify-between">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary" data-icon="forum">forum</span>
+</div>
+<span class="text-error text-xs font-bold bg-error/10 px-2 py-1 rounded-full">High</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Inquiries this week</p>
+<p class="text-3xl font-[800] tracking-tight brand-font">412</p>
+</div>
+</div>
+</section>
+<!-- Main Bento Grid Section -->
+<div class="grid grid-cols-12 gap-10">
+<!-- Left Column: Listings -->
+<section class="col-span-8 space-y-6">
+<div class="flex items-center justify-between">
+<h2 class="text-2xl font-bold tracking-tight">Your listings at a glance</h2>
+<button class="text-primary font-bold text-sm hover:underline">View all</button>
+</div>
+<div class="space-y-4">
+<!-- Property Card 1 -->
+<div class="group bg-surface-container-lowest p-4 rounded-xl flex items-center gap-6 shadow-[0_10px_30px_rgba(10,27,57,0.04)] hover:shadow-lg transition-all border-l-4 border-secondary">
+<div class="w-24 h-24 rounded-lg overflow-hidden shrink-0">
+<img alt="Listing thumbnail" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="luxury modern hillside villa with glass walls and large infinity pool during dusk with warm interior lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvOtoqf-JGT6gO4RiykKiUAdXpzPrOSNL0hLHzpn4a8_1quCbc9_qxm31BMZIjqrYiisRTzu5asoQ2CTvJkDr3vCKRJbgQUEcyL7o9O5Dnzr8fWo9sk0RNgFoqngDXcBEqn88j2t33mGtD3ZFEHzf6uYaIvqd_yPOZjfvueCqrUqMeMGhRyQDsthVlglfLYLGvvJrPu1zipiClD3r4zsvxl78NdiCF52QkI424jywHONMt90TliLTVhVlIMAym-XRkX0oCDQAtV1pr"/>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-secondary-container text-on-secondary-container text-[10px] font-[800] px-2 py-0.5 rounded-full uppercase tracking-widest">Live</span>
+<span class="text-xs text-on-surface-variant font-medium">Ref: AUP-2041</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface">The Horizon Heights Villa</h3>
+<p class="text-sm text-on-surface-variant">Beverly Hills, CA • $4,250,000</p>
+</div>
+<div class="flex items-center gap-4 px-6 border-x border-outline-variant/20 h-full py-2">
+<div class="text-center">
+<p class="text-xs font-bold text-on-surface-variant">Views</p>
+<p class="text-lg font-bold">1.2k</p>
+</div>
+<div class="text-center">
+<p class="text-xs font-bold text-on-surface-variant">Inquiries</p>
+<p class="text-lg font-bold">24</p>
+</div>
+</div>
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<!-- Property Card 2 -->
+<div class="group bg-surface-container-lowest p-4 rounded-xl flex items-center gap-6 shadow-[0_10px_30px_rgba(10,27,57,0.04)] hover:shadow-lg transition-all border-l-4 border-tertiary">
+<div class="w-24 h-24 rounded-lg overflow-hidden shrink-0">
+<img alt="Listing thumbnail" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="sleek contemporary suburban home with sharp architectural lines, dark siding, and manicured green lawn under a bright clear sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQXX-DUUT8FFGp1yFoggcxY1w8rPnQmugiA39RtpjD-fp5EMeseqB4Om-4C8ps4Ogi3KT76RaVmrVyA93PpiYpz-eNp9FetVkDsKl5ESC0-k5PyeTx4av2S4NOE4Szbk8XNCu5el3tGq1psvuwwyZHTHFL2bf7fhHeeifs5cSqX0et_PG6nsJnQvbve_MygetrNe3JXFlU71CQTsQDFpvKCF38PdnLQPlOM3eKfrGl3WUbK4WLhRiw3ABh7-xoXljhXb2hpm4ocLhf"/>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-tertiary-container text-on-tertiary-container text-[10px] font-[800] px-2 py-0.5 rounded-full uppercase tracking-widest">Pending</span>
+<span class="text-xs text-on-surface-variant font-medium">Ref: AUP-9812</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface">Oakwood Estate Loft</h3>
+<p class="text-sm text-on-surface-variant">Austin, TX • $850,000</p>
+</div>
+<div class="flex items-center gap-4 px-6 border-x border-outline-variant/20 h-full py-2">
+<div class="text-center opacity-40">
+<p class="text-xs font-bold text-on-surface-variant">Views</p>
+<p class="text-lg font-bold">0</p>
+</div>
+<div class="text-center opacity-40">
+<p class="text-xs font-bold text-on-surface-variant">Inquiries</p>
+<p class="text-lg font-bold">0</p>
+</div>
+</div>
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<!-- Property Card 3 -->
+<div class="group bg-surface-container-lowest p-4 rounded-xl flex items-center gap-6 shadow-[0_10px_30px_rgba(10,27,57,0.04)] hover:shadow-lg transition-all border-l-4 border-secondary">
+<div class="w-24 h-24 rounded-lg overflow-hidden shrink-0">
+<img alt="Listing thumbnail" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="architectural rendering of a coastal minimalist house with clean white concrete walls and large wrap-around balcony overlooking a blue ocean" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7ef-oY0BFyhi7co_3x27pQ3N3rf1Nze8LBKa-yvfZ5765_-yqcqQ9KkYifl8Njn6xd7qnQuQB5onG7JKrkMVNnOaEfDbqNl7NGXXHVzLLg8322xuFmLMdREFkRUfefJsq4RYqBbk2rJcTgJ0nQhh0TcBve-ZEqRSyeDyqHPPLXU73l2O4q6ySUbk_HU16g70MfGVek3Y55awFF4YAm8Mr1r5yevEcD-pJZhDZwpeJGdTS9ucxRih7JDhdzvJT-PSVRd77FnoYbsyL"/>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-secondary-container text-on-secondary-container text-[10px] font-[800] px-2 py-0.5 rounded-full uppercase tracking-widest">Live</span>
+<span class="text-xs text-on-surface-variant font-medium">Ref: AUP-1102</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface">Blue Coast Retreat</h3>
+<p class="text-sm text-on-surface-variant">Malibu, CA • $2,100,000</p>
+</div>
+<div class="flex items-center gap-4 px-6 border-x border-outline-variant/20 h-full py-2">
+<div class="text-center">
+<p class="text-xs font-bold text-on-surface-variant">Views</p>
+<p class="text-lg font-bold">842</p>
+</div>
+<div class="text-center">
+<p class="text-xs font-bold text-on-surface-variant">Inquiries</p>
+<p class="text-lg font-bold">12</p>
+</div>
+</div>
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<div class="pt-6">
+<button class="w-full py-4 rounded-xl border-2 border-dashed border-outline-variant text-on-surface-variant font-bold text-sm hover:bg-surface-container-low hover:border-primary/50 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add_circle</span>
+                        Create a New Listing
+                    </button>
+</div>
+</section>
+<!-- Right Column: Activity & Performance -->
+<section class="col-span-4 space-y-10">
+<!-- Performance CTA -->
+<div class="bg-gradient-to-br from-primary to-primary-container p-8 rounded-xl text-white shadow-xl shadow-primary/20 relative overflow-hidden group">
+<div class="relative z-10">
+<h3 class="text-2xl font-extrabold mb-2 tracking-tight">Intelligence Report</h3>
+<p class="text-white/80 text-sm mb-6 leading-relaxed">Your portfolio exposure has increased by 14% since last month.</p>
+<button class="w-full bg-white text-primary font-bold py-3 rounded-full hover:bg-white/90 active:scale-95 transition-all">
+                            View performance
+                        </button>
+</div>
+<div class="absolute -bottom-4 -right-4 opacity-10 group-hover:scale-110 transition-transform duration-700">
+<span class="material-symbols-outlined text-[120px]" data-icon="trending_up">trending_up</span>
+</div>
+</div>
+<!-- Recent Activity -->
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="text-lg font-bold tracking-tight">Recent activity</h3>
+<button class="text-xs font-bold uppercase tracking-widest text-slate-400">Clear</button>
+</div>
+<div class="space-y-6 border-l-2 border-surface-container-high pl-6 ml-2">
+<!-- Activity 1 -->
+<div class="relative">
+<div class="absolute -left-[31px] top-0 w-3 h-3 bg-secondary rounded-full ring-4 ring-surface"></div>
+<p class="text-xs font-bold text-on-surface-variant mb-1">2 hours ago</p>
+<p class="text-sm font-semibold text-on-surface">New inquiry received</p>
+<p class="text-xs text-on-surface-variant">Horizon Heights Villa • David S.</p>
+</div>
+<!-- Activity 2 -->
+<div class="relative">
+<div class="absolute -left-[31px] top-0 w-3 h-3 bg-tertiary rounded-full ring-4 ring-surface"></div>
+<p class="text-xs font-bold text-on-surface-variant mb-1">5 hours ago</p>
+<p class="text-sm font-semibold text-on-surface">Submitted listing for review</p>
+<p class="text-xs text-on-surface-variant">Oakwood Estate Loft • Admin audit</p>
+</div>
+<!-- Activity 3 -->
+<div class="relative">
+<div class="absolute -left-[31px] top-0 w-3 h-3 bg-primary rounded-full ring-4 ring-surface"></div>
+<p class="text-xs font-bold text-on-surface-variant mb-1">Yesterday</p>
+<p class="text-sm font-semibold text-on-surface">Price adjustment approved</p>
+<p class="text-xs text-on-surface-variant">Blue Coast Retreat • Marketplace team</p>
+</div>
+<!-- Activity 4 -->
+<div class="relative opacity-50">
+<div class="absolute -left-[31px] top-0 w-3 h-3 bg-slate-300 rounded-full ring-4 ring-surface"></div>
+<p class="text-xs font-bold text-on-surface-variant mb-1">2 days ago</p>
+<p class="text-sm font-semibold text-on-surface">Monthly report generated</p>
+</div>
+</div>
+</div>
+<!-- Small Chart Placeholder -->
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">Traffic Insights</p>
+<div class="flex items-end gap-1 h-12 mb-2">
+<div class="flex-1 bg-primary/20 rounded-t h-[40%]"></div>
+<div class="flex-1 bg-primary/30 rounded-t h-[60%]"></div>
+<div class="flex-1 bg-primary/40 rounded-t h-[35%]"></div>
+<div class="flex-1 bg-primary/50 rounded-t h-[80%]"></div>
+<div class="flex-1 bg-primary rounded-t h-[100%]"></div>
+<div class="flex-1 bg-primary/70 rounded-t h-[55%]"></div>
+<div class="flex-1 bg-primary/40 rounded-t h-[40%]"></div>
+</div>
+<div class="flex justify-between text-[10px] font-bold text-on-surface-variant">
+<span>MON</span>
+<span>SUN</span>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>

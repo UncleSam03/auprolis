@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Auprolis Admin Console | Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "outline-variant": "#c4c5d8",
+              "on-tertiary-container": "#fffbff",
+              "primary-fixed-dim": "#b9c3ff",
+              "surface": "#f9f9ff",
+              "primary": "#264bdd",
+              "primary-fixed": "#dee1ff",
+              "error-container": "#ffdad6",
+              "surface-container": "#e9edff",
+              "secondary-container": "#6df5e1",
+              "inverse-on-surface": "#edf0ff",
+              "on-secondary": "#ffffff",
+              "tertiary": "#6b38d4",
+              "on-surface": "#141b2b",
+              "secondary-fixed": "#71f8e4",
+              "outline": "#747686",
+              "tertiary-fixed": "#e9ddff",
+              "inverse-primary": "#b9c3ff",
+              "surface-container-lowest": "#ffffff",
+              "surface-bright": "#f9f9ff",
+              "on-error": "#ffffff",
+              "on-secondary-container": "#006f64",
+              "on-tertiary": "#ffffff",
+              "surface-tint": "#2a4edf",
+              "on-error-container": "#93000a",
+              "on-surface-variant": "#444655",
+              "surface-variant": "#dce2f7",
+              "on-tertiary-fixed": "#23005c",
+              "on-tertiary-fixed-variant": "#5516be",
+              "tertiary-container": "#8455ef",
+              "tertiary-fixed-dim": "#d0bcff",
+              "primary-container": "#4666f7",
+              "on-primary-fixed-variant": "#0033c2",
+              "inverse-surface": "#293040",
+              "on-background": "#141b2b",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed-variant": "#005048",
+              "on-primary-container": "#fffbff",
+              "secondary": "#006b5f",
+              "on-secondary-fixed": "#00201c",
+              "surface-container-low": "#f1f3ff",
+              "on-primary-fixed": "#001258",
+              "secondary-fixed-dim": "#4fdbc8",
+              "background": "#f9f9ff",
+              "surface-dim": "#d3daef",
+              "surface-container-highest": "#dce2f7",
+              "surface-container-high": "#e1e8fd",
+              "error": "#ba1a1a"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+        .glass-effect {
+            backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-[#0F1F3D] flex flex-col py-6 z-50">
+<div class="px-6 mb-10">
+<h1 class="text-2xl font-black text-white tracking-tight">Auprolis</h1>
+<p class="text-white/60 text-[10px] font-label tracking-widest uppercase mt-1">Admin Console</p>
+</div>
+<nav class="flex-1 flex flex-col gap-1 overflow-y-auto px-2">
+<!-- Active Navigation -->
+<a class="flex items-center gap-3 bg-[#4B6BFB]/15 text-[#4B6BFB] border-r-4 border-[#4B6BFB] px-4 py-3 font-bold transition-transform scale-102" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label text-xs tracking-widest uppercase">Overview</span>
+</a>
+<!-- Inactive Navigations -->
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+<span class="font-label text-xs tracking-widest uppercase">Listings</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+<span class="font-label text-xs tracking-widest uppercase">Pending Review</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label text-xs tracking-widest uppercase">Users</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+<span class="font-label text-xs tracking-widest uppercase">Agents / Institutions</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+<span class="font-label text-xs tracking-widest uppercase">Audit Log</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="font-label text-xs tracking-widest uppercase">Reports</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-label text-xs tracking-widest uppercase">Notifications</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label text-xs tracking-widest uppercase">Settings</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:text-white hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label text-xs tracking-widest uppercase">Account</span>
+</a>
+</nav>
+<div class="mt-auto px-2">
+<div class="flex items-center gap-3 text-white/60 px-4 py-3 rounded hover:bg-white/5 transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-label text-xs tracking-widest uppercase">Superadmin</span>
+</div>
+</div>
+</aside>
+<!-- Main Wrapper -->
+<div class="ml-[260px] flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center px-8 py-4 sticky top-0 z-40 bg-[#F7F9FD] dark:bg-slate-900">
+<div class="flex-1 max-w-2xl">
+<div class="relative flex items-center group">
+<span class="material-symbols-outlined absolute left-4 text-outline" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-md py-3 pl-12 pr-4 focus:ring-2 focus:ring-[#4B6BFB]/30 font-body text-sm text-on-surface-variant transition-all" placeholder="Search listings, users, IDs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6 ml-8">
+<button class="flex items-center gap-2 text-slate-500 hover:text-[#264BDD] transition-colors font-medium text-sm">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                    Sign Out
+                </button>
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="professional portrait of a system administrator in a corporate setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWws_7JjV5tKywwAWa_bwXAmxRcXVwpg64Oyfo7J0bcHiDzx4iJhmKBnNkdxyG2gpVwtnEaO5J61QulsOeeMyJxwPCJiE0Rv_TUZOy7GnLqNLLE15XJihNg5RQk7LNOSfIvvhNVmvCT6nvA25cmTJtWV8RVn1OWJxA9tWHyNETV4fo9INEuwltVfJTgLTZEwNLWDx8XEWt2koE-L7oWJFhGPNVnexgOfvQ1Z9PMMsBFRhpUx1Ye588CrMWIRhQ6XQ5FvVQ1sfaNKkF"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 px-8 py-10 max-w-[1600px]">
+<!-- Page Header -->
+<div class="mb-12">
+<h2 class="text-4xl font-extrabold text-on-surface tracking-tight mb-2">Admin Console</h2>
+<p class="text-on-surface-variant text-lg">System control and moderation.</p>
+</div>
+<!-- KPI Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+<!-- KPI 1 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl flex flex-col gap-4 relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label text-[10px] tracking-widest text-on-surface-variant uppercase">Pending Listings</span>
+<div class="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-600">
+<span class="material-symbols-outlined" data-icon="hourglass_empty">hourglass_empty</span>
+</div>
+</div>
+<div class="flex items-baseline gap-3">
+<span class="text-4xl font-extrabold text-on-surface tracking-tight">48</span>
+<span class="bg-amber-100 text-amber-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-tighter">Requires Action</span>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl flex flex-col gap-4 relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label text-[10px] tracking-widest text-on-surface-variant uppercase">Live Listings</span>
+<div class="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-600">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</div>
+</div>
+<div class="flex items-baseline gap-3">
+<span class="text-4xl font-extrabold text-on-surface tracking-tight">1,204</span>
+<span class="text-emerald-600 text-xs font-semibold">+12% vs last month</span>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl flex flex-col gap-4 relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label text-[10px] tracking-widest text-on-surface-variant uppercase">Active Users</span>
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+</div>
+</div>
+<div class="flex items-baseline gap-3">
+<span class="text-4xl font-extrabold text-on-surface tracking-tight">8,432</span>
+<span class="text-on-surface-variant text-xs">84% verified</span>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl flex flex-col gap-4 relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label text-[10px] tracking-widest text-on-surface-variant uppercase">Open Inquiries</span>
+<div class="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-600">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</div>
+</div>
+<div class="flex items-baseline gap-3">
+<span class="text-4xl font-extrabold text-on-surface tracking-tight">12</span>
+<span class="bg-amber-100 text-amber-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-tighter">High Priority</span>
+</div>
+</div>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-12 gap-10">
+<!-- Chart Area (Col 8) -->
+<div class="col-span-12 lg:col-span-8">
+<div class="bg-surface-container-lowest p-8 rounded-xl h-full">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h3 class="text-xl font-bold text-on-surface">Platform Activity</h3>
+<p class="text-sm text-on-surface-variant">Listings Submitted vs. Approved</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-xs font-medium text-on-surface-variant">Submitted</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary-fixed-dim"></span>
+<span class="text-xs font-medium text-on-surface-variant">Approved</span>
+</div>
+</div>
+</div>
+<!-- Visual Representation of a Chart -->
+<div class="w-full h-80 relative flex items-end justify-between gap-2 px-2 mt-4">
+<div class="absolute inset-0 flex flex-col justify-between py-1 opacity-20 pointer-events-none">
+<div class="border-t border-outline-variant w-full"></div>
+<div class="border-t border-outline-variant w-full"></div>
+<div class="border-t border-outline-variant w-full"></div>
+<div class="border-t border-outline-variant w-full"></div>
+</div>
+<!-- Bar Placeholder Pairs -->
+<div class="flex flex-col flex-1 gap-1 items-center max-w-[40px]">
+<div class="w-full bg-primary h-[60%] rounded-t-sm opacity-90 transition-all hover:opacity-100"></div>
+<div class="w-full bg-secondary-fixed-dim h-[45%] rounded-t-sm opacity-90 transition-all hover:opacity-100"></div>
+</div>
+<div class="flex flex-col flex-1 gap-1 items-center max-w-[40px]">
+<div class="w-full bg-primary h-[85%] rounded-t-sm opacity-90 transition-all hover:opacity-100"></div>
+<div class="w-full bg-secondary-fixed-dim h-[70%] rounded-t-sm opacity-90 transition-all hover:opacity-100"></div>
+</div>
+<div class="flex flex-col flex-1 gap-1 items-center max-w-[40px]">
+<div class="w-full bg-primary h-[40%] rounded-t-sm opacity-90 transition-all hover:opacity-100"></div>
+<div class="w-full bg-secondary-fixed-dim h-[35%] rounded-t-sm opacity-90 transition-all hover:opacity-100"></div>
+</div>
+<div class="flex flex-col flex-1 gap-1 items-center max-w-[40px]">
+<div class="w-full bg-primary h-[75%] rounded-t-sm opacity-90 transition-all hover:opacity-100"></div>
+<div class="w-full bg-secondary-fixed-dim h-[65%] rounded-t-sm opacity-90 transition-all hover:opacity-100"></div>
+</div>
+<div class="flex flex-col flex-1 gap-1 items-center max-w-[40px]">
+<div class="w-full bg-primary h-[95%] rounded-t-sm opacity-90 transition-all hover:opacity-100"></div>
+<div class="w-full bg-secondary-fixed-dim h-[80%] rounded-t-sm opacity-90 transition-all hover:opacity-100"></div>
+</div>
+<div class="flex flex-col flex-1 gap-1 items-center max-w-[40px]">
+<div class="w-full bg-primary h-[50%] rounded-t-sm opacity-90 transition-all hover:opacity-100"></div>
+<div class="w-full bg-secondary-fixed-dim h-[40%] rounded-t-sm opacity-90 transition-all hover:opacity-100"></div>
+</div>
+<div class="flex flex-col flex-1 gap-1 items-center max-w-[40px]">
+<div class="w-full bg-primary h-[65%] rounded-t-sm opacity-90 transition-all hover:opacity-100"></div>
+<div class="w-full bg-secondary-fixed-dim h-[55%] rounded-t-sm opacity-90 transition-all hover:opacity-100"></div>
+</div>
+<div class="flex flex-col flex-1 gap-1 items-center max-w-[40px]">
+<div class="w-full bg-primary h-[80%] rounded-t-sm opacity-90 transition-all hover:opacity-100"></div>
+<div class="w-full bg-secondary-fixed-dim h-[60%] rounded-t-sm opacity-90 transition-all hover:opacity-100"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Required List (Col 4) -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<div class="bg-surface-container-lowest p-8 rounded-xl h-full flex flex-col">
+<div class="mb-8">
+<span class="font-label text-[10px] tracking-widest text-on-surface-variant uppercase block mb-1">Latest Pending Moderation</span>
+<h3 class="text-xl font-bold text-on-surface">Action Required</h3>
+</div>
+<div class="flex flex-col gap-6 flex-1">
+<!-- Row 1: Pending Listing -->
+<div class="group flex items-center justify-between p-4 rounded-xl transition-colors hover:bg-surface-container-low">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="home_work">home_work</span>
+</div>
+<div>
+<p class="font-bold text-sm text-on-surface">Gaborone West Industrial - Auction</p>
+<p class="text-xs text-on-surface-variant">Listing Review</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center hover:scale-105 transition-transform" title="Approve">
+<span class="material-symbols-outlined text-sm" data-icon="check">check</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-error-container text-error flex items-center justify-center hover:scale-105 transition-transform" title="Reject">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+</button>
+</div>
+</div>
+<!-- Row 2: Flagged User -->
+<div class="group flex items-center justify-between p-4 rounded-xl transition-colors hover:bg-surface-container-low">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="close up of a young man with glasses and casual attire looking into camera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCz9bocU9D4EsQx1IS6d-Pmu-_B-hn0Ej_qllqSlT7zRk_BXZQ5sys2f8xlKKK89aFhPi7lVBCgl8NpYjwfpJd87mi9LZmiPWjgO2szoZf-Q_saMbKROglUFH9hbm-fj7dDWlmN8AeVhtXF2BRXy4euYVPyDOtTPG6FoVbi8SdGHuE4MfcGCFl9nwKE_97vMkYQooP5ucYEnySFqd7ceGtDU3nrns4yg30GNzUvLUpB3inhlmV8RbDUnLEUJOMNy3jviXZvIOBhnyT7"/>
+</div>
+<div>
+<p class="font-bold text-sm text-on-surface">JD (John Doe)</p>
+<p class="text-xs text-error font-medium">Flagged Account</p>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded-full bg-surface-container-high text-on-primary-fixed-variant text-[10px] font-bold uppercase tracking-widest hover:scale-105 transition-transform">
+                                    Review
+                                </button>
+</div>
+<!-- Row 3: Document Review -->
+<div class="group flex items-center justify-between p-4 rounded-xl transition-colors hover:bg-surface-container-low">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded bg-surface-container-low flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<p class="font-bold text-sm text-on-surface">First Capital Bank</p>
+<p class="text-xs text-on-surface-variant">Institution Verification</p>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded-full bg-primary text-white text-[10px] font-bold uppercase tracking-widest hover:scale-105 transition-transform">
+                                    Verify
+                                </button>
+</div>
+</div>
+<a class="mt-10 w-full py-4 bg-[#4B6BFB] text-white rounded-md text-sm font-bold flex items-center justify-center gap-2 group hover:bg-[#264BDD] transition-all" href="#">
+                            Open Moderation Queue
+                            <span class="material-symbols-outlined text-sm transition-transform group-hover:translate-x-1" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Detailed Analysis Section (Editorial Asymmetry) -->
+<div class="mt-16 grid grid-cols-12 gap-10">
+<div class="col-span-12 md:col-span-4 pr-10">
+<span class="font-label text-xs tracking-widest text-primary uppercase font-bold mb-4 block">System Integrity</span>
+<h3 class="text-3xl font-extrabold text-on-surface tracking-tight mb-6">Distressed Asset Intelligence</h3>
+<p class="text-on-surface-variant leading-relaxed mb-6">The Auprolis Admin Console provides sovereign control over the property moderation pipeline. Ensure all legal documentation is verified against the institutional registry before final approval.</p>
+<div class="w-24 h-1 bg-primary/20 rounded-full"></div>
+</div>
+<div class="col-span-12 md:col-span-8">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+<div class="bg-surface-container-lowest p-10 rounded-xl relative overflow-hidden">
+<span class="material-symbols-outlined absolute -top-4 -right-4 text-primary/5 text-8xl" data-icon="security">security</span>
+<h4 class="text-lg font-bold mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="verified_user">verified_user</span>
+                                Compliance Check
+                            </h4>
+<p class="text-sm text-on-surface-variant">Real-time cross-referencing with national property databases for all auction-based listings.</p>
+</div>
+<div class="bg-surface-container-lowest p-10 rounded-xl relative overflow-hidden">
+<span class="material-symbols-outlined absolute -top-4 -right-4 text-tertiary/5 text-8xl" data-icon="gavel">gavel</span>
+<h4 class="text-lg font-bold mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary" data-icon="gavel">gavel</span>
+                                Legal Oversight
+                            </h4>
+<p class="text-sm text-on-surface-variant">Administrative logs capture all moderation decisions with encrypted audit trails for institutional accountability.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

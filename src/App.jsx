@@ -14,6 +14,27 @@ import Notifications from '@/pages/dashboard/Notifications';
 import AccountBilling from '@/pages/dashboard/AccountBilling';
 import PropertyDetailGated from '@/pages/dashboard/PropertyDetailGated';
 
+/* Seller Dashboard System */
+import SellerDashboardHome from '@/pages/dashboard/seller/SellerDashboardHome';
+import SellerListings from '@/pages/dashboard/seller/SellerListings';
+import NewListingStep1 from '@/pages/dashboard/seller/NewListingStep1';
+import NewListingStep2 from '@/pages/dashboard/seller/NewListingStep2';
+import NewListingStep3 from '@/pages/dashboard/seller/NewListingStep3';
+import NewListingStep4 from '@/pages/dashboard/seller/NewListingStep4';
+import SellerListingDetail from '@/pages/dashboard/seller/SellerListingDetail';
+import SellerPerformance from '@/pages/dashboard/seller/SellerPerformance';
+import SellerInquiries from '@/pages/dashboard/seller/SellerInquiries';
+import SellerDocuments from '@/pages/dashboard/seller/SellerDocuments';
+import SellerNotifications from '@/pages/dashboard/seller/SellerNotifications';
+import SellerAccount from '@/pages/dashboard/seller/SellerAccount';
+
+/* Admin Dashboard System */
+import AdminHome from '@/pages/dashboard/admin/AdminHome';
+import AdminListings from '@/pages/dashboard/admin/AdminListings';
+import AdminListingReview from '@/pages/dashboard/admin/AdminListingReview';
+import AdminUsers from '@/pages/dashboard/admin/AdminUsers';
+
+
 import AdminDashboard from '@/pages/AdminDashboard';
 import AgentDashboard from '@/pages/AgentDashboard';
 import AdminSetup from '@/pages/AdminSetup';
@@ -50,12 +71,16 @@ const ProtectedRoute = ({ children, allowedTypes = [] }) => {
     if (!profile) {
       return <div className="p-10 text-center">Loading profile…</div>;
     }
-    const matchesRole =
-      allowedTypes.includes(profile.user_type) ||
-      (allowedTypes.includes('seller') && SELLER_ROLES.includes(profile.user_type));
+    
+    const isSellerRole = SELLER_ROLES.includes(profile.user_type);
+    const matchesRole = 
+      allowedTypes.includes(profile.user_type) || 
+      (allowedTypes.includes('seller') && isSellerRole);
+    
     if (!matchesRole) {
+      // Redirect to correct dashboard based on actual role
       if (profile.user_type === 'admin') return <Navigate to="/admin" replace />;
-      if (SELLER_ROLES.includes(profile.user_type)) return <Navigate to="/seller-dashboard" replace />;
+      if (isSellerRole) return <Navigate to="/seller" replace />;
       return <Navigate to="/dashboard" replace />;
     }
   }
@@ -102,15 +127,32 @@ function AppRoutes() {
         <Route path="/account" element={<ProtectedRoute><AccountBilling /></ProtectedRoute>} />
         <Route path="/property/:id" element={<ProtectedRoute><PropertyDetailGated /></ProtectedRoute>} />
         
+        {/* Seller Dashboard Routes */}
+        <Route path="/seller" element={<ProtectedRoute allowedTypes={['seller']}><SellerDashboardHome /></ProtectedRoute>} />
+        <Route path="/seller/listings" element={<ProtectedRoute allowedTypes={['seller']}><SellerListings /></ProtectedRoute>} />
+        <Route path="/seller/listings/new/step-1" element={<ProtectedRoute allowedTypes={['seller']}><NewListingStep1 /></ProtectedRoute>} />
+        <Route path="/seller/listings/new/step-2" element={<ProtectedRoute allowedTypes={['seller']}><NewListingStep2 /></ProtectedRoute>} />
+        <Route path="/seller/listings/new/step-3" element={<ProtectedRoute allowedTypes={['seller']}><NewListingStep3 /></ProtectedRoute>} />
+        <Route path="/seller/listings/new/step-4" element={<ProtectedRoute allowedTypes={['seller']}><NewListingStep4 /></ProtectedRoute>} />
+        <Route path="/seller/listings/:id" element={<ProtectedRoute allowedTypes={['seller']}><SellerListingDetail /></ProtectedRoute>} />
+        <Route path="/seller/performance" element={<ProtectedRoute allowedTypes={['seller']}><SellerPerformance /></ProtectedRoute>} />
+        <Route path="/seller/inquiries" element={<ProtectedRoute allowedTypes={['seller']}><SellerInquiries /></ProtectedRoute>} />
+        <Route path="/seller/documents" element={<ProtectedRoute allowedTypes={['seller']}><SellerDocuments /></ProtectedRoute>} />
+        <Route path="/seller/notifications" element={<ProtectedRoute allowedTypes={['seller']}><SellerNotifications /></ProtectedRoute>} />
+        <Route path="/seller/account" element={<ProtectedRoute allowedTypes={['seller']}><SellerAccount /></ProtectedRoute>} />
+
         {/* Legacy / Role Specific Dashboards */}
         <Route 
           path="/seller-dashboard" 
-          element={<ProtectedRoute allowedTypes={['seller']}><SellerDashboard /></ProtectedRoute>} 
+          element={<Navigate to="/seller" replace />} 
         />
-        <Route 
-          path="/admin" 
-          element={<ProtectedRoute allowedTypes={['admin']}><AdminDashboard /></ProtectedRoute>} 
-        />
+        {/* New Admin Dashboard Routes */}
+        <Route path="/admin" element={<ProtectedRoute allowedTypes={['admin']}><AdminHome /></ProtectedRoute>} />
+        <Route path="/admin/listings" element={<ProtectedRoute allowedTypes={['admin']}><AdminListings /></ProtectedRoute>} />
+        <Route path="/admin/listings/pending" element={<ProtectedRoute allowedTypes={['admin']}><AdminListings /></ProtectedRoute>} />
+        <Route path="/admin/listings/review/:id" element={<ProtectedRoute allowedTypes={['admin']}><AdminListingReview /></ProtectedRoute>} />
+        <Route path="/admin/users" element={<ProtectedRoute allowedTypes={['admin']}><AdminUsers /></ProtectedRoute>} />
+
         
         <Route path="/agent-dashboard" element={<ProtectedRoute><AgentDashboard /></ProtectedRoute>} /> 
         <Route path="/setup-admin" element={<AdminSetup />} />

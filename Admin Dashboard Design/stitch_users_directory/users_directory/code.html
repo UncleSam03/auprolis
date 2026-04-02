@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Users Directory | Auprolis Admin Console</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "outline-variant": "#c4c5d8",
+                        "on-tertiary-container": "#fffbff",
+                        "primary-fixed-dim": "#b9c3ff",
+                        "surface": "#f9f9ff",
+                        "primary": "#264bdd",
+                        "primary-fixed": "#dee1ff",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#e9edff",
+                        "secondary-container": "#6df5e1",
+                        "inverse-on-surface": "#edf0ff",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#6b38d4",
+                        "on-surface": "#141b2b",
+                        "secondary-fixed": "#71f8e4",
+                        "outline": "#747686",
+                        "tertiary-fixed": "#e9ddff",
+                        "inverse-primary": "#b9c3ff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f9f9ff",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#006f64",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#2a4edf",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#444655",
+                        "surface-variant": "#dce2f7",
+                        "on-tertiary-fixed": "#23005c",
+                        "on-tertiary-fixed-variant": "#5516be",
+                        "tertiary-container": "#8455ef",
+                        "tertiary-fixed-dim": "#d0bcff",
+                        "primary-container": "#4666f7",
+                        "on-primary-fixed-variant": "#0033c2",
+                        "inverse-surface": "#293040",
+                        "on-background": "#141b2b",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#005048",
+                        "on-primary-container": "#fffbff",
+                        "secondary": "#006b5f",
+                        "on-secondary-fixed": "#00201c",
+                        "surface-container-low": "#f1f3ff",
+                        "on-primary-fixed": "#001258",
+                        "secondary-fixed-dim": "#4fdbc8",
+                        "background": "#f9f9ff",
+                        "surface-dim": "#d3daef",
+                        "surface-container-highest": "#dce2f7",
+                        "surface-container-high": "#e1e8fd",
+                        "error": "#ba1a1a"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9ff; }
+        .headline-font { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-[#0F1F3D] flex flex-col py-6 z-50">
+<div class="px-6 mb-10">
+<h1 class="text-2xl font-black text-white tracking-tight headline-font">Auprolis</h1>
+<p class="text-[10px] uppercase tracking-widest text-white/40 font-bold mt-1">Admin Console</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-white/90 px-6 py-3 hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span class="text-xs font-bold tracking-widest uppercase">Overview</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-6 py-3 hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-xl">list_alt</span>
+<span class="text-xs font-bold tracking-widest uppercase">Listings</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-6 py-3 hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-xl">pending_actions</span>
+<span class="text-xs font-bold tracking-widest uppercase">Pending Review</span>
+</a>
+<!-- Active Tab: Users -->
+<a class="flex items-center gap-3 bg-[#4B6BFB]/15 text-[#4B6BFB] border-r-4 border-[#4B6BFB] px-6 py-3 font-bold" href="#">
+<span class="material-symbols-outlined text-xl">group</span>
+<span class="text-xs font-bold tracking-widest uppercase">Users</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-6 py-3 hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-xl">account_balance</span>
+<span class="text-xs font-bold tracking-widest uppercase">Agents / Institutions</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-6 py-3 hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-xl">history_edu</span>
+<span class="text-xs font-bold tracking-widest uppercase">Audit Log</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-6 py-3 hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-xl">assessment</span>
+<span class="text-xs font-bold tracking-widest uppercase">Reports</span>
+</a>
+<a class="flex items-center gap-3 text-white/90 px-6 py-3 hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-xl">notifications</span>
+<span class="text-xs font-bold tracking-widest uppercase">Notifications</span>
+</a>
+</nav>
+<div class="mt-auto px-6 space-y-1">
+<a class="flex items-center gap-3 text-white/90 px-4 py-3 hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-xl">settings</span>
+<span class="text-xs font-bold tracking-widest uppercase">Settings</span>
+</a>
+<div class="pt-4 mt-4 border-t border-white/10">
+<div class="flex items-center gap-3 px-4 py-2">
+<span class="material-symbols-outlined text-[#4B6BFB]">admin_panel_settings</span>
+<span class="text-[10px] font-black tracking-widest text-white uppercase">Superadmin</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 left-[260px] right-0 bg-[#F7F9FD] h-[72px] flex items-center justify-between px-10 z-40">
+<div class="flex items-center bg-surface-container-low px-4 py-2 rounded-lg w-96 transition-all focus-within:ring-2 focus-within:ring-[#4B6BFB]/30">
+<span class="material-symbols-outlined text-outline mr-2 text-xl">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full text-on-surface-variant font-body" placeholder="Search by email, name..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-6 w-[1px] bg-outline-variant/30"></div>
+<button class="text-slate-500 font-bold text-sm hover:text-[#264BDD] transition-colors">Sign Out</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-[260px] pt-[72px] min-h-screen px-10 pb-12">
+<!-- Editorial Header Area -->
+<section class="py-10">
+<div class="flex items-end justify-between">
+<div>
+<span class="label-md text-[11px] font-black tracking-[0.2em] text-primary uppercase mb-2 block">Executive Directory</span>
+<h1 class="text-4xl headline-font font-extrabold tracking-tight text-on-surface">Community Management</h1>
+<p class="text-on-surface-variant mt-2 text-lg font-light">Monitor and verify user accounts across the Botswana real estate ecosystem.</p>
+</div>
+<div class="flex gap-4">
+<button class="bg-surface-container-high text-on-primary-fixed-variant px-6 py-3 rounded-md font-bold text-sm transition-transform active:scale-95">Export Report</button>
+<button class="bg-gradient-to-br from-primary to-primary-container text-white px-6 py-3 rounded-md font-bold text-sm shadow-lg shadow-primary/20 transition-transform hover:scale-102 active:scale-98 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">person_add</span>
+                        Create Account
+                    </button>
+</div>
+</div>
+</section>
+<!-- Filters Toolbar -->
+<section class="bg-surface-container-lowest rounded-xl p-6 mb-8 flex flex-wrap gap-8 items-center">
+<div class="space-y-1">
+<label class="text-[10px] font-bold text-outline uppercase tracking-wider">Account Role</label>
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold text-on-surface">Role: All</span>
+<span class="material-symbols-outlined text-sm text-outline">expand_more</span>
+</div>
+</div>
+<div class="w-[1px] h-8 bg-surface-container"></div>
+<div class="space-y-1">
+<label class="text-[10px] font-bold text-outline uppercase tracking-wider">Verification Status</label>
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold text-on-surface">Status: All</span>
+<span class="material-symbols-outlined text-sm text-outline">expand_more</span>
+</div>
+</div>
+<div class="w-[1px] h-8 bg-surface-container"></div>
+<div class="space-y-1">
+<label class="text-[10px] font-bold text-outline uppercase tracking-wider">Plan Tier</label>
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold text-on-surface">Any Tier</span>
+<span class="material-symbols-outlined text-sm text-outline">expand_more</span>
+</div>
+</div>
+<div class="ml-auto">
+<button class="text-primary text-xs font-bold uppercase tracking-widest flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                    Advanced Filters
+                </button>
+</div>
+</section>
+<!-- Users Data Table -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse font-body">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.1em] text-outline-variant">User</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.1em] text-outline-variant">Email</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.1em] text-outline-variant">Role</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.1em] text-outline-variant">Institution</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.1em] text-outline-variant">Plan Tier</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.1em] text-outline-variant">Joined Date</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.1em] text-outline-variant">Status</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.1em] text-outline-variant text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold headline-font">
+                                    LM
+                                </div>
+<span class="font-bold text-on-surface">Lesedi Moloi</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">l.moloi@fnb.bw</td>
+<td class="px-6 py-5">
+<span class="text-xs px-3 py-1 bg-tertiary/10 text-tertiary-container rounded-full font-bold uppercase tracking-wider">Agent</span>
+</td>
+<td class="px-6 py-5 text-sm font-medium">FNB Botswana</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-sm font-bold">Enterprise</span>
+<span class="text-[10px] text-outline">$45/mo</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Oct 12, 2023</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-xs font-bold text-emerald-700 uppercase">Active</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="p-2 hover:bg-white rounded-full transition-all opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-outline">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary font-bold headline-font">
+                                    TN
+                                </div>
+<span class="font-bold text-on-surface">Thabo Ntsite</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">thabo.n@property.co.bw</td>
+<td class="px-6 py-5">
+<span class="text-xs px-3 py-1 bg-primary/10 text-primary rounded-full font-bold uppercase tracking-wider">Seller</span>
+</td>
+<td class="px-6 py-5 text-sm font-medium">—</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-sm font-bold">Pro 30</span>
+<span class="text-[10px] text-outline">$30/mo</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Nov 04, 2023</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-xs font-bold text-emerald-700 uppercase">Active</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="p-2 hover:bg-white rounded-full transition-all opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-outline">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-error-container/20 flex items-center justify-center text-error font-bold headline-font">
+                                    KK
+                                </div>
+<span class="font-bold text-on-surface">Kabelo Kebone</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">kabelo.k@outlook.com</td>
+<td class="px-6 py-5">
+<span class="text-xs px-3 py-1 bg-outline-variant/20 text-outline rounded-full font-bold uppercase tracking-wider">Buyer</span>
+</td>
+<td class="px-6 py-5 text-sm font-medium">—</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-sm font-bold">Basic</span>
+<span class="text-[10px] text-outline">$15/mo</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Jan 15, 2024</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+<span class="text-xs font-bold text-amber-700 uppercase">Pending</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="p-2 hover:bg-white rounded-full transition-all opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-outline">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-on-surface/5 flex items-center justify-center text-on-surface-variant font-bold headline-font">
+                                    SM
+                                </div>
+<span class="font-bold text-on-surface">Sarah Moabi</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">sarah@stanbic.bw</td>
+<td class="px-6 py-5">
+<span class="text-xs px-3 py-1 bg-tertiary/10 text-tertiary-container rounded-full font-bold uppercase tracking-wider">Admin</span>
+</td>
+<td class="px-6 py-5 text-sm font-medium">Stanbic Bank</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-sm font-bold">Enterprise</span>
+<span class="text-[10px] text-outline">$45/mo</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Dec 20, 2023</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="text-xs font-bold text-error uppercase">Suspended</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="p-2 hover:bg-white rounded-full transition-all opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-outline">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Table Footer -->
+<div class="px-6 py-4 flex items-center justify-between bg-surface-container-low/50">
+<span class="text-xs font-medium text-outline">Showing 4 of 2,482 users</span>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-md hover:bg-surface-container transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<div class="flex items-center gap-1">
+<span class="w-8 h-8 flex items-center justify-center bg-primary text-white text-xs font-bold rounded-md">1</span>
+<span class="w-8 h-8 flex items-center justify-center text-xs font-bold rounded-md hover:bg-surface-container cursor-pointer transition-colors">2</span>
+<span class="w-8 h-8 flex items-center justify-center text-xs font-bold rounded-md hover:bg-surface-container cursor-pointer transition-colors">3</span>
+</div>
+<button class="p-2 rounded-md hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Metric Cluster -->
+<section class="mt-12 grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/10">
+<p class="text-[10px] font-black uppercase tracking-widest text-outline mb-2">Total Verified</p>
+<div class="flex items-end justify-between">
+<h3 class="text-3xl headline-font font-extrabold text-on-surface">2,104</h3>
+<span class="text-emerald-600 text-xs font-bold bg-emerald-50 px-2 py-1 rounded">+12%</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/10">
+<p class="text-[10px] font-black uppercase tracking-widest text-outline mb-2">Pending Approval</p>
+<div class="flex items-end justify-between">
+<h3 class="text-3xl headline-font font-extrabold text-on-surface">43</h3>
+<span class="material-symbols-outlined text-amber-500">hourglass_empty</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/10">
+<p class="text-[10px] font-black uppercase tracking-widest text-outline mb-2">Monthly Revenue</p>
+<div class="flex items-end justify-between">
+<h3 class="text-3xl headline-font font-extrabold text-on-surface">BWP 84.2k</h3>
+<span class="text-emerald-600 text-xs font-bold bg-emerald-50 px-2 py-1 rounded">+5%</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/10 relative overflow-hidden">
+<div class="absolute top-2 right-2 opacity-5">
+<span class="material-symbols-outlined text-8xl" style="font-variation-settings: 'FILL' 0;">shield</span>
+</div>
+<p class="text-[10px] font-black uppercase tracking-widest text-outline mb-2">System Health</p>
+<div class="flex items-end justify-between">
+<h3 class="text-3xl headline-font font-extrabold text-on-surface">99.9%</h3>
+<span class="text-primary text-xs font-bold">Stable</span>
+</div>
+</div>
+</section>
+</main>
+</body></html>

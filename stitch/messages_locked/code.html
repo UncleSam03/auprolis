@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Auprolis Intelligence Dossier | Messages</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed-variant": "#773200",
+                        "secondary-fixed-dim": "#b7c6ed",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb68f",
+                        "surface-container-high": "#e6e8ec",
+                        "on-surface": "#181c1f",
+                        "on-error": "#ffffff",
+                        "primary-container": "#4666f7",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#dee1ff",
+                        "on-primary-fixed-variant": "#0033c2",
+                        "on-secondary-container": "#4e5d7e",
+                        "on-secondary-fixed-variant": "#384667",
+                        "secondary-container": "#c8d7fe",
+                        "tertiary": "#994200",
+                        "surface-tint": "#2a4edf",
+                        "on-tertiary-fixed": "#331100",
+                        "outline-variant": "#c4c5d8",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#d8dade",
+                        "surface-container": "#eceef2",
+                        "inverse-primary": "#b9c3ff",
+                        "inverse-on-surface": "#eff1f5",
+                        "primary-fixed-dim": "#b9c3ff",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#fffbff",
+                        "surface-container-highest": "#e0e3e6",
+                        "tertiary-fixed": "#ffdbca",
+                        "surface-container-low": "#f2f4f8",
+                        "background": "#f7f9fd",
+                        "secondary": "#505e80",
+                        "surface": "#f7f9fd",
+                        "on-background": "#181c1f",
+                        "surface-variant": "#e0e3e6",
+                        "primary": "#264bdd",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed": "#0a1b39",
+                        "tertiary-container": "#bf5500",
+                        "surface-bright": "#f7f9fd",
+                        "inverse-surface": "#2d3134",
+                        "on-tertiary-container": "#fffbff",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-surface-variant": "#444655",
+                        "on-primary-fixed": "#001258",
+                        "on-secondary": "#ffffff",
+                        "outline": "#747686"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .connection-lines {
+            background-image: radial-gradient(circle at 1px 1px, rgba(75, 107, 251, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- SideNavBar Component -->
+<aside class="fixed left-0 top-0 h-screen w-[260px] bg-[#0F1F3D] flex flex-col py-8 justify-between z-50">
+<div class="flex flex-col gap-8">
+<!-- Brand Identity -->
+<div class="px-8">
+<h1 class="text-2xl font-black tracking-tighter text-white font-headline">AUPROLIS</h1>
+<p class="text-[10px] uppercase tracking-widest text-primary font-bold opacity-80 mt-1">Intelligence Dossier</p>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-1 pr-4">
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label text-sm">Home</span>
+</a>
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label text-sm">Search</span>
+</a>
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label text-sm">Favorites</span>
+</a>
+<!-- Active Navigation: Messages -->
+<a class="flex items-center gap-3 px-8 py-3 bg-[#4B6BFB]/15 text-[#4B6BFB] rounded-r-full border-r-4 border-[#4B6BFB] transition-all" href="#">
+<div class="relative">
+<span class="material-symbols-outlined">lock</span>
+<!-- Custom Active State Logic from prompt: active nav item with lock badge -->
+</div>
+<span class="font-label text-sm font-bold">Messages</span>
+</a>
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">lock</span>
+<span class="font-label text-sm">Documents</span>
+</a>
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label text-sm">Notifications</span>
+</a>
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label text-sm">Account</span>
+</a>
+</nav>
+</div>
+<!-- Footer Tab -->
+<div class="px-4">
+<a class="flex items-center gap-3 px-4 py-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-tertiary">workspace_premium</span>
+<div class="flex flex-col">
+<span class="text-white text-xs font-bold font-label">Free plan</span>
+<span class="text-white/40 text-[10px] uppercase tracking-tighter">Upgrade for Pro</span>
+</div>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[260px] min-h-screen bg-[#F5F7FB] relative overflow-hidden">
+<!-- TopNavBar Component -->
+<header class="flex justify-between items-center h-20 px-12 w-full sticky top-0 bg-[#F7F9FD]/70 backdrop-blur-xl z-40">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-lowest border-none rounded-xl py-3 pl-12 pr-4 text-sm focus:ring-2 focus:ring-primary/40 font-body" placeholder="Search dossier archives..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<h2 class="font-headline font-bold text-sm tracking-tight text-on-surface/80 uppercase">Dossier Explorer</h2>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">settings</span>
+</button>
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">help_outline</span>
+</button>
+<div class="ml-4 h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden border-2 border-white">
+<img class="h-full w-full object-cover" data-alt="close-up portrait of a professional male executive in a neutral grey studio setting with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOJ7687jP29yB1W2P5t4nC1xzLQHAV03kMbgs8_W9BJ4gKMO592J11BYkPUTD4seErDMrTTSlWyaExW5bKgO0mBS9mKBlb3mRFDo4F74mxLQYmf5qU0DTk7KA-zAYORCrDgz48tqt5TdMJVdW0_Ktg2v3Q5pq8kGlAA7LSw2fD7pzoN01ohE18qpEcMkkSvGOR7bChMwQdb6YDFcwwSEhZ5T4X_vlQeBcxkNakMKyXdZkv3OP8ft-XsVSvi8gqLNlMJZ-pGRxiyhQ"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Messaging Content (Locked State) -->
+<div class="relative grid grid-cols-12 gap-8 p-12 h-[calc(100vh-80px)]">
+<!-- Connection Lines Background Effect -->
+<div class="absolute inset-0 connection-lines opacity-40 pointer-events-none"></div>
+<!-- Empty State Center Panel -->
+<div class="col-span-12 flex flex-col items-center justify-center relative z-10">
+<div class="max-w-xl w-full text-center">
+<!-- Iconic Representation of Locked Feature -->
+<div class="mb-10 inline-flex items-center justify-center">
+<div class="relative">
+<div class="absolute -inset-8 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="w-24 h-24 bg-surface-container-lowest rounded-[2rem] flex items-center justify-center shadow-sm relative z-10">
+<span class="material-symbols-outlined text-5xl text-primary" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+</div>
+<div class="absolute -bottom-2 -right-2 w-10 h-10 bg-[#4B6BFB] rounded-full flex items-center justify-center border-4 border-[#F5F7FB] text-white z-20">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'wght' 700;">lock</span>
+</div>
+</div>
+</div>
+<!-- Lock Message Content -->
+<h3 class="font-headline text-4xl font-extrabold tracking-tight text-on-surface mb-4">
+                        Messaging is a Pro feature.
+                    </h3>
+<p class="font-body text-secondary text-lg mb-10 leading-relaxed">
+                        Direct communication with property owners and agents is exclusive to our Intelligence Dossier Pro members. Get instant access to private channels and off-market leads.
+                    </p>
+<!-- Action Buttons -->
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<button class="bg-[#4B6BFB] hover:bg-primary transition-all text-white font-label font-bold text-sm px-10 py-4 rounded-xl tracking-wider uppercase flex items-center gap-2 group">
+<span>View Pro</span>
+<span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="bg-surface-container-highest hover:bg-surface-container-high transition-all text-on-secondary-fixed-variant font-label font-bold text-sm px-10 py-4 rounded-xl tracking-wider uppercase">
+                            Back to Search
+                        </button>
+</div>
+<!-- Feature Preview (Contextual Hinting) -->
+<div class="mt-16 grid grid-cols-3 gap-6 opacity-40 grayscale pointer-events-none">
+<div class="bg-surface-container-low p-6 rounded-2xl flex flex-col items-start gap-3">
+<span class="material-symbols-outlined text-primary">speed</span>
+<span class="font-label text-xs font-bold">Real-time alerts</span>
+</div>
+<div class="bg-surface-container-low p-6 rounded-2xl flex flex-col items-start gap-3">
+<span class="material-symbols-outlined text-primary">groups</span>
+<span class="font-label text-xs font-bold">Owner Network</span>
+</div>
+<div class="bg-surface-container-low p-6 rounded-2xl flex flex-col items-start gap-3">
+<span class="material-symbols-outlined text-primary">description</span>
+<span class="font-label text-xs font-bold">Encrypted Docs</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Subtle Decorative Elements -->
+<div class="absolute bottom-12 right-12 w-64 h-64 opacity-20 pointer-events-none">
+<svg viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<path d="M44.7,-76.4C58.8,-69.2,71.8,-59.1,79.6,-45.8C87.4,-32.6,90,-16.3,88.5,-0.9C86.9,14.5,81.2,29,72.4,41.4C63.6,53.8,51.7,64.1,38.1,71.1C24.5,78.1,9.2,81.8,-5.5,81.3C-20.2,80.9,-34.3,76.3,-46.8,68.8C-59.3,61.3,-70.2,50.9,-77.2,38.2C-84.2,25.5,-87.3,10.5,-85.7,-4.1C-84.1,-18.7,-77.8,-32.9,-68.8,-45C-59.8,-57.1,-48.1,-67.1,-34.9,-74.8C-21.7,-82.5,-7.1,-87.9,7.6,-90.1C22.3,-92.3,30.6,-83.5,44.7,-76.4Z" fill="#4B6BFB" transform="translate(100 100)"></path>
+</svg>
+</div>
+</div>
+</main>
+</body></html>

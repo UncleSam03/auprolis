@@ -23,10 +23,11 @@ module.exports = {
 				background: 'var(--surface)',
 				foreground: 'var(--on-surface)',
 				
-				/* New Design System Colors */
+				/* New Sovereign Design System Colors */
 				primary: {
 					DEFAULT: 'var(--primary)',
 					deep: 'var(--primary-deep)',
+					container: 'var(--primary-container)',
 					foreground: 'var(--on-primary)',
 				},
 				surface: {
@@ -36,28 +37,28 @@ module.exports = {
 						lowest: 'var(--surface-container-lowest)',
 						high: 'var(--surface-container-high)',
 						highest: 'var(--surface-container-highest)',
-					}
+					},
+					bright: 'var(--surface)',
 				},
 				navy: {
 					DEFAULT: 'var(--navy)',
-					light: 'var(--navy-light)',
+					dark: 'var(--navy-dark)',
 					foreground: 'var(--on-navy)',
 					variant: 'var(--on-navy-variant)',
 				},
 				on: {
 					surface: 'var(--on-surface)',
+					'surface-variant': 'var(--on-surface-variant)',
 					secondary: '#ffffff',
+					'secondary-container': 'var(--on-secondary-container)',
 				},
 				secondary: {
 					DEFAULT: 'var(--secondary)',
-					foreground: 'var(--secondary-foreground)',
+					container: 'var(--secondary-container)',
 				},
 				tertiary: {
 					DEFAULT: 'var(--tertiary)',
 					container: 'var(--tertiary-container)',
-					fixed: 'var(--tertiary-fixed)',
-					'on-fixed': 'var(--on-tertiary-fixed)',
-					'on-fixed-variant': 'var(--on-tertiary-fixed-variant)',
 				},
 				outline: {
 					DEFAULT: 'var(--outline)',
@@ -90,14 +91,16 @@ module.exports = {
 				label: ['var(--font-body)', 'sans-serif'],
 			},
 			borderRadius: {
-				lg: 'var(--radius-md)',
+				sm: 'var(--radius-sm)',
+				md: 'var(--radius-md)',
+				lg: 'var(--radius-xl)',
 				xl: 'var(--radius-xl)',
-				full: 'var(--radius-full)',
-				md: 'calc(var(--radius-md) - 2px)',
-				sm: 'calc(var(--radius-md) - 4px)',
+				'xxl': '2rem',
+				'3xl': 'var(--radius-3xl)',
+				full: '9999px',
 			},
 			boxShadow: {
-				ambient: 'var(--shadow-ambient)',
+				authoritative: 'var(--shadow-authoritative)',
 			},
 			keyframes: {
 				'accordion-down': {

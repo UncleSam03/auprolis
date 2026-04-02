@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Favorites - Auprolis Intelligence Dossier</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-tertiary-fixed-variant": "#773200",
+                "secondary-fixed-dim": "#b7c6ed",
+                "on-tertiary": "#ffffff",
+                "tertiary-fixed-dim": "#ffb68f",
+                "surface-container-high": "#e6e8ec",
+                "on-surface": "#181c1f",
+                "on-error": "#ffffff",
+                "primary-container": "#4666f7",
+                "on-primary": "#ffffff",
+                "error-container": "#ffdad6",
+                "primary-fixed": "#dee1ff",
+                "on-primary-fixed-variant": "#0033c2",
+                "on-secondary-container": "#4e5d7e",
+                "on-secondary-fixed-variant": "#384667",
+                "secondary-container": "#c8d7fe",
+                "tertiary": "#994200",
+                "surface-tint": "#2a4edf",
+                "on-tertiary-fixed": "#331100",
+                "outline-variant": "#c4c5d8",
+                "on-error-container": "#93000a",
+                "surface-dim": "#d8dade",
+                "surface-container": "#eceef2",
+                "inverse-primary": "#b9c3ff",
+                "inverse-on-surface": "#eff1f5",
+                "primary-fixed-dim": "#b9c3ff",
+                "error": "#ba1a1a",
+                "on-primary-container": "#fffbff",
+                "surface-container-highest": "#e0e3e6",
+                "tertiary-fixed": "#ffdbca",
+                "surface-container-low": "#f2f4f8",
+                "background": "#f7f9fd",
+                "secondary": "#505e80",
+                "surface": "#f7f9fd",
+                "on-background": "#181c1f",
+                "surface-variant": "#e0e3e6",
+                "primary": "#264bdd",
+                "surface-container-lowest": "#ffffff",
+                "on-secondary-fixed": "#0a1b39",
+                "tertiary-container": "#bf5500",
+                "surface-bright": "#f7f9fd",
+                "inverse-surface": "#2d3134",
+                "on-tertiary-container": "#fffbff",
+                "secondary-fixed": "#d8e2ff",
+                "on-surface-variant": "#444655",
+                "on-primary-fixed": "#001258",
+                "on-secondary": "#ffffff",
+                "outline": "#747686"
+              },
+              fontFamily: {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .font-variation-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- SideNavBar Component -->
+<aside class="fixed left-0 top-0 h-screen w-[260px] bg-[#0F1F3D] dark:bg-[#0F1F3D] flex flex-col py-8 justify-between z-50">
+<div>
+<div class="px-8 mb-10">
+<div class="text-2xl font-black tracking-tighter text-white font-headline">AUPROLIS</div>
+<div class="text-[10px] uppercase tracking-[0.2em] text-white/50 font-label mt-1">Intelligence Dossier</div>
+</div>
+<nav class="flex flex-col gap-1">
+<!-- Home -->
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 transition-opacity hover:bg-white/5 group" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label text-sm">Home</span>
+</a>
+<!-- Search -->
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 transition-opacity hover:bg-white/5 group" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label text-sm">Search</span>
+</a>
+<!-- Favorites (ACTIVE) -->
+<a class="flex items-center gap-3 px-8 py-3 bg-[#4B6BFB]/15 text-[#4B6BFB] rounded-r-full border-r-4 border-[#4B6BFB] transition-all group" href="#">
+<span class="material-symbols-outlined font-variation-fill">favorite</span>
+<span class="font-label text-sm font-semibold">Favorites</span>
+</a>
+<!-- Messages -->
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 transition-opacity hover:bg-white/5 group" href="#">
+<span class="material-symbols-outlined">lock</span>
+<span class="font-label text-sm">Messages</span>
+</a>
+<!-- Documents -->
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 transition-opacity hover:bg-white/5 group" href="#">
+<span class="material-symbols-outlined">lock</span>
+<span class="font-label text-sm">Documents</span>
+</a>
+<!-- Notifications -->
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 transition-opacity hover:bg-white/5 group" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label text-sm">Notifications</span>
+</a>
+<!-- Account -->
+<a class="flex items-center gap-3 px-8 py-3 text-white/90 opacity-70 hover:opacity-100 transition-opacity hover:bg-white/5 group" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label text-sm">Account</span>
+</a>
+</nav>
+</div>
+<div class="px-8">
+<div class="flex items-center gap-3 px-4 py-3 bg-white/5 rounded-xl border border-white/10">
+<span class="material-symbols-outlined text-[#4B6BFB]">workspace_premium</span>
+<div>
+<div class="text-white text-xs font-bold">Free plan</div>
+<div class="text-white/40 text-[10px]">3 saves remaining</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Component -->
+<header class="fixed top-0 left-[260px] right-0 h-20 bg-[#F7F9FD]/70 backdrop-blur-xl flex justify-between items-center px-12 z-40">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/50">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2.5 pl-12 pr-4 text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-on-surface-variant/40" placeholder="Search dossier assets..." type="text"/>
+</div>
+<h1 class="font-headline font-bold text-lg text-on-surface tracking-tight">Dossier Explorer</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant/30"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<div class="text-xs font-bold text-on-surface">Agent Smith</div>
+<div class="text-[10px] text-on-surface-variant">Field Intelligence</div>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-surface-container-high object-cover shadow-sm" data-alt="close-up portrait of a professional man in a dark suit with a clean haircut and confident expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCk1Z11uVlFbTtv4W7VXPWgRshGHvEicr6D0YUSnrGb0Zl3PCq6YNPoXsP6MIZpuBMPfqRulkIHn5zC-4jyUBxPcs2i72YETjUG-C5gkXssdr2iO488P4O72bbbZiPXsJ7cF8xBaC3EcaMwWBvmFHyDb4b63rsmw33vm0FpI9VB1GLMY1OwndLf_g9JyJanRlst4C9ZWVwsTjc470G1W0VU_YO62C03kQAjvlR6bRbO5MczmrXVKu8K-KDOFawvKa3bHqQgzjsyNqM"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-[260px] pt-20 min-h-screen">
+<div class="max-w-7xl mx-auto px-12 py-12">
+<!-- Header Section -->
+<section class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h2 class="font-headline text-5xl font-extrabold tracking-tighter text-on-surface mb-2">Saved</h2>
+<p class="text-on-surface-variant font-medium">Your curated property intelligence portfolio.</p>
+</div>
+<div class="w-full md:w-72 bg-surface-container-low p-6 rounded-2xl">
+<div class="flex justify-between items-end mb-3">
+<span class="font-label text-xs font-bold uppercase tracking-wider text-on-surface-variant">Storage Limit</span>
+<span class="font-headline text-xl font-black text-primary">7/10</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[70%] rounded-full shadow-[0_0_8px_rgba(38,75,221,0.4)]"></div>
+</div>
+</div>
+</section>
+<!-- Upgrade Banner -->
+<section class="mb-12">
+<div class="relative bg-on-secondary-fixed rounded-3xl p-8 overflow-hidden shadow-2xl shadow-primary/10">
+<!-- Background aesthetic -->
+<div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/20 to-transparent"></div>
+<div class="absolute -bottom-20 -right-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl"></div>
+<div class="relative flex flex-col md:flex-row items-center justify-between gap-8">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center border border-primary/30">
+<span class="material-symbols-outlined text-primary-fixed text-4xl">workspace_premium</span>
+</div>
+<div>
+<h3 class="font-headline text-xl font-bold text-white mb-1">Upgrade your Intelligence Tier</h3>
+<p class="text-white/70 max-w-md">You have <span class="text-white font-bold underline decoration-primary">3 saves left</span> on your Free plan. Upgrade to Basic for unlimited dossier storage and deep-dive analytics.</p>
+</div>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white font-bold px-8 py-4 rounded-xl transition-all shadow-lg active:scale-95 font-label text-sm uppercase tracking-widest shrink-0">
+                            Upgrade to Basic
+                        </button>
+</div>
+</div>
+</section>
+<!-- Property Grid (Asymmetric Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Large Featured Card -->
+<article class="md:col-span-8 bg-surface-container-lowest rounded-[2rem] overflow-hidden group shadow-sm hover:shadow-xl transition-all border border-transparent hover:border-primary/10">
+<div class="relative h-[400px]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="architectural shot of a modern luxury estate with clean lines and large glass windows at twilight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUu12ReyzBfEdTmknmwy6rX3Vxv6w7A8UBymEbKEdyCkstZK94_7B2NS3d_Ys8gflhHLOuHIYVWjKtABDafq9E0VekaZ-xcl2FCZxQSF1zB3hiITJbuvebze7pyRd3qFOzcj4MqtpkSgQwDcAwFuo1AuH3QOl6c4RauvfJ9CPia2agaoXEdXgNPWl5aA35kLt8lk0xDMJUTfWA6fgQZ-LQ-GoPLpqHMF8-00fR0T3BpBeyy7fNocIRRBqd3_HEkz8K6iALTnIoAhk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-secondary-fixed/90 via-on-secondary-fixed/20 to-transparent"></div>
+<div class="absolute top-6 left-6">
+<span class="bg-tertiary-container text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg">Distressed</span>
+</div>
+<div class="absolute bottom-8 left-8 right-8">
+<div class="flex justify-between items-end">
+<div>
+<div class="text-white/70 text-xs font-bold uppercase tracking-widest mb-1">Asset ID: #4492-AX</div>
+<h4 class="font-headline text-3xl font-extrabold text-white leading-tight">Summit Ridge Executive Industrial Complex</h4>
+</div>
+<div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 text-white">
+<div class="text-xs opacity-70">Valuation</div>
+<div class="text-2xl font-black">$4.2M</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Side Analytics Card -->
+<aside class="md:col-span-4 bg-primary rounded-[2rem] p-8 text-white flex flex-col justify-between shadow-xl shadow-primary/20">
+<div>
+<div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">trending_down</span>
+</div>
+<h4 class="font-headline text-2xl font-bold mb-4 leading-tight">Market Opportunity Index</h4>
+<p class="text-white/80 text-sm leading-relaxed mb-8">Current distressed trends in your favorite zone show a 12% increase in asset availability over the last 30 days.</p>
+</div>
+<div class="bg-white/10 rounded-2xl p-4 border border-white/10">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">notifications_active</span>
+</div>
+<div class="text-xs font-bold uppercase tracking-tighter">Alert Status: High</div>
+</div>
+<button class="w-full bg-white text-primary font-bold py-3 rounded-xl font-label text-xs uppercase tracking-widest hover:bg-primary-fixed transition-colors">
+                            View Hotlist
+                        </button>
+</div>
+</aside>
+<!-- Regular Property Cards -->
+<article class="md:col-span-4 bg-surface-container-lowest rounded-[1.5rem] overflow-hidden group border-b-4 border-transparent hover:border-primary shadow-sm hover:shadow-lg transition-all">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="exterior view of a residential house with abandoned charm overgrown garden and weathered facade" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRmEq0AOr1bmhEv_zHCGwPp5vKymt4xXk-G_DSDsVayRnEFqeTJ5igpwuUxv7Pf9eCdCjvoEjRXYIdEYzw9OUMdoYoXe8Zo4l3FhdOOjwB4vSXsFGp4ZD-g0892qWtNaISYBNl34PF56_3KPj5NaCnk2rJJ8LpdUkEbNeg-vsmZK8NyoW2ymSczOM_E142pkwUA6n-JtqUT31N15QWcdBweM6qMDy-cdY8t3FA1N-rcwrFBC2Mm2OtdFJ_rTC1hfZ0lKp0Np4dxR8"/>
+<div class="absolute top-4 right-4">
+<button class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-md flex items-center justify-center text-primary">
+<span class="material-symbols-outlined font-variation-fill">favorite</span>
+</button>
+</div>
+</div>
+<div class="p-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 rounded-full text-[10px] font-bold uppercase">Stable</span>
+</div>
+<h4 class="font-headline text-lg font-extrabold text-on-surface mb-2 truncate">Oakwood Manor Residence</h4>
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant text-xs">Detroit, MI</span>
+<span class="font-headline text-xl font-black text-on-surface">$245,000</span>
+</div>
+</div>
+</article>
+<article class="md:col-span-4 bg-surface-container-lowest rounded-[1.5rem] overflow-hidden group border-b-4 border-transparent hover:border-primary shadow-sm hover:shadow-lg transition-all">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="minimalist architectural rendering of a brutalist concrete building facade in bright daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcZO37_OYGVe9fWeyvwekJ-dHY6I2IyH7YaPtVlrR2Oeb1G4i9G9JCKl4iiUnALLAWDRx296EO3FnK9IPDhIyiM5oNK8PPbuToXA3YOkYtToyE16qqQnfP-1U7UvMDHW6FPAtC9VKZPTHH55bSGq7BxRR_OQ2L1MT95J9Yn0fLgCqY7_eov_rHPVjTJYBk_hT4o7aDaVXrumRg8cxpgrbwRHej3gz4qc3feHgK5z1aMNmoG32EgKyOBfrjerPlkYOfQVBLsVZp8xI"/>
+<div class="absolute top-4 right-4">
+<button class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-md flex items-center justify-center text-primary">
+<span class="material-symbols-outlined font-variation-fill">favorite</span>
+</button>
+</div>
+</div>
+<div class="p-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-tertiary-container text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase">Distressed</span>
+</div>
+<h4 class="font-headline text-lg font-extrabold text-on-surface mb-2 truncate">Legacy Office Plaza</h4>
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant text-xs">Phoenix, AZ</span>
+<span class="font-headline text-xl font-black text-on-surface">$1.8M</span>
+</div>
+</div>
+</article>
+<article class="md:col-span-4 bg-surface-container-lowest rounded-[1.5rem] overflow-hidden group border-b-4 border-transparent hover:border-primary shadow-sm hover:shadow-lg transition-all">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="view of a coastal villa with peeling paint and architectural potential overlooking the blue sea" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7lbKDpJo7zScADOH47wkEiYuYxrv0GuNtCm9l6jpx7sm6HTAemwcLAQ8O1vWf9KYBmIycNrQjP3LgL4Iyd4O6o3n6-YN2N33Ti5tkdUJCKeQ-9a7XBTf2PS3_fzXKjlm1MtVOgqacIw5a3vzkNvFEsTkIfrxFZqGiqng7DPSbsoBA9z-Czwfic9HArzKnJsU9jRzIFtqbO9xAOya8tIXox5LKkXg88w2IKXOum-7B1CMNR3i7OeVZgOvBghx-ES0WRv7U37dUiHs"/>
+<div class="absolute top-4 right-4">
+<button class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-md flex items-center justify-center text-primary">
+<span class="material-symbols-outlined font-variation-fill">favorite</span>
+</button>
+</div>
+</div>
+<div class="p-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-tertiary-container text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase">Distressed</span>
+</div>
+<h4 class="font-headline text-lg font-extrabold text-on-surface mb-2 truncate">Azure Point Coastal Development</h4>
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant text-xs">Naples, FL</span>
+<span class="font-headline text-xl font-black text-on-surface">$3.1M</span>
+</div>
+</div>
+</article>
+<article class="md:col-span-6 bg-surface-container-lowest rounded-[1.5rem] overflow-hidden group border-b-4 border-transparent hover:border-primary shadow-sm hover:shadow-lg transition-all">
+<div class="relative h-64">
+<img class="w-full h-full object-cover" data-alt="industrial warehouse complex with rust and graffiti architectural photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMfZ9R4I_XAXR1B_i-N1-yT2tNwX_ekhDV2jyvEVRj7j9KTJCQBK8dQSYc_tDPRqdHCZNPZdvnYtROWl7wZEejqmywpDTTeqlCbMJUzmz9l6VXnDkn8qZNhUzQtfkbFBKxtljIlk77l93CwRlxSiA5seXdb9q-CT8pgYnmwy--d6EhczjDOrYKA3vcBswkfL_qMUugfVhK7N6EalrTKHVzz8JjQAtjGci9XFsOSQAX-fw0_6Il7NN7Br9Kvxs_5uygz3Ccu6Y02Kg"/>
+<div class="absolute top-4 right-4">
+<button class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-md flex items-center justify-center text-primary">
+<span class="material-symbols-outlined font-variation-fill">favorite</span>
+</button>
+</div>
+</div>
+<div class="p-8">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-tertiary-container text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase">Distressed</span>
+</div>
+<h4 class="font-headline text-2xl font-extrabold text-on-surface mb-2 truncate">Riverside Logistics Hub</h4>
+<p class="text-on-surface-variant text-sm mb-6 line-clamp-2">High-value industrial redevelopment opportunity. Recent foreclosure status confirmed by field agents.</p>
+<div class="flex items-center justify-between border-t border-surface-container-high pt-6">
+<div class="flex flex-col">
+<span class="text-on-surface-variant text-xs uppercase font-bold tracking-tighter">Location</span>
+<span class="text-on-surface text-sm font-semibold">Columbus, OH</span>
+</div>
+<div class="text-right">
+<div class="text-on-surface-variant text-xs uppercase font-bold tracking-tighter">Price</div>
+<div class="font-headline text-3xl font-black text-primary">$12.5M</div>
+</div>
+</div>
+</div>
+</article>
+<article class="md:col-span-6 bg-surface-container-lowest rounded-[1.5rem] overflow-hidden group border-b-4 border-transparent hover:border-primary shadow-sm hover:shadow-lg transition-all">
+<div class="relative h-64">
+<img class="w-full h-full object-cover" data-alt="modern apartment building with clean architecture and sunset reflection in glass windows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7YOEz9CHITRdqhPfZgP7ILZrbjJSUv9haKPi4vKbINfAaFjRhgqBd5RwqAfqxp1beBhC7pJLGmwcosli4UeX-OS2j3UgXYe_QPOWxSuT5Dgy54FJjRaSF62kuXwpLEQAnNggvHdNAz8CJkYvAQ9Ak3hwdmdRuCO99I9lSLG7d7r8NNgYK7crWiBb3Y7KlULObNJYrMrOmDnkroh5iYvrnGxxJEaoeWZczUk8YTExqkmJLFw2EK17TsaLq68tE7MYrXahAhX2TU8U"/>
+<div class="absolute top-4 right-4">
+<button class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-md flex items-center justify-center text-primary">
+<span class="material-symbols-outlined font-variation-fill">favorite</span>
+</button>
+</div>
+</div>
+<div class="p-8">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 rounded-full text-[10px] font-bold uppercase">Stable</span>
+</div>
+<h4 class="font-headline text-2xl font-extrabold text-on-surface mb-2 truncate">Metropolitan View Apartments</h4>
+<p class="text-on-surface-variant text-sm mb-6 line-clamp-2">Premium multi-family asset with 98% occupancy rate. Retained for stable cash flow in regional portfolio.</p>
+<div class="flex items-center justify-between border-t border-surface-container-high pt-6">
+<div class="flex flex-col">
+<span class="text-on-surface-variant text-xs uppercase font-bold tracking-tighter">Location</span>
+<span class="text-on-surface text-sm font-semibold">Austin, TX</span>
+</div>
+<div class="text-right">
+<div class="text-on-surface-variant text-xs uppercase font-bold tracking-tighter">Price</div>
+<div class="font-headline text-3xl font-black text-primary">$45M</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+</div>
+</main>
+</body></html>

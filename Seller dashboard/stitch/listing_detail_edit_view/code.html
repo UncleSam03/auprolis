@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Auprolis | Edit Listing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#d8e2ff",
+                        "tertiary-container": "#8455ef",
+                        "on-tertiary-fixed-variant": "#5516be",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#6df5e1",
+                        "tertiary": "#6b38d4",
+                        "on-secondary-fixed": "#00201c",
+                        "inverse-surface": "#21304f",
+                        "on-primary-fixed-variant": "#0033c2",
+                        "tertiary-fixed-dim": "#d0bcff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#005048",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#b9c3ff",
+                        "surface-container-high": "#e1e8ff",
+                        "primary-fixed": "#dee1ff",
+                        "primary": "#264bdd",
+                        "tertiary-fixed": "#e9ddff",
+                        "surface-tint": "#2a4edf",
+                        "secondary": "#006b5f",
+                        "surface": "#faf9ff",
+                        "surface-container-low": "#f1f3ff",
+                        "surface-bright": "#faf9ff",
+                        "on-surface-variant": "#444655",
+                        "on-primary-fixed": "#001258",
+                        "background": "#faf9ff",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#b9c3ff",
+                        "surface-container": "#e9edff",
+                        "surface-dim": "#ccdaff",
+                        "outline": "#747686",
+                        "on-tertiary-fixed": "#23005c",
+                        "on-secondary-container": "#006f64",
+                        "outline-variant": "#c4c5d8",
+                        "primary-container": "#4666f7",
+                        "secondary-fixed": "#71f8e4",
+                        "secondary-fixed-dim": "#4fdbc8",
+                        "on-surface": "#0a1b39",
+                        "on-primary-container": "#fffbff",
+                        "on-tertiary-container": "#fffbff",
+                        "on-error-container": "#93000a",
+                        "on-background": "#0a1b39",
+                        "surface-variant": "#d8e2ff",
+                        "inverse-on-surface": "#edf0ff"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #faf9ff; }
+        .font-headline { font-family: 'Manrope', sans-serif; letter-spacing: -0.02em; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-nav { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    </style>
+</head>
+<body class="text-on-background">
+<!-- SideNavBar -->
+<aside class="fixed h-screen w-[260px] left-0 top-0 bg-[#0F1F3D] flex flex-col justify-between py-8 px-4 z-50">
+<div class="flex flex-col gap-8">
+<div class="px-4">
+<h1 class="text-2xl font-extrabold tracking-tighter text-white font-headline">Auprolis</h1>
+<p class="text-slate-400 text-xs mt-1">Seller Dashboard</p>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-all duration-200 hover:bg-white/5 rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-[#4B6BFB]/15 text-[#4B6BFB] rounded-full font-semibold transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+<span class="font-medium">My Listings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-all duration-200 hover:bg-white/5 rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="add_box">add_box</span>
+<span class="font-medium">New Listing</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-all duration-200 hover:bg-white/5 rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="font-medium">Performance</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-all duration-200 hover:bg-white/5 rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-medium">Inquiries</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-all duration-200 hover:bg-white/5 rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-medium">Documents</span>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-2 px-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-all duration-200 hover:bg-white/5 rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="stars">stars</span>
+<span class="font-medium">Seller Plan</span>
+</a>
+<div class="flex items-center gap-3 px-4 py-4 mt-4 bg-white/5 rounded-2xl">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold">JD</div>
+<div class="flex flex-col">
+<span class="text-sm text-white font-semibold">Julian Dash</span>
+<span class="text-xs text-slate-500">Premium Seller</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-16 flex items-center justify-between px-8 z-40 bg-[#faf9ff]/80 backdrop-blur-xl">
+<div class="flex items-center gap-4 w-1/3">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm" data-icon="search">search</span>
+<input class="w-full bg-surface-container-high border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-[#4B6BFB]/20" placeholder="Search listing ID or address..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-slate-500">
+<button class="hover:text-[#4B6BFB] transition-all"><span class="material-symbols-outlined" data-icon="notifications">notifications</span></button>
+<button class="hover:text-[#4B6BFB] transition-all"><span class="material-symbols-outlined" data-icon="settings">settings</span></button>
+</div>
+<button class="bg-gradient-to-r from-primary to-primary-container text-white px-6 py-2 rounded-full font-bold text-sm shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform active:scale-[0.98]">
+                + New Listing
+            </button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[260px] pt-24 px-16 pb-20 max-w-[1440px] mx-auto">
+<!-- Status Banner -->
+<div class="mb-12 flex items-center justify-between bg-amber-50 border border-amber-200/50 p-6 rounded-lg">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
+<span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-on-surface">Pending Review</h3>
+<p class="text-sm text-on-surface-variant">Your listing is currently being verified by our compliance team. Expected window: 24-48 hours.</p>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-5 py-2 text-sm font-semibold text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">Discard Draft</button>
+<button class="px-6 py-2 text-sm font-bold bg-white border border-outline-variant/30 text-primary rounded-full shadow-sm">Preview Live</button>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-10 items-start">
+<!-- Left Column: Image Strip -->
+<div class="col-span-4 sticky top-24 space-y-6">
+<div class="aspect-[4/5] bg-surface-container-low rounded-xl overflow-hidden group relative">
+<img alt="Property Main View" class="w-full h-full object-cover" data-alt="luxury modern architectural villa with large glass windows and pool during soft blue hour lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMaRIEqmd3kvZyc75gt61K1EpSDEe75vglyjbCUIuJckezycLMKGCts6-V02cSAYvLcqmM-N146wY97-Avgiiq4rVv726B_RtJYzK6-ojq_LKDEO43i6c1thYmIEtG2sxObSzJWXoet7gp_miXKkZicBWIUuXBLbXOFWEdWkC7eE6ecsGmq2C9H2K6lVx3Bkydl8PR3zX303mXMbwwQ0r-WMOVGystEcbzqEoU5V0pV_47V6S4Mh7ZsShaKFrLxvq6uHqyBHJpOuL6"/>
+<div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<button class="bg-white/90 backdrop-blur text-on-surface px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider">Replace Image</button>
+</div>
+<div class="absolute bottom-4 left-4 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Primary Cover</div>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<div class="aspect-square bg-surface-container-low rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-primary transition-all">
+<img class="w-full h-full object-cover" data-alt="modern kitchen interior with marble island and high-end stainless steel appliances" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUPaVsvdP-UtY837p4TXlDau4jO5OgsV7HmW6hT1F71P6Et0zOpI1L79avfmbfC2h2_5yBuJrX9L8RcLYKUFvmCVtxA7qloZCYfcjpXzRAiVcpvp6JgE7BNLmhvKGQ25MGHUOgS0hs33EtqFq5X8YoEnwlW02C7TE0sgYThHjObpFpItYr_Ok9qb14mVEjO6ZC_FDn_H08pV9pcbNn9IkFBeKDa6D403OgoQz4md4-rp1NCb1HqHNr0zapmM51qmwHKkAjr_bCPylp"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-primary transition-all">
+<img class="w-full h-full object-cover" data-alt="spacious bright living room with minimalist furniture and oak wood flooring" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFPwlJz2NCEbnbJfrEorNaNaHiOJJDBwZefUtOWcv-RfSJvCdOEMP5rK1lPz_eaCX_wyXJiHd_eb7mzIwlwqAXWvt8CDjxbl2Xu9IXXAaby_SDHKpAgKF3F5BIUAQWd1eWB_BLRyvTxYS7w7_2JJhFhIQzZynJCQoEtYZQ-KkzgzSEmOWW84pb6C44xfBc5Vwr_7aJKpC0BxNe3T4dY3b8puCSsE3tBM1gep7DzfyerClVdfFCo9J6wnvv5LKzvNpagJoOO2HLvMHv"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-lg flex items-center justify-center border-2 border-dashed border-outline-variant/30 text-outline cursor-pointer hover:bg-white transition-colors">
+<span class="material-symbols-outlined" data-icon="add_a_photo">add_a_photo</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl space-y-4">
+<h4 class="font-headline font-bold text-sm text-on-surface uppercase tracking-widest">AI Intelligence</h4>
+<div class="flex items-center justify-between text-sm">
+<span class="text-on-surface-variant">Image Quality Score</span>
+<span class="text-secondary font-bold">9.2/10</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-low rounded-full">
+<div class="w-[92%] h-full bg-secondary rounded-full"></div>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">High resolution and professional lighting detected. This will increase engagement by approx 14%.</p>
+</div>
+</div>
+<!-- Right Column: Editable Fields -->
+<div class="col-span-8 space-y-8">
+<!-- Section: Address -->
+<section class="bg-surface-container-lowest rounded-xl p-10">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="location_on">location_on</span>
+</div>
+<h2 class="font-headline text-2xl font-extrabold text-on-surface">Property Location</h2>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="col-span-2">
+<label class="block text-xs font-bold text-outline uppercase tracking-wider mb-2">Street Address</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg py-4 px-5 text-on-surface focus:ring-2 focus:ring-primary/20 transition-all font-medium" type="text" value="8821 Marble Canyon Way"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-outline uppercase tracking-wider mb-2">City</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg py-4 px-5 text-on-surface focus:ring-2 focus:ring-primary/20 transition-all font-medium" type="text" value="Aspen"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-outline uppercase tracking-wider mb-2">State / ZIP</label>
+<div class="flex gap-3">
+<input class="w-1/3 bg-surface-container-low border-none rounded-lg py-4 px-5 text-on-surface focus:ring-2 focus:ring-primary/20 transition-all font-medium" type="text" value="CO"/>
+<input class="w-2/3 bg-surface-container-low border-none rounded-lg py-4 px-5 text-on-surface focus:ring-2 focus:ring-primary/20 transition-all font-medium" type="text" value="81611"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Specs -->
+<section class="bg-surface-container-lowest rounded-xl p-10">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="square_foot">square_foot</span>
+</div>
+<h2 class="font-headline text-2xl font-extrabold text-on-surface">Core Specifications</h2>
+</div>
+<div class="grid grid-cols-3 gap-6">
+<div>
+<label class="block text-xs font-bold text-outline uppercase tracking-wider mb-2">Bedrooms</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg py-4 px-5 text-on-surface focus:ring-2 focus:ring-primary/20 transition-all font-medium" type="number" value="4"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-outline uppercase tracking-wider mb-2">Bathrooms</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg py-4 px-5 text-on-surface focus:ring-2 focus:ring-primary/20 transition-all font-medium" type="number" value="3.5"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-outline uppercase tracking-wider mb-2">Living Area (SQFT)</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg py-4 px-5 text-on-surface focus:ring-2 focus:ring-primary/20 transition-all font-medium" type="text" value="3,250"/>
+</div>
+<div class="col-span-3">
+<label class="block text-xs font-bold text-outline uppercase tracking-wider mb-2">Property Type</label>
+<select class="w-full bg-surface-container-low border-none rounded-lg py-4 px-5 text-on-surface focus:ring-2 focus:ring-primary/20 transition-all font-medium appearance-none">
+<option>Single Family Residential</option>
+<option>Condominium</option>
+<option>Multi-Family</option>
+<option>Townhouse</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Section: Pricing -->
+<section class="bg-surface-container-lowest rounded-xl p-10">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+</div>
+<h2 class="font-headline text-2xl font-extrabold text-on-surface">Pricing Strategy</h2>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div>
+<label class="block text-xs font-bold text-outline uppercase tracking-wider mb-2">Listing Price</label>
+<div class="relative">
+<span class="absolute left-5 top-1/2 -translate-y-1/2 font-bold text-outline">$</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg py-4 pl-10 pr-5 text-on-surface focus:ring-2 focus:ring-primary/20 transition-all font-bold text-lg" type="text" value="1,425,000"/>
+</div>
+</div>
+<div>
+<label class="block text-xs font-bold text-outline uppercase tracking-wider mb-2">Estimated Market Value</label>
+<div class="relative">
+<span class="absolute left-5 top-1/2 -translate-y-1/2 font-bold text-outline">$</span>
+<input class="w-full bg-surface-container-high border-none rounded-lg py-4 pl-10 pr-5 text-slate-400 font-bold text-lg cursor-not-allowed" disabled="" type="text" value="1,550,000"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Description -->
+<section class="bg-surface-container-lowest rounded-xl p-10">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+</div>
+<h2 class="font-headline text-2xl font-extrabold text-on-surface">Description</h2>
+</div>
+<div class="space-y-6">
+<div>
+<label class="block text-xs font-bold text-outline uppercase tracking-wider mb-2">Marketing Headline</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg py-4 px-5 text-on-surface focus:ring-2 focus:ring-primary/20 transition-all font-bold" type="text" value="Modern Sanctuary in the Heart of the Rockies"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-outline uppercase tracking-wider mb-2">Detailed Overview</label>
+<textarea class="w-full bg-surface-container-low border-none rounded-lg py-4 px-5 text-on-surface focus:ring-2 focus:ring-primary/20 transition-all leading-relaxed" rows="6">Experience unparalled luxury in this architectural masterpiece. Featuring floor-to-ceiling windows, a gourmet chef's kitchen, and a private spa-inspired master wing. Every detail has been curated for the discerning collector of fine living.</textarea>
+</div>
+</div>
+</section>
+<!-- Danger Zone -->
+<section class="bg-red-50/50 border border-red-100 p-10 rounded-xl mt-12">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-red-600">
+<span class="material-symbols-outlined" data-icon="dangerous">dangerous</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-red-900">Danger Zone</h3>
+<p class="text-sm text-red-700/70">Archiving this listing will remove it from all active search results and history.</p>
+</div>
+</div>
+<button class="px-8 py-3 bg-white text-red-600 border border-red-200 rounded-full font-bold text-sm hover:bg-red-600 hover:text-white transition-all shadow-sm">
+                            Archive Listing
+                        </button>
+</div>
+</section>
+<!-- Action Bar Footer -->
+<div class="flex items-center justify-end gap-4 mt-12">
+<button class="px-8 py-4 text-on-surface-variant font-bold hover:bg-surface-container-low rounded-full transition-all">Cancel Changes</button>
+<button class="px-12 py-4 bg-gradient-to-r from-primary to-primary-container text-white rounded-full font-bold shadow-xl shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                        Save &amp; Resubmit
+                    </button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

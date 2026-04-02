@@ -42,12 +42,8 @@ const SignIn = () => {
           description: "Successfully signed in.",
         });
         
-        // We can't immediately rely on 'profile' from useAuth here because of state update batching.
-        // However, the context handles fetching it. We can do a quick check on the returned session or redirect to dashboard
-        // where the dashboard will route based on the loaded profile.
-        
-        // For a smoother UX, we can just redirect to /dashboard and let the dashboard component 
-        // handle the redirection based on the role once it loads.
+        // We can navigate to the correct dashboard based on user type.
+        // The /dashboard route will handle further redirection based on profile.
         navigate('/dashboard');
       }
     } catch (error) {
