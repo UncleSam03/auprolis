@@ -4,7 +4,9 @@ import React from 'react';
 const EmptyState = ({ 
   title = 'Nothing listed yet', 
   message = 'Property data will appear here once listings are added to the system.',
-  icon = 'database' 
+  icon = 'database',
+  actionText,
+  onAction
 }) => {
   return (
     <div className="flex flex-col items-center justify-center p-12 bg-surface-container-low rounded-xl text-center border-none shadow-none">
@@ -12,7 +14,15 @@ const EmptyState = ({
         <span className="material-symbols-outlined text-4xl">{icon}</span>
       </div>
       <h3 className="font-headline text-xl font-extrabold text-on-surface mb-2 tracking-tighter">{title}</h3>
-      <p className="text-secondary text-sm max-w-sm mx-auto font-medium opacity-80">{message}</p>
+      <p className="text-secondary text-sm max-w-sm mx-auto font-medium opacity-80 mb-6">{message}</p>
+      {actionText && (
+        <button 
+          onClick={onAction}
+          className="px-6 py-2 bg-primary text-white font-black text-xs uppercase tracking-widest rounded-lg shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
+        >
+          {actionText}
+        </button>
+      )}
     </div>
   );
 };

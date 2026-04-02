@@ -9,44 +9,13 @@ const SellerDashboardHome = () => {
   const navigate = useNavigate();
 
   const kpis = [
-    { label: 'Total listings', value: '124', trend: '+2.4%', icon: 'inventory_2', color: 'primary' },
-    { label: 'Live', value: '89', trend: 'Steady', icon: 'check_circle', color: 'secondary' },
-    { label: 'Pending review', value: '32', trend: '12 New', icon: 'hourglass_empty', color: 'tertiary' },
-    { label: 'Inquiries this week', value: '412', trend: 'High', icon: 'forum', color: 'error' },
+    { label: 'Total listings', value: '0', trend: '---', icon: 'inventory_2', color: 'primary' },
+    { label: 'Live', value: '0', trend: '---', icon: 'check_circle', color: 'secondary' },
+    { label: 'Pending review', value: '0', trend: '---', icon: 'hourglass_empty', color: 'tertiary' },
+    { label: 'Inquiries this week', value: '0', trend: '---', icon: 'forum', color: 'error' },
   ];
 
-  const recentListings = [
-    { 
-      status: 'Live', 
-      refCode: 'AUP-2041', 
-      title: 'The Horizon Heights Villa', 
-      location: 'Beverly Hills, CA', 
-      price: '$4,250,000', 
-      views: 1240, 
-      inquiries: 24, 
-      imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=400' 
-    },
-    { 
-      status: 'Pending', 
-      refCode: 'AUP-9812', 
-      title: 'Oakwood Estate Loft', 
-      location: 'Austin, TX', 
-      price: '$850,000', 
-      views: 0, 
-      inquiries: 0, 
-      imageUrl: 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=400' 
-    },
-    { 
-      status: 'Live', 
-      refCode: 'AUP-1102', 
-      title: 'Blue Coast Retreat', 
-      location: 'Malibu, CA', 
-      price: '$2,100,000', 
-      views: 842, 
-      inquiries: 12, 
-      imageUrl: 'https://images.unsplash.com/photo-1600585154526-990dcea42e49?auto=format&fit=crop&q=80&w=400' 
-    },
-  ];
+  const recentListings = [];
 
   return (
     <SellerDashboardLayout title="Seller Dashboard">
@@ -71,9 +40,22 @@ const SellerDashboardHome = () => {
             </button>
           </div>
           <div className="space-y-4">
-            {recentListings.map((listing, idx) => (
-              <SellerListingSummary key={idx} {...listing} />
-            ))}
+            {recentListings.length > 0 ? (
+              recentListings.map((listing, idx) => (
+                <SellerListingSummary key={idx} {...listing} />
+              ))
+            ) : (
+              <div className="bg-surface-container-low/20 rounded-3xl p-12 flex flex-col items-center justify-center text-center">
+                <span className="material-symbols-outlined text-4xl text-outline/30 mb-4">inventory</span>
+                <p className="text-on-surface-variant font-medium text-sm">No active listings to display.</p>
+                <button 
+                  onClick={() => navigate('/seller/listings/new/step-1')}
+                  className="mt-6 text-primary font-black text-[10px] uppercase tracking-widest border border-primary/20 px-6 py-2 rounded-full hover:bg-primary/5 transition-all"
+                >
+                  + Add Listing
+                </button>
+              </div>
+            )}
           </div>
           <div className="pt-4">
             <button 
@@ -92,7 +74,7 @@ const SellerDashboardHome = () => {
           <div className="bg-gradient-to-br from-primary to-primary-container p-10 rounded-[1.5rem] text-white shadow-xl shadow-primary/20 relative overflow-hidden group">
             <div className="relative z-10">
               <h3 className="text-2xl font-extrabold mb-2 tracking-tight">Intelligence Report</h3>
-              <p className="text-white/80 text-sm mb-8 leading-relaxed max-w-xs">Your portfolio exposure has increased by 14% since last month.</p>
+              <p className="text-white/80 text-sm mb-8 leading-relaxed max-w-xs">Your portfolio insights will appear here once listings are active.</p>
               <button 
                 onClick={() => navigate('/seller/performance')}
                 className="w-full bg-white text-primary font-black py-4 rounded-full hover:bg-white/90 active:scale-95 transition-all text-xs uppercase tracking-widest shadow-lg shadow-black/10"
@@ -101,7 +83,7 @@ const SellerDashboardHome = () => {
               </button>
             </div>
             <div className="absolute -bottom-6 -right-6 opacity-10 group-hover:scale-110 transition-transform duration-700 pointer-events-none">
-              <span className="material-symbols-outlined text-[140px]" style={{ fontVariationSettings: "'FILL' 0, 'wght' 200" }}>trending_up</span>
+              <span className="material-symbols-outlined text-[140px]" style={{ fontVariationSettings: "'FILL' 0, 'wght' 200" }}>analytics</span>
             </div>
           </div>
 
@@ -111,25 +93,9 @@ const SellerDashboardHome = () => {
               <h3 className="text-lg font-bold tracking-tight text-on-surface">Recent activity</h3>
               <button className="text-[10px] font-black uppercase tracking-widest text-outline/50 hover:text-primary transition-colors">Clear</button>
             </div>
-            <div className="space-y-8 border-l border-outline-variant/30 pl-8 ml-2">
-              <div className="relative">
-                <div className="absolute -left-[36.5px] top-0 w-4 h-4 bg-secondary rounded-full ring-4 ring-surface"></div>
-                <p className="text-[10px] font-black text-on-surface-variant mb-1 uppercase tracking-widest opacity-40">2 hours ago</p>
-                <p className="text-sm font-bold text-on-surface">New inquiry received</p>
-                <p className="text-xs text-on-surface-variant font-medium mt-1">Horizon Heights Villa • David S.</p>
-              </div>
-              <div className="relative">
-                <div className="absolute -left-[36.5px] top-0 w-4 h-4 bg-tertiary rounded-full ring-4 ring-surface"></div>
-                <p className="text-[10px] font-black text-on-surface-variant mb-1 uppercase tracking-widest opacity-40">5 hours ago</p>
-                <p className="text-sm font-bold text-on-surface">Submitted listing for review</p>
-                <p className="text-xs text-on-surface-variant font-medium mt-1 tracking-tight">Oakwood Estate Loft • Admin audit</p>
-              </div>
-              <div className="relative">
-                <div className="absolute -left-[36.5px] top-0 w-4 h-4 bg-primary rounded-full ring-4 ring-surface"></div>
-                <p className="text-[10px] font-black text-on-surface-variant mb-1 uppercase tracking-widest opacity-40">Yesterday</p>
-                <p className="text-sm font-bold text-on-surface">Price adjustment approved</p>
-                <p className="text-xs text-on-surface-variant font-medium mt-1">Blue Coast Retreat • Marketplace team</p>
-              </div>
+            <div className="min-h-[200px] flex flex-col items-center justify-center text-center border-l border-outline-variant/10 ml-2 pl-8">
+              <span className="material-symbols-outlined text-outline/20 text-3xl mb-3">history</span>
+              <p className="text-xs font-bold text-outline/40 uppercase tracking-widest">No recent activity</p>
             </div>
           </div>
         </section>

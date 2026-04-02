@@ -5,10 +5,10 @@ import AdminDashboardLayout from '../../../components/dashboard/AdminDashboardLa
 
 const AdminHome = () => {
   const kpis = [
-    { label: 'Pending Listings', value: '48', status: 'Requires Action', icon: 'hourglass_empty', color: 'amber' },
-    { label: 'Live Listings', value: '1,204', trend: '+12% vs last month', icon: 'check_circle', color: 'emerald' },
-    { label: 'Active Users', value: '8,432', subtext: '84% verified', icon: 'group', color: 'primary' },
-    { label: 'Open Inquiries', value: '12', status: 'High Priority', icon: 'chat_bubble', color: 'amber' },
+    { label: 'Pending Listings', value: '0', status: 'All Clear', icon: 'hourglass_empty', color: 'emerald' },
+    { label: 'Live Listings', value: '0', trend: '0% growth', icon: 'check_circle', color: 'primary' },
+    { label: 'Active Users', value: '0', subtext: '0 verified', icon: 'group', color: 'primary' },
+    { label: 'Open Inquiries', value: '0', status: 'No Priority', icon: 'chat_bubble', color: 'emerald' },
   ];
 
   return (
@@ -53,7 +53,7 @@ const AdminHome = () => {
             <div className="flex items-center justify-between mb-12">
               <div className="space-y-1">
                 <h3 className="text-3xl font-[800] font-headline text-on-surface tracking-tight">Platform Velocity</h3>
-                <p className="text-sm font-medium text-on-surface-variant opacity-60 italic">Listings Submitted vs. Institutional Approvals</p>
+                <p className="text-sm font-medium text-on-surface-variant opacity-60 italic">No activity recorded this period</p>
               </div>
               <div className="flex items-center gap-6">
                 <div className="flex items-center gap-3">
@@ -71,10 +71,10 @@ const AdminHome = () => {
               <div className="absolute inset-0 flex flex-col justify-between py-1 opacity-10 pointer-events-none">
                 {[0, 1, 2, 3, 4].map(i => <div key={i} className="border-t border-outline w-full"></div>)}
               </div>
-              {[60, 85, 40, 75, 95, 50, 65, 80].map((h, i) => (
+              {[1, 1, 1, 1, 1, 1, 1, 1].map((h, i) => (
                 <div key={i} className="flex flex-col flex-1 gap-2 items-center max-w-[50px] group/bar relative">
-                  <div className="w-full bg-primary rounded-t-xl opacity-90 transition-all hover:opacity-100 shadow-lg shadow-primary/10 group-hover/bar:scale-x-105" style={{ height: `${h}%` }}></div>
-                  <div className="w-full bg-secondary-fixed-dim rounded-t-xl opacity-80 transition-all hover:opacity-100 shadow-lg shadow-secondary/10 group-hover/bar:scale-x-105" style={{ height: `${h * 0.75}%` }}></div>
+                  <div className="w-full bg-primary/20 rounded-t-xl opacity-90 transition-all hover:opacity-100 shadow-lg shadow-primary/10 group-hover/bar:scale-x-105" style={{ height: `${h}%` }}></div>
+                  <div className="w-full bg-secondary-fixed-dim/20 rounded-t-xl opacity-80 transition-all hover:opacity-100 shadow-lg shadow-secondary/10 group-hover/bar:scale-x-105" style={{ height: `${h * 0.75}%` }}></div>
                 </div>
               ))}
             </div>
@@ -87,40 +87,9 @@ const AdminHome = () => {
               <h3 className="text-3xl font-[800] font-headline text-on-surface tracking-tight leading-none">Moderation Queue</h3>
             </div>
             
-            <div className="space-y-6">
-              {[
-                { title: 'Gaborone Industrial - Block 4', type: 'Listing Review', icon: 'home_work', color: 'primary' },
-                { title: 'John Doe Investor', type: 'Flagged Account', avatar: true, color: 'error' },
-                { title: 'First Capital Bank', type: 'Entity Verification', icon: 'account_balance', color: 'tertiary' }
-              ].map((item, idx) => (
-                <div key={idx} className="group flex items-center justify-between p-6 rounded-[2rem] transition-all hover:bg-white hover:shadow-authoritative border border-transparent hover:border-outline-variant/10">
-                  <div className="flex items-center gap-5">
-                    {item.avatar ? (
-                      <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-xl shadow-error/10">
-                        <img className="w-full h-full object-cover" src="https://i.pravatar.cc/150?u=a" alt="User" />
-                      </div>
-                    ) : (
-                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-inner ${
-                        item.color === 'primary' ? 'bg-primary/10 text-primary' : 'bg-tertiary/10 text-tertiary'
-                      }`}>
-                        <span className="material-symbols-outlined text-2xl">{item.icon}</span>
-                      </div>
-                    )}
-                    <div>
-                      <p className="font-[800] text-sm text-on-surface font-headline leading-tight">{item.title}</p>
-                      <p className={`text-[10px] font-black uppercase tracking-widest mt-1 ${item.color === 'error' ? 'text-error' : 'text-on-surface-variant opacity-60'}`}>
-                        {item.type}
-                      </p>
-                    </div>
-                  </div>
-                  <Link 
-                    to={`/admin/listings/review/${item.title.includes('Industrial') ? 'GAB772' : 'USER101'}`}
-                    className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-outline hover:bg-primary hover:text-white transition-all shadow-md"
-                  >
-                    <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                  </Link>
-                </div>
-              ))}
+            <div className="space-y-6 min-h-[300px] flex flex-col items-center justify-center text-center opacity-40">
+              <span className="material-symbols-outlined text-5xl mb-4">verified</span>
+              <p className="text-[10px] font-black uppercase tracking-widest">Queue is currently empty</p>
             </div>
             
             <button className="w-full mt-10 py-5 bg-on-surface text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-primary transition-all shadow-2xl flex items-center justify-center gap-3 group">

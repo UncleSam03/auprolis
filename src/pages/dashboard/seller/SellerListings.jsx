@@ -5,47 +5,7 @@ import SellerListingRow from '../../../components/dashboard/seller/SellerListing
 import EmptyState from '../../../components/dashboard/EmptyState';
 
 const SellerListings = () => {
-  const listings = [
-    { 
-      id: 'AUP-2041', 
-      title: 'The Emerald Heights', 
-      address: '882 Westview Ave, New York, NY', 
-      type: 'Residential', 
-      status: 'Live', 
-      price: '$1,450,000', 
-      roi: '12.4%', 
-      views: 2400, 
-      leads: 18, 
-      lastUpdated: '2 hours ago',
-      imageUrl: 'https://images.unsplash.com/photo-1600566753190-17f0bb2a6c3e?auto=format&fit=crop&q=80&w=200'
-    },
-    { 
-      id: 'AUP-9812', 
-      title: 'Apex Plaza Offices', 
-      address: '404 Commerce St, Austin, TX', 
-      type: 'Commercial', 
-      status: 'Pending', 
-      price: '$3,200,000', 
-      roi: null, 
-      views: 1100, 
-      leads: 42, 
-      lastUpdated: 'Yesterday',
-      imageUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=200' 
-    },
-    { 
-      id: 'AUP-1102', 
-      title: 'Azure Bay Residence', 
-      address: '12 Malibu Shores, CA', 
-      type: 'Residential', 
-      status: 'Paused', 
-      price: '$4,850,000', 
-      roi: null, 
-      views: 5800, 
-      leads: 102, 
-      lastUpdated: 'Oct 24, 2023',
-      imageUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=200' 
-    },
-  ];
+  const listings = [];
 
   // If testing empty state, set listings to []
   const isEmpty = listings.length === 0;
@@ -141,17 +101,13 @@ const SellerListings = () => {
             {/* Pagination Editorial */}
             <div className="px-8 py-6 flex items-center justify-between bg-surface-container-lowest border-t border-outline-variant/10">
               <p className="text-[11px] font-bold text-outline/50 tracking-tight">
-                Showing <span className="text-on-surface font-black">1-{listings.length}</span> of 142 listings
+                Showing <span className="text-on-surface font-black">0-0</span> of 0 listings
               </p>
               <div className="flex items-center gap-1">
                 <button className="w-10 h-10 flex items-center justify-center rounded-full text-outline/30 hover:bg-surface-container-low transition-all">
                   <span className="material-symbols-outlined">chevron_left</span>
                 </button>
                 <button className="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white font-black text-xs shadow-lg shadow-primary/20">1</button>
-                <button className="w-10 h-10 flex items-center justify-center rounded-full text-on-surface font-bold text-xs hover:bg-surface-container-low transition-all">2</button>
-                <button className="w-10 h-10 flex items-center justify-center rounded-full text-on-surface font-bold text-xs hover:bg-surface-container-low transition-all">3</button>
-                <span className="mx-2 text-outline/20 font-bold">...</span>
-                <button className="w-10 h-10 flex items-center justify-center rounded-full text-on-surface font-bold text-xs hover:bg-surface-container-low transition-all">15</button>
                 <button className="w-10 h-10 flex items-center justify-center rounded-full text-outline hover:bg-surface-container-low transition-all">
                   <span className="material-symbols-outlined">chevron_right</span>
                 </button>
@@ -166,10 +122,10 @@ const SellerListings = () => {
         <div className="bg-primary p-10 rounded-[1.5rem] text-white relative overflow-hidden group shadow-2xl shadow-primary/20 transition-transform hover:scale-[1.02]">
           <div className="relative z-10">
             <h3 className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-2 leading-none">Total Value</h3>
-            <p className="text-[2.75rem] font-headline font-[800] tracking-tighter leading-none mb-6">$24.8M</p>
+            <p className="text-[2.75rem] font-headline font-[800] tracking-tighter leading-none mb-6">$0.00</p>
             <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest bg-white/10 w-fit px-3 py-1 rounded-full">
-              <span className="material-symbols-outlined text-xs leading-none" style={{ fontVariationSettings: "'FILL' 1" }}>trending_up</span>
-              <span>+8.2% from last month</span>
+              <span className="material-symbols-outlined text-xs leading-none" style={{ fontVariationSettings: "'FILL' 1" }}>trending_flat</span>
+              <span>No data available</span>
             </div>
           </div>
           <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all duration-700"></div>
@@ -178,19 +134,19 @@ const SellerListings = () => {
         <div className="bg-surface-container-lowest p-10 rounded-[1.5rem] shadow-authoritative group transition-transform hover:scale-[1.02]">
           <h3 className="text-[10px] font-black uppercase tracking-widest text-outline/40 mb-2 leading-none">Avg Days on Market</h3>
           <p className="text-[2.75rem] font-headline font-[800] tracking-tighter leading-none text-on-surface mb-6">
-            18 <span className="text-[1rem] font-bold tracking-tight text-outline/40">DAYS</span>
+            0 <span className="text-[1rem] font-bold tracking-tight text-outline/40">DAYS</span>
           </p>
           <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-secondary font-semibold">
-            <span className="material-symbols-outlined text-sm leading-none" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-            <span>4.2 days faster than market avg.</span>
+            <span className="material-symbols-outlined text-sm leading-none" style={{ fontVariationSettings: "'FILL' 1" }}>info</span>
+            <span>Awaiting active listings</span>
           </div>
         </div>
         
         <div className="bg-surface-container-lowest p-10 rounded-[1.5rem] shadow-authoritative group transition-transform hover:scale-[1.02]">
           <h3 className="text-[10px] font-black uppercase tracking-widest text-outline/40 mb-2 leading-none">Lead Conversion</h3>
-          <p className="text-[2.75rem] font-headline font-[800] tracking-tighter leading-none text-on-surface mb-6">32%</p>
+          <p className="text-[2.75rem] font-headline font-[800] tracking-tighter leading-none text-on-surface mb-6">0%</p>
           <div className="w-full bg-surface-container-low h-2 rounded-full mt-2 overflow-hidden shadow-inner">
-            <div className="bg-tertiary h-full w-[32%] rounded-full shadow-[0_0_10px_rgba(107,56,212,0.3)]"></div>
+            <div className="bg-tertiary h-full w-[0%] rounded-full shadow-[0_0_10px_rgba(107,56,212,0.3)]"></div>
           </div>
         </div>
       </section>
