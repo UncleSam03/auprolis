@@ -1,13 +1,51 @@
-/* src/pages/dashboard/admin/AdminHome.jsx */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AdminDashboardLayout from '../../../components/dashboard/AdminDashboardLayout';
+import { supabase } from '../../../lib/customSupabaseClient';
 
 const AdminHome = () => {
+  const [stats, setStats] = useState({
+    pending: 0,
+    live: 0,
+    users: 0,
+    inquiries: 0
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
+    try {
+      setLoading(true);
+      const [
+        { count: pending },
+        { count: live },
+        { count: users }
+      ] = await Promise.all([
+        supabase.from('properties').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+        supabase.from('properties').select('*', { count: 'exact', head: true }).eq('status', 'live'),
+        supabase.from('profiles').select('*', { count: 'exact', head: true })
+      ]);
+
+      setStats({
+        pending: pending || 0,
+        live: live || 0,
+        users: users || 0,
+        inquiries: 0 // Default to 0 for now
+      });
+    } catch (err) {
+      console.error('Error fetching stats:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const kpis = [
-    { label: 'Pending Listings', value: '0', status: 'All Clear', icon: 'hourglass_empty', color: 'emerald' },
-    { label: 'Live Listings', value: '0', trend: '0% growth', icon: 'check_circle', color: 'primary' },
-    { label: 'Active Users', value: '0', subtext: '0 verified', icon: 'group', color: 'primary' },
+    { label: 'Pending Listings', value: stats.pending.toString(), status: stats.pending === 0 ? 'All Clear' : `${stats.pending} Required`, icon: 'hourglass_empty', color: stats.pending > 0 ? 'amber' : 'emerald' },
+    { label: 'Live Listings', value: stats.live.toString(), trend: 'Overall Portfolio', icon: 'check_circle', color: 'primary' },
+    { label: 'Active Users', value: stats.users.toString(), subtext: 'Real-time verified', icon: 'group', color: 'primary' },
     { label: 'Open Inquiries', value: '0', status: 'No Priority', icon: 'chat_bubble', color: 'emerald' },
   ];
 

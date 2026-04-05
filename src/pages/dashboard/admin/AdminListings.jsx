@@ -1,14 +1,38 @@
-/* src/pages/dashboard/admin/AdminListings.jsx */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AdminDashboardLayout from '../../../components/dashboard/AdminDashboardLayout';
+import { supabase } from '../../../lib/customSupabaseClient';
 
 const AdminListings = () => {
-  const listings = [
-    { id: '#AUR-8821', title: 'Mokolodi Estate - Phase 2', type: 'Residential', location: 'Gaborone West', seller: 'Lobatse Properties Ltd.', status: 'Live', date: 'Oct 12, 2023', views: '1,204', imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=300' },
-    { id: '#AUR-7712', title: 'iTowers Corporate Suite', type: 'Commercial', location: 'CBD Gaborone', seller: 'Prime Assets Group', status: 'Pending', date: 'Oct 14, 2023', views: '842', imageUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=300' },
-    { id: '#AUR-4490', title: 'Broadhurst Industrial Yard', type: 'Industrial', location: 'Block 6', seller: 'Eco-Logic Mining', status: 'Suspended', date: 'Oct 05, 2023', views: '2,410', imageUrl: 'https://images.unsplash.com/photo-1600585154526-990dcea42e49?auto=format&fit=crop&q=80&w=300' },
-    { id: '#AUR-9902', title: 'Phakalane Golf Estate', type: 'Residential', location: 'Phakalane', seller: 'Private Seller - N. Kole', status: 'Live', date: 'Sep 28, 2023', views: '4,119', imageUrl: 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=300' }
-  ];
+  const [listings, setListings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchListings();
+  }, []);
+
+  const fetchListings = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('properties')
+        .select(`
+          *,
+          profiles:seller_id (
+            name
+          )
+        `)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setListings(data || []);
+    } catch (err) {
+      console.error('Error fetching listings:', err.message);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <AdminDashboardLayout title="Listings Management" subtitle="High-density data view of active and pending administrative property intelligence.">
@@ -49,68 +73,91 @@ const AdminListings = () => {
 
         {/* High-Density Data Table */}
         <section className="bg-surface-container-lowest rounded-[2.5rem] overflow-hidden shadow-authoritative border border-outline-variant/10">
-          <table className="w-full text-left border-collapse min-w-[1000px]">
-            <thead className="bg-surface-container-low/30 sticky top-0 z-10">
-              <tr>
-                <th className="px-10 py-8 text-[10px] font-black uppercase tracking-[0.25em] text-outline/40 leading-none">Identifier</th>
-                <th className="px-8 py-8 text-[10px] font-black uppercase tracking-[0.25em] text-outline/40 leading-none">Asset Intelligence</th>
-                <th className="px-8 py-8 text-[10px] font-black uppercase tracking-[0.25em] text-outline/40 leading-none">Entity / Seller</th>
-                <th className="px-8 py-8 text-[10px] font-black uppercase tracking-[0.25em] text-outline/40 leading-none">Status</th>
-                <th className="px-8 py-8 text-[10px] font-black uppercase tracking-[0.25em] text-outline/40 leading-none">Submitted</th>
-                <th className="px-8 py-8 text-[10px] font-black uppercase tracking-[0.25em] text-outline/40 leading-none text-right">Reach</th>
-                <th className="px-10 py-8 text-right text-[10px] font-black uppercase tracking-[0.25em] text-outline/40 leading-none">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-outline-variant/5">
-              {listings.map((item, idx) => (
-                <tr key={idx} className="group hover:bg-surface transition-all duration-300">
-                  <td className="px-10 py-8 text-xs font-black text-on-surface-variant opacity-40 font-mono tracking-tighter">{item.id}</td>
-                  <td className="px-8 py-8">
-                    <div className="flex items-center gap-6">
-                      <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-xl shadow-on-surface/[0.05] flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
-                        <img className="w-full h-full object-cover" src={item.imageUrl} alt="Asset" />
-                      </div>
-                      <div className="flex flex-col gap-1 pr-6">
-                        <span className="font-[900] text-lg text-on-surface font-headline leading-tight tracking-tight group-hover:text-primary transition-colors">{item.title}</span>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-40 italic">{item.type} • {item.location}</span>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-8 py-8 text-sm font-[800] text-on-surface/70 italic">{item.seller}</td>
-                  <td className="px-8 py-8">
-                    <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest leading-none shadow-sm ${
-                      item.status === 'Live' ? 'bg-secondary/10 text-secondary' : 
-                      item.status === 'Pending' ? 'bg-primary/10 text-primary' : 'bg-error/10 text-error'
-                    }`}>
-                      {item.status}
-                    </span>
-                  </td>
-                  <td className="px-8 py-8 text-xs font-bold text-on-surface-variant opacity-60 font-body">{item.date}</td>
-                  <td className="px-8 py-8 text-right">
-                    <span className="text-sm font-[900] text-on-surface tracking-tighter">{item.views}</span>
-                    <p className="text-[8px] font-black uppercase tracking-widest text-outline/30 mt-1">Unique Imprints</p>
-                  </td>
-                  <td className="px-10 py-8 text-right">
-                    <button className="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-outline/30 hover:bg-on-surface hover:text-white transition-all shadow-md group-hover:shadow-lg">
-                      <span className="material-symbols-outlined text-xl">settings_intelligence</span>
-                    </button>
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[1000px]">
+              <thead className="bg-surface-container-low/30 sticky top-0 z-10">
+                <tr>
+                  <th className="px-10 py-8 text-[10px] font-black uppercase tracking-[0.25em] text-outline/40 leading-none">Identifier</th>
+                  <th className="px-8 py-8 text-[10px] font-black uppercase tracking-[0.25em] text-outline/40 leading-none">Asset Intelligence</th>
+                  <th className="px-8 py-8 text-[10px] font-black uppercase tracking-[0.25em] text-outline/40 leading-none">Entity / Seller</th>
+                  <th className="px-8 py-8 text-[10px] font-black uppercase tracking-[0.25em] text-outline/40 leading-none">Status</th>
+                  <th className="px-8 py-8 text-[10px] font-black uppercase tracking-[0.25em] text-outline/40 leading-none">Submitted</th>
+                  <th className="px-8 py-8 text-[10px] font-black uppercase tracking-[0.25em] text-outline/40 leading-none text-right">Reach</th>
+                  <th className="px-10 py-8 text-right text-[10px] font-black uppercase tracking-[0.25em] text-outline/40 leading-none">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-outline-variant/5">
+                {loading ? (
+                  Array(5).fill(0).map((_, i) => (
+                    <tr key={i} className="animate-pulse">
+                      <td colSpan={7} className="px-10 py-8 bg-surface-container-low/20 h-24 whitespace-nowrap"></td>
+                    </tr>
+                  ))
+                ) : listings.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="px-10 py-20 text-center opacity-40 font-black uppercase tracking-widest text-[10px]">No active intelligence recorded</td>
+                  </tr>
+                ) : (
+                  listings.map((item) => (
+                    <tr key={item.id} className="group hover:bg-surface transition-all duration-300">
+                      <td className="px-10 py-8 text-xs font-black text-on-surface-variant opacity-40 font-mono tracking-tighter truncate max-w-[120px]">
+                        #{item.id.slice(0, 8).toUpperCase()}
+                      </td>
+                      <td className="px-8 py-8">
+                        <div className="flex items-center gap-6">
+                          <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-xl shadow-on-surface/[0.05] flex-shrink-0 group-hover:scale-110 transition-transform duration-500 bg-surface-container-high">
+                            {item.images && item.images[0] ? (
+                              <img className="w-full h-full object-cover" src={item.images[0]} alt="Asset" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center opacity-20">
+                                <span className="material-symbols-outlined">image</span>
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex flex-col gap-1 pr-6">
+                            <span className="font-[900] text-lg text-on-surface font-headline leading-tight tracking-tight group-hover:text-primary transition-colors">{item.title || item.listing_title || 'Untitled Asset'}</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-40 italic">{item.property_type || item.type || 'Unspecified'} • {item.location || 'Unknown Location'}</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-8 py-8 text-sm font-[800] text-on-surface/70 italic">{item.profiles?.name || 'Institutional Seller'}</td>
+                      <td className="px-8 py-8">
+                        <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest leading-none shadow-sm ${
+                          item.status?.toLowerCase() === 'live' ? 'bg-secondary/10 text-secondary' : 
+                          item.status?.toLowerCase() === 'pending' || !item.status ? 'bg-primary/10 text-primary' : 'bg-error/10 text-error'
+                        }`}>
+                          {item.status || 'Pending'}
+                        </span>
+                      </td>
+                      <td className="px-8 py-8 text-xs font-bold text-on-surface-variant opacity-60 font-body">
+                        {new Date(item.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                      </td>
+                      <td className="px-8 py-8 text-right">
+                        <span className="text-sm font-[900] text-on-surface tracking-tighter">{item.views_count || 0}</span>
+                        <p className="text-[8px] font-black uppercase tracking-widest text-outline/30 mt-1">Unique Imprints</p>
+                      </td>
+                      <td className="px-10 py-8 text-right">
+                        <button className="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-outline/30 hover:bg-on-surface hover:text-white transition-all shadow-md group-hover:shadow-lg">
+                          <span className="material-symbols-outlined text-xl">settings_intelligence</span>
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
           
           <footer className="px-10 py-8 flex items-center justify-between bg-surface-container-low/30 border-t border-outline-variant/10">
-            <span className="text-[11px] font-black uppercase tracking-widest text-outline/40 italic">Aggregated Intelligence: 1,248 Active Listings</span>
+            <span className="text-[11px] font-black uppercase tracking-widest text-outline/40 italic">Aggregated Intelligence: {listings.length} Active Listings</span>
             <div className="flex items-center gap-3">
               <button className="w-10 h-10 rounded-xl bg-surface-container-high text-outline/40 flex items-center justify-center hover:bg-white transition-all shadow-inner">
                 <span className="material-symbols-outlined">chevron_left</span>
               </button>
               <div className="flex items-center gap-2">
                 <span className="w-10 h-10 rounded-xl bg-primary text-white text-xs font-black shadow-xl shadow-primary/20 flex items-center justify-center">1</span>
-                <span className="w-10 h-10 rounded-xl text-on-surface font-black text-xs hover:bg-white transition-all flex items-center justify-center cursor-pointer">2</span>
               </div>
-              <button className="w-10 h-10 rounded-xl bg-surface-container-high text-on-surface flex items-center justify-center hover:bg-white transition-all shadow-inner">
+              <button className="w-10 h-10 rounded-xl bg-surface-container-high text-outline/40 flex items-center justify-center hover:bg-white transition-all shadow-inner">
                 <span className="material-symbols-outlined">chevron_right</span>
               </button>
             </div>
@@ -120,10 +167,30 @@ const AdminListings = () => {
         {/* Performance Bento */}
         <section className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {[
-            { label: 'Total Portfolio Intelligence', value: '1,248', trend: '+12%', color: 'emerald' },
-            { label: 'Pending Human Verification', value: '42', subtext: 'SLA Active', color: 'primary' },
-            { label: 'Average Asset Valuation', value: 'BWP 4.2M', subtext: 'Market Aggregated', color: 'tertiary' },
-            { label: 'Network Reach Imprints', value: '8.2k', trend: 'Global', color: 'primary' }
+            { 
+              label: 'Total Portfolio Intelligence', 
+              value: listings.length.toString(), 
+              trend: '+12%', 
+              color: 'emerald' 
+            },
+            { 
+              label: 'Pending Human Verification', 
+              value: listings.filter(l => l.status?.toLowerCase() === 'pending' || !l.status).length.toString(), 
+              subtext: 'SLA Active', 
+              color: 'primary' 
+            },
+            { 
+              label: 'Average Asset Valuation', 
+              value: `USD ${(listings.reduce((acc, l) => acc + (Number(l.price_usd) || 0), 0) / (listings.length || 1)).toLocaleString(undefined, { maximumFractionDigits: 0 })}`, 
+              subtext: 'Market Aggregated', 
+              color: 'tertiary' 
+            },
+            { 
+              label: 'Network Reach Imprints', 
+              value: `${(listings.reduce((acc, l) => acc + (Number(l.views_count) || 0), 0) / 1000).toFixed(1)}k`, 
+              trend: 'Global', 
+              color: 'primary' 
+            }
           ].map((stat, idx) => (
             <div key={idx} className="p-10 bg-white rounded-[2.5rem] border-l-8 border-primary shadow-authoritative hover:scale-[1.03] transition-all">
               <span className="text-[10px] font-black uppercase tracking-[0.25em] text-outline/40 block mb-6">{stat.label}</span>
