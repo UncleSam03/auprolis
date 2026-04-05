@@ -33,14 +33,7 @@ const SellerDashboardLayout = ({ children, title }) => {
                 Manage listings and track performance across your portfolio.
               </p>
             </div>
-            <div className="flex gap-3">
-              <button className="px-6 py-2.5 rounded-full border border-outline-variant/30 text-on-surface-variant font-bold text-[10px] uppercase tracking-widest hover:bg-surface-container-low transition-all">
-                Export Data
-              </button>
-              <button className="px-6 py-2.5 rounded-full bg-primary text-white font-bold text-[10px] uppercase tracking-widest shadow-lg shadow-primary/10 hover:shadow-primary/20 transition-all">
-                Analytics Suite
-              </button>
-            </div>
+            {/* Removed buttons */}
           </header>
           
           <div className="max-w-7xl">
