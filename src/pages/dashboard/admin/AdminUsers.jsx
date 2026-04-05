@@ -151,7 +151,7 @@ const AdminUsers = () => {
           </table>
           
           <footer className="px-10 py-8 flex items-center justify-between bg-surface-container-low/30 border-t border-outline-variant/10">
-            <span className="text-[11px] font-black uppercase tracking-widest text-outline/40 italic">System Directory Coverage: 2,482 Entity Records</span>
+            <span className="text-[11px] font-black uppercase tracking-widest text-outline/40 italic">System Directory Coverage: {users.length} Entity Records</span>
             <div className="flex items-center gap-3">
               <button className="w-10 h-10 rounded-xl bg-surface-container-high text-outline/40 flex items-center justify-center hover:bg-white transition-all shadow-inner">
                 <span className="material-symbols-outlined">chevron_left</span>
