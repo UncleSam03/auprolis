@@ -45,6 +45,7 @@ import LegalGuide from '@/pages/LegalGuide';
 import SellerDashboard from '@/components/dashboard/SellerDashboard'; 
 import { Toaster } from '@/components/ui/toaster';
 import { useAuth, AuthProvider } from '@/contexts/SupabaseAuthContext';
+import { NewListingProvider } from '@/contexts/NewListingContext';
 import { useToast } from '@/components/ui/use-toast';
 import { AlertCircle } from 'lucide-react';
 
@@ -130,10 +131,20 @@ function AppRoutes() {
         {/* Seller Dashboard Routes */}
         <Route path="/seller" element={<ProtectedRoute allowedTypes={['seller']}><SellerDashboardHome /></ProtectedRoute>} />
         <Route path="/seller/listings" element={<ProtectedRoute allowedTypes={['seller']}><SellerListings /></ProtectedRoute>} />
-        <Route path="/seller/listings/new/step-1" element={<ProtectedRoute allowedTypes={['seller']}><NewListingStep1 /></ProtectedRoute>} />
-        <Route path="/seller/listings/new/step-2" element={<ProtectedRoute allowedTypes={['seller']}><NewListingStep2 /></ProtectedRoute>} />
-        <Route path="/seller/listings/new/step-3" element={<ProtectedRoute allowedTypes={['seller']}><NewListingStep3 /></ProtectedRoute>} />
-        <Route path="/seller/listings/new/step-4" element={<ProtectedRoute allowedTypes={['seller']}><NewListingStep4 /></ProtectedRoute>} />
+        
+        <Route path="/seller/listings/new/*" element={
+          <ProtectedRoute allowedTypes={['seller']}>
+            <NewListingProvider>
+                <Routes>
+                    <Route path="step-1" element={<NewListingStep1 />} />
+                    <Route path="step-2" element={<NewListingStep2 />} />
+                    <Route path="step-3" element={<NewListingStep3 />} />
+                    <Route path="step-4" element={<NewListingStep4 />} />
+                </Routes>
+            </NewListingProvider>
+          </ProtectedRoute>
+        } />
+        
         <Route path="/seller/listings/:id" element={<ProtectedRoute allowedTypes={['seller']}><SellerListingDetail /></ProtectedRoute>} />
         <Route path="/seller/performance" element={<ProtectedRoute allowedTypes={['seller']}><SellerPerformance /></ProtectedRoute>} />
         <Route path="/seller/inquiries" element={<ProtectedRoute allowedTypes={['seller']}><SellerInquiries /></ProtectedRoute>} />

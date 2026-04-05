@@ -4,8 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import SellerDashboardLayout from '../../../components/dashboard/SellerDashboardLayout';
 import SellerStepper from '../../../components/dashboard/seller/SellerStepper';
 
+import { useNewListing } from '@/contexts/NewListingContext';
+
 const NewListingStep3 = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const { submitListing, isSubmitting } = useNewListing();
 
   const checklistItems = [
     { title: 'Certified Title Deed', subtitle: 'Original digital copy (PDF/A)', status: 'uploaded' },
@@ -150,8 +153,11 @@ const NewListingStep3 = () => {
             Media & Specs
           </button>
           <div className="flex items-center gap-4">
-            <button className="text-primary font-black text-[10px] uppercase tracking-[0.2em] px-8 py-3 rounded-full hover:bg-primary/5 transition-colors">
-              Save as draft
+            <button 
+                onClick={() => submitListing('pending')}
+                disabled={isSubmitting}
+                className="text-primary font-black text-[10px] uppercase tracking-[0.2em] px-8 py-3 rounded-full hover:bg-primary/5 transition-colors disabled:opacity-50">
+              {isSubmitting ? 'Saving...' : 'Save as draft'}
             </button>
             <button 
               onClick={() => navigate('/seller/listings/new/step-4')}

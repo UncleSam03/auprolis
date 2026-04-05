@@ -3,9 +3,20 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import SellerDashboardLayout from '../../../components/dashboard/SellerDashboardLayout';
 import SellerStepper from '../../../components/dashboard/seller/SellerStepper';
+import { useNewListing } from '@/contexts/NewListingContext';
+import { supabase } from '@/lib/customSupabaseClient';
+import { useAuth } from '@/contexts/SupabaseAuthContext';
+import { useToast } from '@/components/ui/use-toast';
 
 const NewListingStep4 = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const { listingData, submitListing, isSubmitting } = useNewListing();
+  
+    const formatCurrency = (val) => {
+      if (!val) return 'P0';
+      const num = parseFloat(val.toString().replace(/[^0-9.]/g, ''));
+      return new Intl.NumberFormat('en-BW', { style: 'currency', currency: 'BWP', maximumFractionDigits: 0 }).format(num).replace('BWP', 'P');
+    }
 
   return (
     <SellerDashboardLayout title="Review & Publish">
@@ -55,28 +66,28 @@ const NewListingStep4 = () => {
               {/* Data Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-y-12 gap-x-16">
                 <div className="space-y-3">
-                  <span className="text-[10px] font-black text-outline/40 uppercase tracking-widest block font-headline">Property Address</span>
-                  <p className="text-xl font-bold text-on-surface font-headline leading-tight">2245 Oakview Terrace, Beverly Hills, CA 90210</p>
+                  <span className="text-[10px] font-black text-outline/40 uppercase tracking-widest block font-headline">Property Location</span>
+                  <p className="text-xl font-bold text-on-surface font-headline leading-tight">{listingData.location || "No location specified"}</p>
                 </div>
                 <div className="space-y-3">
                   <span className="text-[10px] font-black text-outline/40 uppercase tracking-widest block font-headline">Listing Type</span>
                   <div className="flex items-center gap-3">
                     <span className="material-symbols-outlined text-primary text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>gavel</span>
-                    <p className="text-xl font-bold text-on-surface font-headline">Sheriff Sale Auction</p>
+                    <p className="text-xl font-bold text-on-surface font-headline">{listingData.case_type}</p>
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <span className="text-[10px] font-black text-outline/40 uppercase tracking-widest block font-headline">Reserve Price</span>
-                  <p className="text-4xl font-[900] text-primary tracking-tighter font-headline leading-none">$2,450,000</p>
+                  <span className="text-[10px] font-black text-outline/40 uppercase tracking-widest block font-headline">Target List Price</span>
+                  <p className="text-4xl font-[900] text-primary tracking-tighter font-headline leading-none">{formatCurrency(listingData.price_pula)}</p>
                 </div>
                 <div className="space-y-3">
-                  <span className="text-[10px] font-black text-outline/40 uppercase tracking-widest block font-headline">Opening Bid</span>
-                  <p className="text-4xl font-[900] text-on-surface tracking-tighter font-headline leading-none">$1,100,000</p>
+                  <span className="text-[10px] font-black text-outline/40 uppercase tracking-widest block font-headline">Property Theme</span>
+                  <p className="text-xl font-bold text-on-surface font-headline leading-none">{listingData.property_type}</p>
                 </div>
                 <div className="col-span-1 md:col-span-2 pt-8 border-t border-outline-variant/10">
                   <span className="text-[10px] font-black text-outline/40 uppercase tracking-widest block font-headline mb-4">Detailed Description</span>
                   <p className="text-on-surface-variant leading-relaxed text-base font-medium opacity-70">
-                    Prime distressed asset located in the exclusive Beverly Hills enclave. This 4-bedroom contemporary residence features unobstructed canyon views, floor-to-ceiling glass walls, and an expansive infinity pool deck. Legal status: Judgment entered. All liens cleared via secondary verification. Ready for immediate auction cycle.
+                    {listingData.description || "No description provided."}
                   </p>
                 </div>
               </div>
@@ -113,11 +124,19 @@ const NewListingStep4 = () => {
                     <span className="text-sm font-bold text-on-surface">Global Reach</span>
                   </div>
                 </div>
-                <button className="w-full py-6 bg-gradient-to-br from-primary to-primary-container text-white rounded-full font-black text-sm shadow-2xl shadow-primary/30 hover:scale-[1.02] transition-all active:scale-95 uppercase tracking-widest mb-6">
-                  Submit Listing
+                <button 
+                  disabled={isSubmitting}
+                  onClick={() => submitListing('approved')}
+                  className="w-full py-6 bg-gradient-to-br from-primary to-primary-container text-white rounded-full font-black text-sm shadow-2xl shadow-primary/30 hover:scale-[1.02] transition-all active:scale-95 uppercase tracking-widest mb-6 disabled:opacity-50"
+                >
+                  {isSubmitting ? 'Publishing...' : 'Submit Listing'}
                 </button>
-                <button className="w-full py-4 bg-transparent border border-outline-variant/20 text-on-surface-variant rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-surface-container-low transition-colors">
-                  Save as Draft
+                <button 
+                  disabled={isSubmitting}
+                  onClick={() => submitListing('pending')}
+                  className="w-full py-4 bg-transparent border border-outline-variant/20 text-on-surface-variant rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-surface-container-low transition-colors disabled:opacity-50"
+                >
+                  {isSubmitting ? 'Saving...' : 'Save as Draft'}
                 </button>
               </div>
 

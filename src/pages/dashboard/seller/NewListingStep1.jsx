@@ -4,17 +4,23 @@ import { useNavigate } from 'react-router-dom';
 import SellerDashboardLayout from '../../../components/dashboard/SellerDashboardLayout';
 import SellerStepper from '../../../components/dashboard/seller/SellerStepper';
 import { loadGoogleMaps } from '@/lib/googleMaps';
+import { useNewListing } from '@/contexts/NewListingContext';
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const NewListingStep1 = () => {
   const navigate = useNavigate();
+  const { listingData, updateListingData, submitListing, isSubmitting } = useNewListing();
   const mapRef = React.useRef(null);
   const autoCompleteRef = React.useRef(null);
   const [map, setMap] = React.useState(null);
   const [marker, setMarker] = React.useState(null);
-  const [address, setAddress] = React.useState('');
   const [loading, setLoading] = React.useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    updateListingData({ [name]: value });
+  };
 
   React.useEffect(() => {
     loadGoogleMaps(GOOGLE_MAPS_API_KEY).then(() => {
@@ -29,7 +35,11 @@ const NewListingStep1 = () => {
         autoCompleteRef.current.addListener('place_changed', () => {
           const place = autoCompleteRef.current.getPlace();
           if (place.geometry) {
-            setAddress(place.formatted_address || '');
+            updateListingData({ 
+                location: place.formatted_address || '',
+                latitude: place.geometry.location.lat(),
+                longitude: place.geometry.location.lng()
+            });
             updateMap(place.geometry.location);
           }
         });
@@ -119,7 +129,11 @@ const NewListingStep1 = () => {
                 <div className="space-y-3">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant opacity-60 ml-1 font-headline">Property Type</label>
                   <div className="relative">
-                    <select className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-6 focus:ring-2 focus:ring-primary/20 appearance-none text-sm font-bold text-on-surface cursor-pointer">
+                    <select 
+                        name="property_type"
+                        value={listingData.property_type}
+                        onChange={handleChange}
+                        className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-6 focus:ring-2 focus:ring-primary/20 appearance-none text-sm font-bold text-on-surface cursor-pointer">
                       <option>Residential Multi-Family</option>
                       <option>Commercial Office</option>
                       <option>Industrial Warehouse</option>
@@ -133,6 +147,9 @@ const NewListingStep1 = () => {
                   <div className="relative">
                     <span className="absolute left-6 top-1/2 -translate-y-1/2 text-outline/40 font-black text-xs">P</span>
                     <input 
+                      name="price_pula"
+                      value={listingData.price_pula}
+                      onChange={handleChange}
                       className="w-full bg-surface-container-low border-none rounded-2xl py-5 pl-10 pr-6 focus:ring-2 focus:ring-primary/20 text-sm font-[800] text-on-surface placeholder:text-outline/20" 
                       placeholder="1,250,000" 
                       type="text"
@@ -144,6 +161,9 @@ const NewListingStep1 = () => {
               <div className="space-y-3">
                 <label className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant opacity-60 ml-1 font-headline">Listing Title</label>
                 <input 
+                  name="title"
+                  value={listingData.title}
+                  onChange={handleChange}
                   className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-6 focus:ring-2 focus:ring-primary/20 text-sm font-bold text-on-surface placeholder:text-outline/20" 
                   placeholder="e.g. Prime Midtown Multi-Family Distressed Asset" 
                   type="text"
@@ -159,8 +179,8 @@ const NewListingStep1 = () => {
                     className="w-full bg-surface-container-low border-none rounded-2xl py-5 pl-14 pr-6 focus:ring-2 focus:ring-primary/20 text-sm font-bold text-on-surface placeholder:text-outline/20" 
                     placeholder="Search for address or coordinate mapping..." 
                     type="text"
-                    onChange={(e) => setAddress(e.target.value)}
-                    value={address}
+                    onChange={(e) => updateListingData({ location: e.target.value })}
+                    value={listingData.location}
                   />
                 </div>
                 {/* Real Google Map Container */}
@@ -181,6 +201,9 @@ const NewListingStep1 = () => {
               <div className="space-y-3">
                 <label className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant opacity-60 ml-1 font-headline">Brief Description</label>
                 <textarea 
+                  name="description"
+                  value={listingData.description}
+                  onChange={handleChange}
                   className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-6 focus:ring-2 focus:ring-primary/20 text-sm font-bold text-on-surface placeholder:text-outline/30 resize-none min-h-[140px]" 
                   placeholder="Provide a concise intelligence summary of the property, including key distress factors..."
                   rows="4"
@@ -220,8 +243,11 @@ const NewListingStep1 = () => {
             Cancel & Exit
           </button>
           <div className="flex items-center gap-4">
-            <button className="text-primary font-black text-[10px] uppercase tracking-[0.2em] px-8 py-3 rounded-full hover:bg-primary/5 transition-colors">
-              Save as draft
+            <button 
+                onClick={() => submitListing('pending')}
+                disabled={isSubmitting}
+                className="text-primary font-black text-[10px] uppercase tracking-[0.2em] px-8 py-3 rounded-full hover:bg-primary/5 transition-colors disabled:opacity-50">
+              {isSubmitting ? 'Saving...' : 'Save as draft'}
             </button>
             <button 
               onClick={() => navigate('/seller/listings/new/step-2')}

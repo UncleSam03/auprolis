@@ -3,9 +3,16 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import SellerDashboardLayout from '../../../components/dashboard/SellerDashboardLayout';
 import SellerStepper from '../../../components/dashboard/seller/SellerStepper';
+import { useNewListing } from '@/contexts/NewListingContext';
 
 const NewListingStep2 = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const { listingData, updateListingData, submitListing, isSubmitting } = useNewListing();
+  
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      updateListingData({ [name]: value });
+    };
 
   return (
     <SellerDashboardLayout title="Media & Specifications">
@@ -62,35 +69,55 @@ const NewListingStep2 = () => {
                 <div className="flex flex-col gap-3">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-outline/60 ml-1 font-headline opacity-60">Beds</label>
                   <div className="relative">
-                    <input className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-14 focus:ring-2 focus:ring-primary/20 text-on-surface font-[800]" placeholder="0" type="number" />
+                    <input 
+                        name="bedrooms"
+                        value={listingData.bedrooms}
+                        onChange={handleChange}
+                        className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-14 focus:ring-2 focus:ring-primary/20 text-on-surface font-[800]" placeholder="0" type="number" />
                     <span className="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-outline/40" style={{ fontVariationSettings: "'FILL' 1" }}>bed</span>
                   </div>
                 </div>
                 <div className="flex flex-col gap-3">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-outline/60 ml-1 font-headline opacity-60">Baths</label>
                   <div className="relative">
-                    <input className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-14 focus:ring-2 focus:ring-primary/20 text-on-surface font-[800]" placeholder="0" type="number" />
+                    <input 
+                        name="bathrooms"
+                        value={listingData.bathrooms}
+                        onChange={handleChange}
+                        className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-14 focus:ring-2 focus:ring-primary/20 text-on-surface font-[800]" placeholder="0" type="number" />
                     <span className="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-outline/40" style={{ fontVariationSettings: "'FILL' 1" }}>bathtub</span>
                   </div>
                 </div>
                 <div className="flex flex-col gap-3">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-outline/60 ml-1 font-headline opacity-60">Land Size (sqft)</label>
                   <div className="relative">
-                    <input className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-14 focus:ring-2 focus:ring-primary/20 text-on-surface font-[800]" placeholder="5,000" type="text" />
+                    <input 
+                        name="land_size"
+                        value={listingData.land_size}
+                        onChange={handleChange}
+                        className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-14 focus:ring-2 focus:ring-primary/20 text-on-surface font-[800]" placeholder="5,000" type="text" />
                     <span className="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-outline/40" style={{ fontVariationSettings: "'FILL' 1" }}>architecture</span>
                   </div>
                 </div>
                 <div className="flex flex-col gap-3">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-outline/60 ml-1 font-headline opacity-60">Year Built</label>
                   <div className="relative">
-                    <input className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-14 focus:ring-2 focus:ring-primary/20 text-on-surface font-[800]" placeholder="2000" type="number" />
+                    <input 
+                        name="year_built"
+                        value={listingData.year_built}
+                        onChange={handleChange}
+                        className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-14 focus:ring-2 focus:ring-primary/20 text-on-surface font-[800]" placeholder="2000" type="number" />
                     <span className="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-outline/40" style={{ fontVariationSettings: "'FILL' 1" }}>event</span>
                   </div>
                 </div>
                 <div className="flex flex-col gap-3 md:col-span-2">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-outline/60 ml-1 font-headline opacity-60">Distressed Status Flag</label>
                   <div className="relative">
-                    <select className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-14 focus:ring-2 focus:ring-primary/20 text-on-surface font-bold appearance-none">
+                    <select 
+                        name="case_type"
+                        value={listingData.case_type}
+                        onChange={handleChange}
+                        className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-14 focus:ring-2 focus:ring-primary/20 text-on-surface font-bold appearance-none">
                       <option>Select Case Type...</option>
                       <option>Sheriff Sale / Auction</option>
                       <option>Bank Owned / REO</option>
@@ -128,8 +155,11 @@ const NewListingStep2 = () => {
             Property Info
           </button>
           <div className="flex items-center gap-4">
-            <button className="text-primary font-black text-[10px] uppercase tracking-[0.2em] px-8 py-3 rounded-full hover:bg-primary/5 transition-colors">
-              Save as draft
+            <button 
+                onClick={() => submitListing('pending')}
+                disabled={isSubmitting}
+                className="text-primary font-black text-[10px] uppercase tracking-[0.2em] px-8 py-3 rounded-full hover:bg-primary/5 transition-colors disabled:opacity-50">
+              {isSubmitting ? 'Saving...' : 'Save as draft'}
             </button>
             <button 
               onClick={() => navigate('/seller/listings/new/step-3')}
