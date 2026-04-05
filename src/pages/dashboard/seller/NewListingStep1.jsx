@@ -39,9 +39,9 @@ const NewListingStep1 = () => {
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant opacity-60 ml-1 font-headline">Target List Price (USD)</label>
+                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant opacity-60 ml-1 font-headline">Target List Price (Pula)</label>
                   <div className="relative">
-                    <span className="absolute left-6 top-1/2 -translate-y-1/2 text-outline/40 font-black text-xs">$</span>
+                    <span className="absolute left-6 top-1/2 -translate-y-1/2 text-outline/40 font-black text-xs">P</span>
                     <input 
                       className="w-full bg-surface-container-low border-none rounded-2xl py-5 pl-10 pr-6 focus:ring-2 focus:ring-primary/20 text-sm font-[800] text-on-surface placeholder:text-outline/20" 
                       placeholder="1,250,000" 

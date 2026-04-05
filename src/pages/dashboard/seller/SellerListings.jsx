@@ -122,7 +122,7 @@ const SellerListings = () => {
         <div className="bg-primary p-10 rounded-[1.5rem] text-white relative overflow-hidden group shadow-2xl shadow-primary/20 transition-transform hover:scale-[1.02]">
           <div className="relative z-10">
             <h3 className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-2 leading-none">Total Value</h3>
-            <p className="text-[2.75rem] font-headline font-[800] tracking-tighter leading-none mb-6">$0.00</p>
+            <p className="text-[2.75rem] font-headline font-[800] tracking-tighter leading-none mb-6">P0.00</p>
             <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest bg-white/10 w-fit px-3 py-1 rounded-full">
               <span className="material-symbols-outlined text-xs leading-none" style={{ fontVariationSettings: "'FILL' 1" }}>trending_flat</span>
               <span>No data available</span>

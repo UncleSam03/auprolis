@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }) => {
 
   // Helper to fetch profile data with retry logic
   const fetchProfileWithRetry = async (userId, retries = 3) => {
+    console.log(`AuthProvider: Fetching profile for ${userId} (attempt 1/ ${retries})`);
     for (let i = 0; i < retries; i++) {
       try {
         const { data, error } = await supabase
@@ -22,24 +23,30 @@ export const AuthProvider = ({ children }) => {
           .eq('id', userId)
           .single();
         
-        if (data) return data;
+        if (data) {
+          console.log('AuthProvider: Profile found');
+          return data;
+        }
         
         if (error && error.code !== 'PGRST116') { // PGRST116 is 'no rows found'
-          console.error('Error fetching profile:', error);
+          console.error('AuthProvider: Error fetching profile:', error);
         }
         
         // Wait before retrying (exponential backoff or simple delay)
         if (i < retries - 1) {
+          console.warn(`AuthProvider: Profile not ready, retrying... (${i + 2}/${retries})`);
           await new Promise(resolve => setTimeout(resolve, 500 * (i + 1)));
         }
       } catch (err) {
-        console.error('Unexpected error fetching profile:', err);
+        console.error('AuthProvider: Unexpected error fetching profile:', err);
       }
     }
+    console.warn('AuthProvider: Profile fetch failed after all retries');
     return null;
   };
 
   const handleSession = useCallback(async (currentSession) => {
+    console.log('AuthProvider: Handling session change');
     setSession(currentSession);
     const currentUser = currentSession?.user ?? null;
     setUser(currentUser);
@@ -47,12 +54,15 @@ export const AuthProvider = ({ children }) => {
     if (currentUser) {
       // Fetch detailed profile information
       // We use retry logic because the database trigger might have a slight delay
+      console.log(`AuthProvider: User logged in (${currentUser.id}), fetching profile...`);
       const userProfile = await fetchProfileWithRetry(currentUser.id);
       setProfile(userProfile);
     } else {
+      console.log('AuthProvider: No active session');
       setProfile(null);
     }
 
+    console.log('AuthProvider: Finalizing initialization, setting loading=false');
     setLoading(false);
   }, []);
 

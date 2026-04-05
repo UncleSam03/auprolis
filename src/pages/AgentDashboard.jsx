@@ -229,8 +229,8 @@ const AgentDashboard = () => {
                                   <div>
                                       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Current Reserve</span>
                                       <div className="flex items-center text-xl font-black text-slate-900">
-                                          <DollarSign className="w-4 h-4 text-emerald-500" />
-                                          {property.price_usd ? property.price_usd.toLocaleString('en-US') : '0'}
+                                          <span className="text-emerald-500 mr-1 text-sm">P</span>
+                                          {property.price_usd ? property.price_usd.toLocaleString('en-BW') : '0'}
                                       </div>
                                   </div>
                                   <div className="flex flex-col items-end">

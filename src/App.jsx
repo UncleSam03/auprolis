@@ -170,12 +170,10 @@ function AppRoutes() {
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <AppRoutes />
-        <Toaster />
-      </Router>
-    </AuthProvider>
+    <Router>
+      <AppRoutes />
+      <Toaster />
+    </Router>
   );
 }
 

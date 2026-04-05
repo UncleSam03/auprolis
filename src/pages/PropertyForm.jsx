@@ -383,7 +383,7 @@ const PropertyForm = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                      <div className="space-y-2">
-                      <Label htmlFor="price_usd">Price / Reserve (USD)</Label>
+                      <Label htmlFor="price_usd">Price / Reserve (Pula)</Label>
                       <Input id="price_usd" name="price_usd" type="number" min="0" value={formData.price_usd} onChange={handleChange} required placeholder="e.g. 150000" />
                     </div>
                     <div className="space-y-2">

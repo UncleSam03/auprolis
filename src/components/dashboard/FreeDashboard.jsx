@@ -69,7 +69,7 @@ const FreeDashboard = ({ onUpgrade }) => {
                <p className="text-gray-600 text-sm mb-4">
                  Get full access to all listings, email notifications, and save up to 10 favorites.
                </p>
-               <p className="font-bold text-lg text-slate-900 mb-4">$15 / month</p>
+               <p className="font-bold text-lg text-slate-900 mb-4">P150 / month</p>
              </div>
              <Button onClick={() => onUpgrade('Basic')} className="w-full bg-[#2563eb] hover:bg-[#1d4ed8]">
                Get Basic Plan
@@ -83,7 +83,7 @@ const FreeDashboard = ({ onUpgrade }) => {
                <p className="text-gray-600 text-sm mb-4">
                  Unlock advanced filters, document verification, and direct messaging with sellers.
                </p>
-               <p className="font-bold text-lg text-slate-900 mb-4">$30 / month</p>
+               <p className="font-bold text-lg text-slate-900 mb-4">P300 / month</p>
              </div>
              <Button onClick={() => onUpgrade('Pro')} className="w-full bg-amber-600 hover:bg-amber-700 text-white">
                Get Pro Plan
