@@ -47,6 +47,14 @@ export const NewListingProvider = ({ children }) => {
         valuation: '',
         legal_status: 'Auction Scheduled',
 
+        // Document Status
+        documents: {
+            title_deed: false,
+            seller_id: false,
+            court_order: false,
+            tax_clearance: false
+        },
+
         // Metadata
         status: 'pending'
     });
@@ -76,6 +84,12 @@ export const NewListingProvider = ({ children }) => {
             court_name: '',
             valuation: '',
             legal_status: 'Auction Scheduled',
+            documents: {
+                title_deed: false,
+                seller_id: false,
+                court_order: false,
+                tax_clearance: false
+            },
             status: 'pending'
         });
     };

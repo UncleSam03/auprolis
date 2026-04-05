@@ -8,14 +8,19 @@ import { useNewListing } from '@/contexts/NewListingContext';
 
 const NewListingStep3 = () => {
     const navigate = useNavigate();
-    const { submitListing, isSubmitting } = useNewListing();
+    const { listingData, updateListingData, submitListing, isSubmitting } = useNewListing();
 
-  const checklistItems = [
-    { title: 'Certified Title Deed', subtitle: 'Original digital copy (PDF/A)', status: 'uploaded' },
-    { title: 'Seller Identification', subtitle: 'Government ID or Passport', status: 'uploaded' },
-    { title: 'Court Order of Foreclosure', subtitle: 'Mandatory for Distressed Sales', status: 'pending' },
-    { title: 'Tax Clearance Certificate', subtitle: 'Proof of zero outstanding municipal debt', status: 'pending' },
-  ];
+    const handleUpload = (docId) => {
+        const newDocs = { ...listingData.documents, [docId]: true };
+        updateListingData({ documents: newDocs });
+    };
+
+    const checklistItems = [
+        { id: 'title_deed', title: 'Certified Title Deed', subtitle: 'Original digital copy (PDF/A)', status: listingData.documents.title_deed ? 'uploaded' : 'pending' },
+        { id: 'seller_id', title: 'Seller Identification', subtitle: 'Government ID or Passport', status: listingData.documents.seller_id ? 'uploaded' : 'pending' },
+        { id: 'court_order', title: 'Court Order of Foreclosure', subtitle: 'Mandatory for Distressed Sales', status: listingData.documents.court_order ? 'uploaded' : 'pending' },
+        { id: 'tax_clearance', title: 'Tax Clearance Certificate', subtitle: 'Proof of zero outstanding municipal debt', status: listingData.documents.tax_clearance ? 'uploaded' : 'pending' },
+    ];
 
   return (
     <SellerDashboardLayout title="Legal & Compliance">
@@ -67,10 +72,14 @@ const NewListingStep3 = () => {
                     {item.status === 'uploaded' ? (
                       <div className="flex items-center gap-3">
                         <span className="material-symbols-outlined text-secondary text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>cloud_done</span>
-                        <button className="text-[10px] font-black uppercase tracking-widest text-primary hover:underline">Replace</button>
+                        <button 
+                            onClick={() => updateListingData({ documents: { ...listingData.documents, [item.id]: false } })}
+                            className="text-[10px] font-black uppercase tracking-widest text-primary hover:underline">Replace</button>
                       </div>
                     ) : (
-                      <button className="bg-primary text-white px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-all">
+                      <button 
+                        onClick={() => handleUpload(item.id)}
+                        className="bg-primary text-white px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-all">
                         Upload
                       </button>
                     )}

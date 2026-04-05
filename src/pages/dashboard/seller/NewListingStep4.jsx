@@ -67,6 +67,7 @@ const NewListingStep4 = () => {
       { id: 'description', label: 'Property Narrative', status: listingData.description?.length > 20 },
       { id: 'specs', label: 'Technical Specs', status: listingData.bedrooms > 0 && listingData.bathrooms > 0 },
       { id: 'media', label: 'Hero Visuals', status: listingData.images?.length > 0 },
+      { id: 'compliance', label: 'Legal Compliance', status: Object.values(listingData.documents).every(v => v === true) },
     ];
 
   return (
