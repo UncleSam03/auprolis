@@ -31,6 +31,7 @@ import AdminHome from '@/pages/dashboard/admin/AdminHome';
 import AdminListings from '@/pages/dashboard/admin/AdminListings';
 import AdminListingReview from '@/pages/dashboard/admin/AdminListingReview';
 import AdminUsers from '@/pages/dashboard/admin/AdminUsers';
+import AdminInstitutions from '@/pages/dashboard/admin/AdminInstitutions';
 
 
 import AdminDashboard from '@/pages/AdminDashboard';
@@ -159,6 +160,7 @@ function AppRoutes() {
         <Route path="/admin/listings/pending" element={<ProtectedRoute allowedTypes={['admin']}><AdminListings /></ProtectedRoute>} />
         <Route path="/admin/listings/review/:id" element={<ProtectedRoute allowedTypes={['admin']}><AdminListingReview /></ProtectedRoute>} />
         <Route path="/admin/users" element={<ProtectedRoute allowedTypes={['admin']}><AdminUsers /></ProtectedRoute>} />
+        <Route path="/admin/institutions" element={<ProtectedRoute allowedTypes={['admin']}><AdminInstitutions /></ProtectedRoute>} />
 
         
         <Route path="/agent-dashboard" element={<ProtectedRoute><AgentDashboard /></ProtectedRoute>} /> 
