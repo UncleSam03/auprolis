@@ -1,8 +1,11 @@
 /* src/pages/dashboard/AccountBilling.jsx */
 import React from 'react';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
+import { useAuth } from '../../contexts/SupabaseAuthContext';
 
 const AccountBilling = () => {
+  const { signOut } = useAuth();
+  
   const features = [
     { name: 'Distressed Property Leads', free: 'check', basic: 'check', pro: 'check', enterprise: 'check' },
     { name: 'Favorites Limit', free: '10', basic: '100', pro: 'Unlimited', enterprise: 'Unlimited' },
@@ -21,8 +24,11 @@ const AccountBilling = () => {
             <h3 className="font-headline text-4xl font-extrabold tracking-tighter text-on-surface">Plan & Billing</h3>
             <p className="text-secondary mt-2 font-medium">Manage your institutional access and financial history.</p>
           </div>
-          <button className="flex items-center gap-2 px-6 py-2.5 text-destructive font-bold text-sm tracking-wide uppercase hover:bg-destructive/5 rounded-lg transition-colors">
-            <span className="material-symbols-outlined text-lg">logout</span>
+          <button 
+            onClick={signOut}
+            className="flex items-center gap-2 px-6 py-2.5 text-destructive font-bold text-sm tracking-wide uppercase hover:bg-destructive/5 rounded-lg transition-colors group"
+          >
+            <span className="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">logout</span>
             Sign out
           </button>
         </div>

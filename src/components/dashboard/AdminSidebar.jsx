@@ -1,8 +1,10 @@
 /* src/components/dashboard/AdminSidebar.jsx */
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '@/contexts/SupabaseAuthContext';
 
 const AdminSidebar = ({ isOpen = false, closeSidebar }) => {
+  const { signOut } = useAuth();
   const navItems = [
     { label: 'Overview', icon: 'dashboard', path: '/admin' },
     { label: 'Listings', icon: 'list_alt', path: '/admin/listings' },
@@ -16,7 +18,7 @@ const AdminSidebar = ({ isOpen = false, closeSidebar }) => {
         isOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
-      <div>
+      <div className="flex flex-col h-full overflow-hidden">
         <div className="px-10 mb-12 flex items-center justify-between">
           <div className="flex flex-col">
             <h1 className="text-2xl font-black tracking-tighter text-white font-headline uppercase leading-none">
@@ -33,7 +35,7 @@ const AdminSidebar = ({ isOpen = false, closeSidebar }) => {
             <span className="material-symbols-outlined">close</span>
           </button>
         </div>
-        <nav className="space-y-px">
+        <nav className="space-y-px flex-1 overflow-y-auto">
           {navItems.map((item) => (
             <NavLink
               key={item.label}
@@ -63,15 +65,24 @@ const AdminSidebar = ({ isOpen = false, closeSidebar }) => {
             </NavLink>
           ))}
         </nav>
-      </div>
-      <div className="px-8 mt-auto">
-        <div className="p-5 rounded-2xl bg-white/5 flex items-center gap-4 border border-white/5 hover:border-white/10 transition-colors cursor-default group">
-          <div className="w-10 h-10 rounded-xl bg-[#4B6BFB]/20 flex items-center justify-center text-[#4B6BFB] group-hover:scale-110 transition-transform shadow-inner">
-            <span className="material-symbols-outlined text-xl">admin_panel_settings</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-white text-[11px] font-black uppercase tracking-tight">Superadmin</span>
-            <span className="text-white/30 text-[9px] font-bold uppercase tracking-widest leading-none mt-0.5">Console Active</span>
+
+        <div className="px-8 mt-auto space-y-6 pt-10 border-t border-white/5">
+          <button 
+            onClick={signOut}
+            className="w-full flex items-center gap-4 px-5 py-4 text-white/20 hover:text-destructive hover:bg-destructive/5 rounded-2xl transition-all group font-label text-[10px] font-black uppercase tracking-[0.2em]"
+          >
+            <span className="material-symbols-outlined text-[22px] group-hover:translate-x-1 transition-transform">logout</span>
+            Sign Out
+          </button>
+
+          <div className="p-5 rounded-2xl bg-white/5 flex items-center gap-4 border border-white/5 hover:border-white/10 transition-colors cursor-default group">
+            <div className="w-10 h-10 rounded-xl bg-[#4B6BFB]/20 flex items-center justify-center text-[#4B6BFB] group-hover:scale-110 transition-transform shadow-inner">
+              <span className="material-symbols-outlined text-xl">admin_panel_settings</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-white text-[11px] font-black uppercase tracking-tight">Superadmin</span>
+              <span className="text-white/30 text-[9px] font-bold uppercase tracking-widest leading-none mt-0.5">Console Active</span>
+            </div>
           </div>
         </div>
       </div>

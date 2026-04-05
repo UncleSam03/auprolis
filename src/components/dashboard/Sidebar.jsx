@@ -1,8 +1,10 @@
 /* src/components/dashboard/Sidebar.jsx */
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '@/contexts/SupabaseAuthContext';
 
 const Sidebar = ({ isOpen = false, closeSidebar }) => {
+  const { signOut } = useAuth();
   const navItems = [
     { label: 'Home', icon: 'home', path: '/dashboard' },
     { label: 'Search', icon: 'search', path: '/search' },
@@ -18,7 +20,7 @@ const Sidebar = ({ isOpen = false, closeSidebar }) => {
         isOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
-      <div>
+      <div className="flex flex-col h-full">
         <div className="px-10 mb-12 flex items-center justify-between">
           <div className="flex flex-col">
             <h1 className="text-2xl font-black tracking-tighter text-white font-headline uppercase leading-none">
@@ -36,7 +38,7 @@ const Sidebar = ({ isOpen = false, closeSidebar }) => {
             <span className="material-symbols-outlined">close</span>
           </button>
         </div>
-        <nav className="space-y-px">
+        <nav className="space-y-px flex-1">
           {navItems.map((item) => (
             <NavLink
               key={item.label}
@@ -69,15 +71,24 @@ const Sidebar = ({ isOpen = false, closeSidebar }) => {
             </NavLink>
           ))}
         </nav>
-      </div>
-      <div className="px-8 mb-4">
-        <div className="p-4 rounded-2xl bg-white/5 flex items-center gap-4 border border-white/5 hover:border-white/10 transition-colors cursor-default">
-          <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
-            <span className="material-symbols-outlined text-primary text-xl">workspace_premium</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-white text-[11px] font-black uppercase tracking-tight">Free plan</span>
-            <span className="text-white/30 text-[9px] font-bold uppercase tracking-widest leading-none">Limited Tier</span>
+
+        <div className="px-6 space-y-4">
+          <button 
+            onClick={signOut}
+            className="w-full flex items-center gap-4 px-4 py-3 text-white/40 hover:text-destructive hover:bg-destructive/5 rounded-xl transition-all group font-label text-xs font-semibold"
+          >
+            <span className="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">logout</span>
+            Sign Out
+          </button>
+
+          <div className="p-4 rounded-2xl bg-white/5 flex items-center gap-4 border border-white/5 hover:border-white/10 transition-colors cursor-default">
+            <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
+              <span className="material-symbols-outlined text-primary text-xl">workspace_premium</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-white text-[11px] font-black uppercase tracking-tight">Free plan</span>
+              <span className="text-white/30 text-[9px] font-bold uppercase tracking-widest leading-none">Limited Tier</span>
+            </div>
           </div>
         </div>
       </div>

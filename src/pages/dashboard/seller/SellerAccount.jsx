@@ -1,8 +1,11 @@
 /* src/pages/dashboard/seller/SellerAccount.jsx */
 import React from 'react';
 import SellerDashboardLayout from '../../../components/dashboard/SellerDashboardLayout';
+import { useAuth } from '@/contexts/SupabaseAuthContext';
 
 const SellerAccount = () => {
+  const { signOut } = useAuth();
+  
   const plans = [
     { name: 'Basic', price: '15', desc: 'Entry Level', features: ['5 Active Listings', 'Basic Analytics', 'Email Support'], action: 'Downgrade', active: false },
     { name: 'Pro', price: '30', desc: 'Recommended', features: ['20 Active Listings', 'Advanced Filters', 'PDF Reports', 'Verified Badge'], action: 'Current Plan', active: true, highlighted: true },
@@ -13,17 +16,26 @@ const SellerAccount = () => {
     <SellerDashboardLayout title="Account & Plan">
       <div className="max-w-[1200px] mx-auto space-y-16 pb-24">
         {/* Page Header */}
-        <header>
-          <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-4 block">Strategic Management</p>
-          <h2 className="text-5xl font-[900] font-headline tracking-tighter text-on-surface leading-none mb-6">Account & Billing</h2>
-          <p className="text-lg text-on-surface-variant font-medium opacity-60 leading-relaxed max-w-2xl">
-            Manage your commercial real estate subscription, monitor intelligence usage, and review your institutional-grade billing history.
-          </p>
+        <header className="flex justify-between items-start">
+          <div>
+            <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-4 block font-headline">Strategic Management</p>
+            <h2 className="text-5xl font-[900] font-headline tracking-tighter text-on-surface leading-none mb-6">Account & Billing</h2>
+            <p className="text-lg text-on-surface-variant font-medium opacity-60 leading-relaxed max-w-2xl">
+              Manage your commercial real estate subscription, monitor intelligence usage, and review your institutional-grade billing history.
+            </p>
+          </div>
+          <button 
+            onClick={signOut}
+            className="flex items-center gap-3 px-8 py-3.5 bg-surface-container-low text-destructive font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl hover:bg-white hover:shadow-authoritative transition-all group"
+          >
+            <span className="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">logout</span>
+            Sign Out
+          </button>
         </header>
 
         {/* Current Plan & Usage Bento */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
-          <div className="md:col-span-12 lg:col-span-7 bg-surface-container-lowest rounded-[2.5rem] p-12 shadow-authoritative border border-outline-variant/10 flex flex-col justify-between group">
+          <div className="md:col-span-12 lg:col-span-7 bg-surface-container-lowest rounded-[2.5rem] p-12 shadow-authoritative border border-outline-variant/10 flex flex-col justify-between group relative overflow-hidden">
             <div className="relative z-10">
               <div className="flex justify-between items-start mb-10">
                 <div>
