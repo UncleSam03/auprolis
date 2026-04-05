@@ -59,6 +59,16 @@ const NewListingStep4 = () => {
       return new Intl.NumberFormat('en-BW', { style: 'currency', currency: 'BWP', maximumFractionDigits: 0 }).format(num).replace('BWP', 'P');
     }
 
+    const checklist = [
+      { id: 'title', label: 'Listing Title', status: !!listingData.title },
+      { id: 'price', label: 'Target Price', status: !!listingData.price_pula },
+      { id: 'location', label: 'Property Location', status: !!listingData.location },
+      { id: 'coordinates', label: 'GPS Coordinates', status: !!listingData.latitude && !!listingData.longitude },
+      { id: 'description', label: 'Property Narrative', status: listingData.description?.length > 20 },
+      { id: 'specs', label: 'Technical Specs', status: listingData.bedrooms > 0 && listingData.bathrooms > 0 },
+      { id: 'media', label: 'Hero Visuals', status: listingData.images?.length > 0 },
+    ];
+
   return (
     <SellerDashboardLayout title="Review & Publish">
       <div className="max-w-6xl mx-auto pb-32">
@@ -148,6 +158,26 @@ const NewListingStep4 = () => {
               <div className="flex-1">
                 <h3 className="text-2xl font-[800] text-on-surface font-headline leading-none mb-3 tracking-tight">Pre-Audit Performance: 98%</h3>
                 <p className="text-on-surface-variant leading-relaxed font-medium opacity-60">Our intelligence algorithm has cross-referenced the title history and tax liens. The risk score for this listing is exceptionally low. Documentation integrity is high.</p>
+              </div>
+            </div>
+
+            {/* Data Integrity Checklist */}
+            <div className="bg-surface-container-lowest rounded-3xl p-10 shadow-authoritative border border-outline-variant/10">
+              <h3 className="text-xl font-[800] text-on-surface font-headline mb-8 flex items-center gap-4">
+                <span className="material-symbols-outlined text-primary">fact_check</span>
+                Data Integrity Ledger
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {checklist.map((item) => (
+                  <div key={item.id} className="flex items-center justify-between p-4 bg-surface-container-low rounded-2xl border border-outline-variant/5">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-on-surface/60">{item.label}</span>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${item.status ? 'bg-secondary/20 text-secondary' : 'bg-primary/20 text-primary'}`}>
+                      <span className="material-symbols-outlined text-xl font-black">
+                        {item.status ? 'check' : 'close'}
+                      </span>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
