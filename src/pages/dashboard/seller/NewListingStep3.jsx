@@ -10,9 +10,14 @@ const NewListingStep3 = () => {
     const navigate = useNavigate();
     const { listingData, updateListingData, submitListing, isSubmitting } = useNewListing();
 
-    const handleUpload = (docId) => {
-        const newDocs = { ...listingData.documents, [docId]: true };
-        updateListingData({ documents: newDocs });
+    const handleUpload = (docId, e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // In a real app, we'd upload the file here.
+            // For now, we update the status to true.
+            const newDocs = { ...listingData.documents, [docId]: true };
+            updateListingData({ documents: newDocs });
+        }
     };
 
     const checklistItems = [
@@ -77,11 +82,19 @@ const NewListingStep3 = () => {
                             className="text-[10px] font-black uppercase tracking-widest text-primary hover:underline">Replace</button>
                       </div>
                     ) : (
-                      <button 
-                        onClick={() => handleUpload(item.id)}
-                        className="bg-primary text-white px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-all">
-                        Upload
-                      </button>
+                      <div className="flex flex-col items-end gap-2">
+                        <button 
+                            onClick={() => document.getElementById(`file-input-${item.id}`).click()}
+                            className="bg-primary text-white px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-all">
+                            Upload
+                        </button>
+                        <input 
+                            id={`file-input-${item.id}`}
+                            type="file"
+                            className="hidden"
+                            onChange={(e) => handleUpload(item.id, e)}
+                        />
+                      </div>
                     )}
                   </div>
                 </div>
