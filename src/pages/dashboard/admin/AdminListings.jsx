@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AdminDashboardLayout from '../../../components/dashboard/AdminDashboardLayout';
 import { supabase } from '../../../lib/customSupabaseClient';
+import { formatCurrency } from '../../../lib/utils';
 
 const AdminListings = () => {
   const [listings, setListings] = useState([]);
@@ -181,7 +182,7 @@ const AdminListings = () => {
             },
             { 
               label: 'Average Asset Valuation', 
-              value: `USD ${(listings.reduce((acc, l) => acc + (Number(l.price_usd) || 0), 0) / (listings.length || 1)).toLocaleString(undefined, { maximumFractionDigits: 0 })}`, 
+              value: formatCurrency(listings.reduce((acc, l) => acc + (Number(l.price_usd) || 0), 0) / (listings.length || 1)), 
               subtext: 'Market Aggregated', 
               color: 'tertiary' 
             },

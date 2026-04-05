@@ -65,7 +65,7 @@ const DashboardHome = () => {
               <span className="px-3 py-1 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest rounded-full">
                 Current plan: Free
               </span>
-              <p className="text-secondary text-sm font-medium">Upgrade to unlock full property intelligence. Plans start at $15/mo</p>
+              <p className="text-secondary text-sm font-medium">Upgrade to unlock full property intelligence. Plans start at P15/mo</p>
             </div>
           </div>
           <button className="px-8 py-4 bg-primary text-white font-headline text-xs font-black uppercase tracking-widest rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">

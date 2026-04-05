@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import PropertyCard from '../../components/dashboard/PropertyCard';
 import EmptyState from '../../components/dashboard/EmptyState';
+import { formatCurrency } from '../../lib/utils';
 
 const SearchBrowse = () => {
   const [searchLocation, setSearchLocation] = useState('');
@@ -46,9 +47,9 @@ const SearchBrowse = () => {
           <div className="relative group">
             <select className="appearance-none bg-surface-container-low border-none rounded-xl px-6 py-3 pr-10 text-sm font-semibold text-on-surface focus:ring-2 focus:ring-primary/20 cursor-pointer outline-none">
               <option>Price Range</option>
-              <option>$0 - $500k</option>
-              <option>$500k - $1M</option>
-              <option>$1M+</option>
+              <option>P0 - P500,000</option>
+              <option>P500,000 - P1,000,000</option>
+              <option>P1,000,000+</option>
             </select>
             <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface pointer-events-none text-xl">expand_more</span>
           </div>

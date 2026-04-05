@@ -153,11 +153,11 @@ const SellerInquiries = () => {
             <div className="space-y-4">
               <div className="flex justify-between items-center text-xs">
                 <span className="text-on-surface-variant font-medium opacity-60">Listing Price</span>
-                <span className="font-[900] text-primary tracking-tighter">$412,000</span>
+                <span className="font-[900] text-primary tracking-tighter">P412,000</span>
               </div>
               <div className="flex justify-between items-center text-xs">
                 <span className="text-on-surface-variant font-medium opacity-60">Potential Equity</span>
-                <span className="font-[900] text-secondary tracking-tighter">+$114k</span>
+                <span className="font-[900] text-secondary tracking-tighter">+P114k</span>
               </div>
             </div>
           </div>

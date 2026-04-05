@@ -41,7 +41,7 @@ const PlanCard = ({ plan }) => {
         </p>
         <div className="flex items-baseline gap-1 mb-8">
           <span className={`text-4xl font-headline font-extrabold ${isPro ? 'text-on-tertiary-fixed-variant' : 'text-on-surface'}`}>
-            ${price}
+            P{price}
           </span>
           <span className={`font-medium ${isPro ? 'text-on-tertiary-fixed-variant/40' : 'text-outline'}`}>/mo</span>
         </div>

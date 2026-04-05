@@ -31,7 +31,7 @@ const SellerAccount = () => {
                   <h3 className="text-5xl font-[900] text-primary font-headline tracking-tighter leading-none">Pro Plan</h3>
                 </div>
                 <div className="text-right">
-                  <p className="text-5xl font-[900] text-on-surface font-headline tracking-tighter leading-none">$30<span className="text-xl font-medium opacity-40">/mo</span></p>
+                  <p className="text-5xl font-[900] text-on-surface font-headline tracking-tighter leading-none">P30<span className="text-xl font-medium opacity-40">/mo</span></p>
                   <p className="text-[10px] font-black uppercase tracking-widest text-outline/40 mt-3">Billed Monthly</p>
                 </div>
               </div>
@@ -123,7 +123,7 @@ const SellerAccount = () => {
                 <p className={`text-[10px] font-black uppercase tracking-[0.2em] mb-6 ${plan.dark ? 'text-white/40' : 'text-outline/40'}`}>{plan.desc}</p>
                 <h4 className={`text-2xl font-[900] font-headline mb-4 tracking-tighter ${plan.dark ? 'text-white' : 'text-on-surface'}`}>{plan.name}</h4>
                 <p className={`text-5xl font-[900] font-headline mb-12 tracking-tighter ${plan.dark ? 'text-white' : 'text-on-surface'}`}>
-                  ${plan.price}<span className={`text-lg font-medium opacity-40 ml-1 ${plan.dark ? 'text-white/40' : 'text-on-surface/40'}`}>/mo</span>
+                  P{plan.price}<span className={`text-lg font-medium opacity-40 ml-1 ${plan.dark ? 'text-white/40' : 'text-on-surface/40'}`}>/mo</span>
                 </p>
                 
                 <ul className="space-y-6 mb-16">

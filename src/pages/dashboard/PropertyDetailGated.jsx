@@ -11,7 +11,7 @@ const PropertyDetailGated = () => {
   const property = {
     id: id || 'BA-90077',
     title: 'Bel Air Estates Monolith',
-    price: '$3,450,000',
+    price: 'P3,450,000',
     location: 'Bel Air, Los Angeles, CA 90077',
     beds: 6,
     baths: 5.5,
@@ -83,7 +83,7 @@ const PropertyDetailGated = () => {
               <div className="space-y-4">
                 <div className="flex justify-between border-b border-outline-variant/30 pb-2">
                   <span className="text-sm font-medium text-secondary">Asset Liability</span>
-                  <span className="text-sm font-bold">$1,240,000.00</span>
+                  <span className="text-sm font-bold">P1,240,000.00</span>
                 </div>
                 <div className="flex justify-between border-b border-outline-variant/30 pb-2">
                   <span className="text-sm font-medium text-secondary">Zoning Tier</span>
