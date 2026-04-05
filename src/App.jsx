@@ -8,7 +8,6 @@ import SignUp from '@/pages/SignUp';
 import DashboardHome from '@/pages/dashboard/DashboardHome';
 import SearchBrowse from '@/pages/dashboard/SearchBrowse';
 import Favorites from '@/pages/dashboard/Favorites';
-import MessagesLocked from '@/pages/dashboard/MessagesLocked';
 import DocumentsLocked from '@/pages/dashboard/DocumentsLocked';
 import Notifications from '@/pages/dashboard/Notifications';
 import AccountBilling from '@/pages/dashboard/AccountBilling';
@@ -23,7 +22,6 @@ import NewListingStep3 from '@/pages/dashboard/seller/NewListingStep3';
 import NewListingStep4 from '@/pages/dashboard/seller/NewListingStep4';
 import SellerListingDetail from '@/pages/dashboard/seller/SellerListingDetail';
 import SellerPerformance from '@/pages/dashboard/seller/SellerPerformance';
-import SellerInquiries from '@/pages/dashboard/seller/SellerInquiries';
 import SellerDocuments from '@/pages/dashboard/seller/SellerDocuments';
 import SellerNotifications from '@/pages/dashboard/seller/SellerNotifications';
 import SellerAccount from '@/pages/dashboard/seller/SellerAccount';
@@ -122,7 +120,6 @@ function AppRoutes() {
         <Route path="/dashboard" element={<ProtectedRoute><DashboardHome /></ProtectedRoute>} />
         <Route path="/search" element={<ProtectedRoute><SearchBrowse /></ProtectedRoute>} />
         <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
-        <Route path="/messages" element={<ProtectedRoute><MessagesLocked /></ProtectedRoute>} />
         <Route path="/documents" element={<ProtectedRoute><DocumentsLocked /></ProtectedRoute>} />
         <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
         <Route path="/account" element={<ProtectedRoute><AccountBilling /></ProtectedRoute>} />
@@ -147,7 +144,6 @@ function AppRoutes() {
         
         <Route path="/seller/listings/:id" element={<ProtectedRoute allowedTypes={['seller']}><SellerListingDetail /></ProtectedRoute>} />
         <Route path="/seller/performance" element={<ProtectedRoute allowedTypes={['seller']}><SellerPerformance /></ProtectedRoute>} />
-        <Route path="/seller/inquiries" element={<ProtectedRoute allowedTypes={['seller']}><SellerInquiries /></ProtectedRoute>} />
         <Route path="/seller/documents" element={<ProtectedRoute allowedTypes={['seller']}><SellerDocuments /></ProtectedRoute>} />
         <Route path="/seller/notifications" element={<ProtectedRoute allowedTypes={['seller']}><SellerNotifications /></ProtectedRoute>} />
         <Route path="/seller/account" element={<ProtectedRoute allowedTypes={['seller']}><SellerAccount /></ProtectedRoute>} />

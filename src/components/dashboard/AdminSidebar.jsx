@@ -8,8 +8,6 @@ const AdminSidebar = ({ isOpen = false, closeSidebar }) => {
     { label: 'Listings', icon: 'list_alt', path: '/admin/listings' },
     { label: 'Users', icon: 'group', path: '/admin/users' },
     { label: 'Agents / Institutions', icon: 'account_balance', path: '/admin/institutions' },
-    { label: 'Audit Log', icon: 'history_edu', path: '/admin/audit' },
-    { label: 'Reports', icon: 'assessment', path: '/admin/reports' },
     { label: 'Notifications', icon: 'notifications', path: '/admin/notifications' },
   ];
 

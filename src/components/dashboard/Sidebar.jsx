@@ -7,7 +7,6 @@ const Sidebar = ({ isOpen = false, closeSidebar }) => {
     { label: 'Home', icon: 'home', path: '/dashboard' },
     { label: 'Search', icon: 'search', path: '/search' },
     { label: 'Favorites', icon: 'favorite', path: '/favorites' },
-    { label: 'Messages', icon: 'lock', path: '/messages' },
     { label: 'Documents', icon: 'lock', path: '/documents' },
     { label: 'Notifications', icon: 'notifications', path: '/notifications' },
     { label: 'Account', icon: 'person', path: '/account' },

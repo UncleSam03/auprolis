@@ -175,7 +175,7 @@ const SellerPerformance = () => {
           >
             <div className="flex justify-between items-start">
               <div className="p-4 bg-primary/10 text-primary rounded-2xl shadow-inner">
-                <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>chat_bubble</span>
+                <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>person_search</span>
               </div>
               <div className="text-right">
                 <span className="text-[10px] font-black text-outline/40 uppercase tracking-widest font-headline">Qualified Leads</span>
@@ -193,7 +193,7 @@ const SellerPerformance = () => {
             </div>
             <div className="space-y-4">
               <div className="flex justify-between items-end">
-                <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-60">Response Rate</span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-60">Asset Engagement</span>
                 <span className="font-[900] text-outline/40 text-lg">0%</span>
               </div>
               <div className="w-full h-3 bg-surface-container-high rounded-full overflow-hidden shadow-inner">

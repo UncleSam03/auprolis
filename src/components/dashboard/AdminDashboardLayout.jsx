@@ -36,15 +36,7 @@ const AdminDashboardLayout = ({ children, title, subtitle = "System control and 
               </p>
             </div>
             
-            <div className="flex gap-4">
-              <button className="px-8 py-4 rounded-full border-2 border-outline-variant/20 text-on-surface-variant font-black text-[10px] uppercase tracking-widest hover:bg-surface-container-low transition-all">
-                Export System Report
-              </button>
-              <button className="px-10 py-4 rounded-full bg-gradient-to-br from-primary to-primary-container text-white font-black text-[10px] uppercase tracking-widest shadow-2xl shadow-primary/30 hover:scale-[1.03] active:scale-95 transition-all flex items-center gap-3">
-                <span className="material-symbols-outlined text-sm">shield</span>
-                System Logs
-              </button>
-            </div>
+
           </header>
           
           <div className="max-w-[1600px] mx-auto">

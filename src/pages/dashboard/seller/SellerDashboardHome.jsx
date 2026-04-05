@@ -12,7 +12,7 @@ const SellerDashboardHome = () => {
     { label: 'Total listings', value: '0', trend: '---', icon: 'inventory_2', color: 'primary' },
     { label: 'Live', value: '0', trend: '---', icon: 'check_circle', color: 'secondary' },
     { label: 'Pending review', value: '0', trend: '---', icon: 'hourglass_empty', color: 'tertiary' },
-    { label: 'Inquiries this week', value: '0', trend: '---', icon: 'forum', color: 'error' },
+    { label: 'Total Views', value: '0', trend: '---', icon: 'visibility', color: 'tertiary' },
   ];
 
   const recentListings = [];

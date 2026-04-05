@@ -8,7 +8,6 @@ const SellerSidebar = ({ isOpen = false, closeSidebar }) => {
     { label: 'My Listings', icon: 'list_alt', path: '/seller/listings' },
     { label: 'New Listing', icon: 'add_box', path: '/seller/listings/new/step-1' },
     { label: 'Performance', icon: 'trending_up', path: '/seller/performance' },
-    { label: 'Inquiries', icon: 'chat_bubble', path: '/seller/inquiries' },
     { label: 'Documents', icon: 'description', path: '/seller/documents' },
     { label: 'Notifications', icon: 'notifications', path: '/seller/notifications' },
     { label: 'Account', icon: 'account_circle', path: '/seller/account' },
