@@ -7,11 +7,52 @@ import { useNewListing } from '@/contexts/NewListingContext';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useToast } from '@/components/ui/use-toast';
+import { loadGoogleMaps } from '@/lib/googleMaps';
+
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const NewListingStep4 = () => {
     const navigate = useNavigate();
     const { listingData, submitListing, isSubmitting } = useNewListing();
+    const miniMapRef = React.useRef(null);
   
+    React.useEffect(() => {
+      if (listingData.latitude && listingData.longitude) {
+        loadGoogleMaps(GOOGLE_MAPS_API_KEY).then(() => {
+          const map = new google.maps.Map(miniMapRef.current, {
+            center: { lat: listingData.latitude, lng: listingData.longitude },
+            zoom: 14,
+            disableDefaultUI: true,
+            gestureHandling: 'none',
+            styles: [
+              {
+                "featureType": "all",
+                "elementType": "labels.text.fill",
+                "stylers": [{"color": "#7c93a3"}]
+              },
+              {
+                "featureType": "all",
+                "elementType": "labels.text.stroke",
+                "stylers": [{"color": "#ffffff"}]
+              }
+            ]
+          });
+          new google.maps.Marker({
+            position: { lat: listingData.latitude, lng: listingData.longitude },
+            map: map,
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: 8,
+              fillColor: '#6366f1',
+              fillOpacity: 1,
+              strokeWeight: 4,
+              strokeColor: '#ffffff',
+            }
+          });
+        });
+      }
+    }, [listingData.latitude, listingData.longitude]);
+
     const formatCurrency = (val) => {
       if (!val) return 'P0';
       const num = parseFloat(val.toString().replace(/[^0-9.]/g, ''));
@@ -148,15 +189,21 @@ const NewListingStep4 = () => {
 
               {/* mini map */}
               <div className="rounded-[2rem] overflow-hidden aspect-square border border-outline-variant/10 shadow-authoritative relative group">
-                <img 
-                  alt="Location" 
-                  className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000" 
-                  src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=600"
-                />
+                {listingData.latitude && listingData.longitude ? (
+                  <div ref={miniMapRef} className="w-full h-full grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000" />
+                ) : (
+                  <img 
+                    alt="Location" 
+                    className="w-full h-full object-cover grayscale opacity-40" 
+                    src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=600"
+                  />
+                )}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <div className="bg-white/95 px-6 py-3 rounded-full shadow-2xl border border-white flex items-center gap-3">
                     <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_var(--primary)]"></div>
-                    <span className="text-[9px] font-black uppercase tracking-widest text-on-surface leading-none">Verified Address</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-on-surface leading-none">
+                        {listingData.latitude ? 'Verified Address' : 'Address Not Set'}
+                    </span>
                   </div>
                 </div>
               </div>
