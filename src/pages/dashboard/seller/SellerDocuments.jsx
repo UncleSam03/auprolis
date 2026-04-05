@@ -4,13 +4,16 @@ import { supabase } from '@/lib/customSupabaseClient';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useToast } from '@/components/ui/use-toast';
 
 const SellerDocuments = () => {
   const { user } = useAuth();
   const [documents, setDocuments] = useState([]);
   const [stats, setStats] = useState({ compliance: 0, pending: 0, missing: 0 });
   const [loading, setLoading] = useState(true);
+  const [isUploading, setIsUploading] = useState(false);
   const [filter, setFilter] = useState('All Files');
+  const { toast } = useToast();
 
   const fetchDocuments = useCallback(async () => {
     if (!user) return;
@@ -77,6 +80,91 @@ const SellerDocuments = () => {
     };
   }, [user, fetchDocuments]);
 
+  const handleFileUpload = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file || !user) return;
+
+    // Basic validation
+    if (file.size > 10 * 1024 * 1024) { // 10MB limit
+      toast({
+        title: "File too large",
+        description: "Maximum file size is 10MB",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      setIsUploading(true);
+      
+      // 1. Generate unique file path
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2, 15)}-${Date.now()}.${fileExt}`;
+      const filePath = `${user.id}/${fileName}`;
+
+      // 2. Upload to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from('property-documents')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        if (uploadError.message.includes('bucket not found')) {
+            // If bucket doesn't exist, we can't do much here, but usually it should be created
+            throw new Error("Storage vault not initialized. Please contact support.");
+        }
+        throw uploadError;
+      }
+
+      // 3. Get Public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('property-documents')
+        .getPublicUrl(filePath);
+
+      // 4. Insert Intelligence Record
+      // We'll try to find any property to link it to, or leave it null
+      const { data: properties } = await supabase
+        .from('properties')
+        .select('id')
+        .eq('seller_id', user.id)
+        .limit(1);
+
+      const propertyId = properties?.[0]?.id || null;
+
+      const { error: dbError } = await supabase
+        .from('property_documents')
+        .insert({
+          name: file.name,
+          file_url: publicUrl,
+          file_type: file.type || 'application/octet-stream',
+          size_bytes: file.size,
+          seller_id: user.id,
+          property_id: propertyId,
+          category: 'legal', // Default category
+          status: 'pending'
+        });
+
+      if (dbError) throw dbError;
+
+      toast({
+        title: "Intelligence Secured",
+        description: `${file.name} has been archived in the vault.`,
+      });
+
+      fetchDocuments();
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast({
+        title: "Upload Failed",
+        description: error.message || "An error occurred during secure transmission.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsUploading(false);
+      // Clear input
+      event.target.value = '';
+    }
+  };
+
   const filteredDocuments = documents.filter(doc => {
     if (filter === 'All Files') return true;
     const categoryMap = {
@@ -117,9 +205,22 @@ const SellerDocuments = () => {
             <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-2 block font-headline">Centralized Intelligence</p>
             <h2 className="text-5xl font-[800] font-headline text-on-surface tracking-tighter leading-none">Security Vault</h2>
           </div>
-          <button className="flex items-center gap-3 bg-gradient-to-br from-primary to-primary-container text-white px-10 py-4 rounded-full font-black text-[10px] uppercase tracking-[0.2em] shadow-2xl shadow-primary/20 hover:scale-[1.03] active:scale-95 transition-all">
-            <span className="material-symbols-outlined text-lg leading-none">cloud_upload</span>
-            Upload New Document
+          <input 
+            type="file" 
+            id="vault-upload" 
+            className="hidden" 
+            onChange={handleFileUpload}
+            disabled={isUploading}
+          />
+          <button 
+            disabled={isUploading}
+            onClick={() => document.getElementById('vault-upload').click()}
+            className="flex items-center gap-3 bg-gradient-to-br from-primary to-primary-container text-white px-10 py-4 rounded-full font-black text-[10px] uppercase tracking-[0.2em] shadow-2xl shadow-primary/20 hover:scale-[1.03] active:scale-95 transition-all disabled:opacity-50 disabled:scale-100"
+          >
+            <span className={`material-symbols-outlined text-lg leading-none ${isUploading ? 'animate-spin' : ''}`}>
+              {isUploading ? 'sync' : 'cloud_upload'}
+            </span>
+            {isUploading ? 'Securing Data...' : 'Upload New Document'}
           </button>
         </div>
 
@@ -242,7 +343,12 @@ const SellerDocuments = () => {
                             </td>
                             <td className="px-10 py-7 text-right">
                               {doc.status === 'missing' ? (
-                                <button className="text-primary text-[10px] font-black uppercase tracking-widest underline decoration-2 underline-offset-4 hover:no-underline">Upload Now</button>
+                                <button 
+                                  onClick={() => document.getElementById('vault-upload').click()}
+                                  className="text-primary text-[10px] font-black uppercase tracking-widest underline decoration-2 underline-offset-4 hover:no-underline"
+                                >
+                                  Upload Now
+                                </button>
                               ) : (
                                 <div className="flex items-center justify-end gap-2">
                                   <button className="p-3 text-outline/40 hover:text-primary hover:bg-surface-container-low transition-all rounded-xl">
