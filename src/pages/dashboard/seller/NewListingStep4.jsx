@@ -60,14 +60,14 @@ const NewListingStep4 = () => {
     }
 
     const checklist = [
-      { id: 'title', label: 'Listing Title', status: !!listingData.title },
-      { id: 'price', label: 'Target Price', status: !!listingData.price_pula },
-      { id: 'location', label: 'Property Location', status: !!listingData.location },
-      { id: 'coordinates', label: 'GPS Coordinates', status: !!listingData.latitude && !!listingData.longitude },
-      { id: 'description', label: 'Property Narrative', status: listingData.description?.length > 20 },
-      { id: 'specs', label: 'Technical Specs', status: listingData.bedrooms > 0 && listingData.bathrooms > 0 },
-      { id: 'media', label: 'Hero Visuals', status: listingData.images?.length > 0 },
-      { id: 'compliance', label: 'Legal Compliance', status: Object.values(listingData.documents).every(v => v === true) },
+      { id: 'title', label: 'Listing Title', status: !!listingData.title, step: '/seller/listings/new/step-1' },
+      { id: 'price', label: 'Target Price', status: !!listingData.price_pula, step: '/seller/listings/new/step-1' },
+      { id: 'location', label: 'Property Location', status: !!listingData.location, step: '/seller/listings/new/step-1' },
+      { id: 'coordinates', label: 'GPS Coordinates', status: !!listingData.latitude && !!listingData.longitude, step: '/seller/listings/new/step-1' },
+      { id: 'description', label: 'Property Narrative', status: listingData.description?.length > 20, step: '/seller/listings/new/step-1' },
+      { id: 'specs', label: 'Technical Specs', status: listingData.bedrooms > 0 && listingData.bathrooms > 0, step: '/seller/listings/new/step-2' },
+      { id: 'media', label: 'Hero Visuals', status: listingData.images?.length > 0, step: '/seller/listings/new/step-2' },
+      { id: 'compliance', label: 'Legal Compliance', status: Object.values(listingData.documents).every(v => v === true), step: '/seller/listings/new/step-3' },
     ];
 
   return (
@@ -170,9 +170,12 @@ const NewListingStep4 = () => {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {checklist.map((item) => (
-                  <div key={item.id} className="flex items-center justify-between p-4 bg-surface-container-low rounded-2xl border border-outline-variant/5">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-on-surface/60">{item.label}</span>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${item.status ? 'bg-secondary/20 text-secondary' : 'bg-primary/20 text-primary'}`}>
+                  <div 
+                    key={item.id} 
+                    onClick={() => navigate(item.step)}
+                    className="flex items-center justify-between p-4 bg-surface-container-low rounded-2xl border border-outline-variant/5 cursor-pointer hover:bg-surface-container-high hover:border-primary/20 transition-all group">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-on-surface/60 group-hover:text-primary transition-colors">{item.label}</span>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${item.status ? 'bg-secondary/20 text-secondary' : 'bg-red-500/10 text-red-600 shadow-[0_0_15px_rgba(220,38,38,0.1)]'}`}>
                       <span className="material-symbols-outlined text-xl font-black">
                         {item.status ? 'check' : 'close'}
                       </span>
