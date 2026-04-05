@@ -47,20 +47,26 @@ const NewListingStep4 = () => {
               </div>
 
               {/* Hero Preview */}
-              <div className="aspect-video rounded-2xl overflow-hidden mb-12 relative group shadow-2xl">
-                <img 
-                  alt="Property Main View" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" 
-                  src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200"
-                />
-                <div className="absolute bottom-8 left-8 right-8 flex items-center justify-between pointer-events-none">
-                  <div className="bg-on-surface/80 backdrop-blur-md px-5 py-2 rounded-full text-white text-[10px] font-black uppercase tracking-widest shadow-2xl">
-                    Main Property View
+              <div className="aspect-video rounded-2xl overflow-hidden mb-12 relative group shadow-2xl bg-surface-container-low border border-outline-variant/10">
+                {listingData.images && listingData.images.length > 0 ? (
+                  <img 
+                    alt="Property Main View" 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" 
+                    src={listingData.images[0]}
+                  />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center opacity-40">
+                    <span className="material-symbols-outlined text-6xl mb-4">image_not_supported</span>
+                    <p className="text-xs font-black uppercase tracking-widest font-headline">No image uploaded</p>
                   </div>
-                  <div className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-xl text-on-surface text-[10px] font-black uppercase tracking-widest shadow-2xl border border-white">
-                    Verified HQ
+                )}
+                {listingData.images && listingData.images.length > 0 && (
+                  <div className="absolute bottom-8 left-8 right-8 flex items-center justify-between pointer-events-none">
+                    <div className="bg-on-surface/80 backdrop-blur-md px-5 py-2 rounded-full text-white text-[10px] font-black uppercase tracking-widest shadow-2xl">
+                      Main Property View
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               {/* Data Grid */}

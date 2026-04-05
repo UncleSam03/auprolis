@@ -14,6 +14,17 @@ const NewListingStep2 = () => {
       updateListingData({ [name]: value });
     };
 
+    const handleImageUpload = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          updateListingData({ images: [reader.result] });
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+
   return (
     <SellerDashboardLayout title="Media & Specifications">
       <div className="max-w-4xl mx-auto">
@@ -32,12 +43,21 @@ const NewListingStep2 = () => {
               </div>
               
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 aspect-video">
-                <div className="col-span-2 row-span-2 border-2 border-dashed border-outline-variant/30 hover:border-primary bg-surface-container-low rounded-2xl transition-all flex flex-col items-center justify-center cursor-pointer group">
-                  <div className="w-16 h-16 rounded-full bg-white shadow-authoritative flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <span className="material-symbols-outlined text-primary text-3xl">cloud_upload</span>
-                  </div>
-                  <span className="font-headline font-extrabold text-on-surface text-sm">Upload Hero Photo</span>
-                  <span className="text-[10px] text-outline/40 mt-1 uppercase tracking-widest font-black">Drag and drop assets</span>
+                <div 
+                    onClick={() => document.getElementById('hero-upload').click()}
+                    className="col-span-2 row-span-2 border-2 border-dashed border-outline-variant/30 hover:border-primary bg-surface-container-low rounded-2xl transition-all flex flex-col items-center justify-center cursor-pointer group relative overflow-hidden">
+                  {listingData.images && listingData.images.length > 0 ? (
+                    <img src={listingData.images[0]} alt="Hero" className="w-full h-full object-cover" />
+                  ) : (
+                    <>
+                        <div className="w-16 h-16 rounded-full bg-white shadow-authoritative flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <span className="material-symbols-outlined text-primary text-3xl">cloud_upload</span>
+                        </div>
+                        <span className="font-headline font-extrabold text-on-surface text-sm">Upload Hero Photo</span>
+                        <span className="text-[10px] text-outline/40 mt-1 uppercase tracking-widest font-black">Click to select asset</span>
+                    </>
+                  )}
+                  <input id="hero-upload" type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
                 </div>
                 <div className="border-2 border-dashed border-outline-variant/30 hover:border-primary bg-surface-container-low rounded-2xl flex flex-col items-center justify-center cursor-pointer group transition-all">
                   <span className="material-symbols-outlined text-outline/40 group-hover:text-primary mb-2 transition-colors">add_a_photo</span>
