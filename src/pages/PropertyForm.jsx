@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { loadGoogleMaps } from '@/lib/googleMaps';
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyC3VcZh-50x8BYjzqWdduRaBOTIEnPRpXs";
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const PropertyForm = () => {
   const { id } = useParams();

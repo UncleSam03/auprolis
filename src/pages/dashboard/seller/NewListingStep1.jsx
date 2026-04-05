@@ -3,9 +3,99 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import SellerDashboardLayout from '../../../components/dashboard/SellerDashboardLayout';
 import SellerStepper from '../../../components/dashboard/seller/SellerStepper';
+import { loadGoogleMaps } from '@/lib/googleMaps';
+
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const NewListingStep1 = () => {
   const navigate = useNavigate();
+  const mapRef = React.useRef(null);
+  const autoCompleteRef = React.useRef(null);
+  const [map, setMap] = React.useState(null);
+  const [marker, setMarker] = React.useState(null);
+  const [address, setAddress] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    loadGoogleMaps(GOOGLE_MAPS_API_KEY).then(() => {
+      // 1. Initialize Autocomplete
+      const input = document.getElementById('location-input');
+      if (input) {
+        autoCompleteRef.current = new window.google.maps.places.Autocomplete(input, {
+          fields: ['address_components', 'geometry', 'formatted_address'],
+          componentRestrictions: { country: 'bw' } // Botswana
+        });
+
+        autoCompleteRef.current.addListener('place_changed', () => {
+          const place = autoCompleteRef.current.getPlace();
+          if (place.geometry) {
+            setAddress(place.formatted_address || '');
+            updateMap(place.geometry.location);
+          }
+        });
+      }
+
+      // 2. Initialize Map (Gaborone default)
+      const defaultCenter = { lat: -24.6282, lng: 25.9231 };
+      const newMap = new window.google.maps.Map(mapRef.current, {
+        center: defaultCenter,
+        zoom: 13,
+        styles: [
+          {
+            "featureType": "all",
+            "elementType": "labels.text.fill",
+            "stylers": [{"saturation": 36}, {"color": "#333333"}, {"lightness": 40}]
+          },
+          {
+            "featureType": "all",
+            "elementType": "labels.text.stroke",
+            "stylers": [{"visibility": "on"}, {"color": "#ffffff"}, {"lightness": 16}]
+          },
+          {
+            "featureType": "water",
+            "elementType": "geometry",
+            "stylers": [{"color": "#e9e9e9"}, {"lightness": 17}]
+          }
+        ],
+        disableDefaultUI: true,
+        zoomControl: true,
+      });
+
+      const newMarker = new window.google.maps.Marker({
+        position: defaultCenter,
+        map: newMap,
+        draggable: true,
+        animation: window.google.maps.Animation.DROP,
+        icon: {
+          path: window.google.maps.SymbolPath.CIRCLE,
+          scale: 10,
+          fillColor: "#2563eb",
+          fillOpacity: 1,
+          strokeWeight: 4,
+          strokeColor: "#ffffff",
+        }
+      });
+
+      setMap(newMap);
+      setMarker(newMarker);
+    });
+  }, []);
+
+  const updateMap = (location) => {
+    if (map && marker) {
+      map.setCenter(location);
+      map.setZoom(16);
+      marker.setPosition(location);
+    }
+  };
+
+  const handleVerifyCoordinates = () => {
+    setLoading(true);
+    // Simulate verification
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+  };
 
   return (
     <SellerDashboardLayout title="Create New Listing">
@@ -60,28 +150,30 @@ const NewListingStep1 = () => {
                 />
               </div>
 
-              <div className="space-y-3">
+               <div className="space-y-3">
                 <label className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant opacity-60 ml-1 font-headline">Property Location</label>
                 <div className="relative">
                   <span className="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-outline/40" style={{ fontVariationSettings: "'FILL' 1" }}>location_on</span>
                   <input 
+                    id="location-input"
                     className="w-full bg-surface-container-low border-none rounded-2xl py-5 pl-14 pr-6 focus:ring-2 focus:ring-primary/20 text-sm font-bold text-on-surface placeholder:text-outline/20" 
                     placeholder="Search for address or coordinate mapping..." 
                     type="text"
+                    onChange={(e) => setAddress(e.target.value)}
+                    value={address}
                   />
                 </div>
-                {/* Map Mockup */}
+                {/* Real Google Map Container */}
                 <div className="mt-6 rounded-3xl overflow-hidden h-56 relative border border-outline-variant/10 shadow-inner group">
-                  <img 
-                    alt="Map mockup" 
-                    className="w-full h-full object-cover grayscale-[0.6] opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000" 
-                    src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1400"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="bg-white/90 backdrop-blur-md px-6 py-3 rounded-full shadow-2xl border border-white flex items-center gap-3">
-                      <div className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_var(--primary)]"></div>
-                      <span className="text-[10px] font-black uppercase tracking-widest text-on-surface leading-none">Verify Coordinates</span>
-                    </div>
+                   <div ref={mapRef} className="w-full h-full bg-slate-100" />
+                  <div className="absolute top-4 right-4 z-10">
+                    <button 
+                      onClick={handleVerifyCoordinates}
+                      className={`bg-white/90 backdrop-blur-md px-6 py-3 rounded-full shadow-2xl border border-white flex items-center gap-3 hover:scale-105 transition-all pointer-events-auto ${loading ? 'opacity-50' : ''}`}
+                    >
+                      <div className={`w-2.5 h-2.5 rounded-full bg-primary ${loading ? 'animate-spin' : 'animate-pulse'} shadow-[0_0_10px_var(--primary)]`}></div>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-on-surface leading-none">{loading ? 'VERIFYING...' : 'VERIFY COORDINATES'}</span>
+                    </button>
                   </div>
                 </div>
               </div>
