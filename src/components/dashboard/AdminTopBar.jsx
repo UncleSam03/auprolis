@@ -1,7 +1,20 @@
-/* src/components/dashboard/AdminTopBar.jsx */
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/SupabaseAuthContext';
 
 const AdminTopBar = ({ title, onMenuClick }) => {
+  const navigate = useNavigate();
+  const { signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      navigate('/login');
+    } catch (error) {
+      console.error('Error signing out:', error.message);
+    }
+  };
+
   return (
     <header className="fixed top-0 right-0 w-full lg:w-[calc(100%-260px)] h-20 bg-surface/80 backdrop-blur-2xl flex items-center justify-between px-6 lg:px-10 z-40 border-b border-outline-variant/10">
       <div className="flex items-center gap-4">
@@ -33,8 +46,11 @@ const AdminTopBar = ({ title, onMenuClick }) => {
               A
             </div>
           </div>
-          <button className="hidden sm:flex items-center gap-2 px-6 py-2.5 bg-surface-container-high rounded-full text-on-surface font-black text-[10px] uppercase tracking-widest hover:bg-on-surface hover:text-white transition-all">
-            <span className="material-symbols-outlined text-sm">logout</span>
+          <button 
+            onClick={handleSignOut}
+            className="flex items-center gap-2 px-6 py-2.5 bg-surface-container-high rounded-full text-on-surface font-black text-[10px] uppercase tracking-widest hover:bg-on-surface hover:text-white transition-all shadow-inner border border-outline-variant/10 group-hover:scale-105 active:scale-95"
+          >
+            <span className="material-symbols-outlined text-sm leading-none" style={{ fontVariationSettings: "'FILL' 1" }}>logout</span>
             Sign Out
           </button>
         </div>
