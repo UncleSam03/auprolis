@@ -14,14 +14,14 @@ export const AuthProvider = ({ children }) => {
 
   // Helper to fetch profile data with retry logic
   const fetchProfileWithRetry = async (userId, retries = 3) => {
-    console.log(`AuthProvider: Fetching profile for ${userId} (attempt 1/ ${retries})`);
     for (let i = 0; i < retries; i++) {
+      console.log(`AuthProvider: Fetching profile for ${userId} (attempt ${i + 1}/${retries})`);
       try {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', userId)
-          .single();
+        // Add a safety timeout to the supabase call
+        const { data, error } = await Promise.race([
+          supabase.from('profiles').select('*').eq('id', userId).single(),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Profile fetch timeout')), 5000))
+        ]);
         
         if (data) {
           console.log('AuthProvider: Profile found');
@@ -30,15 +30,21 @@ export const AuthProvider = ({ children }) => {
         
         if (error && error.code !== 'PGRST116') { // PGRST116 is 'no rows found'
           console.error('AuthProvider: Error fetching profile:', error);
+        } else if (!data) {
+          console.warn('AuthProvider: Profile row not found (PGRST116)');
         }
         
-        // Wait before retrying (exponential backoff or simple delay)
+        // Wait before retrying (exponential backoff)
         if (i < retries - 1) {
-          console.warn(`AuthProvider: Profile not ready, retrying... (${i + 2}/${retries})`);
-          await new Promise(resolve => setTimeout(resolve, 500 * (i + 1)));
+          const delay = 1000 * (i + 1);
+          console.warn(`AuthProvider: Retrying in ${delay}ms...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
         }
       } catch (err) {
-        console.error('AuthProvider: Unexpected error fetching profile:', err);
+        console.error(`AuthProvider: Error on attempt ${i + 1}:`, err.message || err);
+        if (i < retries - 1) {
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
       }
     }
     console.warn('AuthProvider: Profile fetch failed after all retries');
@@ -53,7 +59,6 @@ export const AuthProvider = ({ children }) => {
 
     if (currentUser) {
       // Fetch detailed profile information
-      // We use retry logic because the database trigger might have a slight delay
       console.log(`AuthProvider: User logged in (${currentUser.id}), fetching profile...`);
       const userProfile = await fetchProfileWithRetry(currentUser.id);
       setProfile(userProfile);

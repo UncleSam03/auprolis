@@ -6,7 +6,6 @@ const AdminSidebar = ({ isOpen = false, closeSidebar }) => {
   const navItems = [
     { label: 'Overview', icon: 'dashboard', path: '/admin' },
     { label: 'Listings', icon: 'list_alt', path: '/admin/listings' },
-    { label: 'Pending Review', icon: 'pending_actions', path: '/admin/listings/pending' },
     { label: 'Users', icon: 'group', path: '/admin/users' },
     { label: 'Agents / Institutions', icon: 'account_balance', path: '/admin/institutions' },
     { label: 'Audit Log', icon: 'history_edu', path: '/admin/audit' },
