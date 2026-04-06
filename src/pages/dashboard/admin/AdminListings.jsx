@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AdminDashboardLayout from '../../../components/dashboard/AdminDashboardLayout';
 import { supabase } from '../../../lib/customSupabaseClient';
 import { formatCurrency } from '../../../lib/utils';
 
 const AdminListings = () => {
+  const navigate = useNavigate();
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -36,7 +38,19 @@ const AdminListings = () => {
   };
 
   return (
-    <AdminDashboardLayout title="Listings Management" subtitle="High-density data view of active and pending administrative property intelligence.">
+    <AdminDashboardLayout 
+      title="Listings Management" 
+      subtitle="High-density data view of active and pending administrative property intelligence."
+      headerAction={
+        <button 
+          onClick={() => navigate('/admin/listings/new')}
+          className="bg-primary text-white font-black text-[12px] uppercase tracking-[0.2em] px-10 py-5 rounded-full shadow-2xl shadow-primary/30 hover:scale-[1.03] active:scale-95 transition-all flex items-center gap-4"
+        >
+          <span className="material-symbols-outlined text-xl">add_circle</span>
+          Create Authority Listing
+        </button>
+      }
+    >
       <div className="space-y-12 pb-24">
         {/* Toolbar Section */}
         <section className="flex flex-wrap items-center gap-8 bg-surface-container-low/30 p-8 rounded-[2rem] border border-outline-variant/10 shadow-inner">

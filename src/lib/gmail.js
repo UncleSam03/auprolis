@@ -1,39 +1,59 @@
 import { supabase } from './customSupabaseClient';
 
+const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+/**
+ * Initiates the Google OAuth2 flow specifically for Gmail Send scopes.
+ * This returns a Promise that resolves with the access_token.
+ */
+export const requestGmailToken = () => {
+    return new Promise((resolve, reject) => {
+        if (!window.google) {
+            reject(new Error('Google Identity Services script not loaded.'));
+            return;
+        }
+
+        const client = window.google.accounts.oauth2.initTokenClient({
+            client_id: CLIENT_ID,
+            scope: 'https://www.googleapis.com/auth/gmail.send',
+            callback: (response) => {
+                if (response.error) {
+                    reject(response);
+                    return;
+                }
+                resolve(response.access_token);
+            },
+        });
+
+        client.requestAccessToken();
+    });
+};
+
 /**
  * Sends a notification email to all buyers about a new property listing using Gmail API.
  * @param {Object} property - The property object containing title and auction_date.
+ * @param {string} accessToken - Verified Google OAuth2 access token.
  */
-export const notifyBuyersOfNewListing = async (property) => {
+export const notifyBuyersOfNewListing = async (property, accessToken = null) => {
   const { title, auction_date } = property;
-  // User provided API Key: AIzaSyC3VcZh-50x8BYjzqWdduRaBOTIEnPRpXs
-  // Note: Standard Gmail 'send' requires OAuth2 Access Token.
   
   try {
-    console.log('--- GMAIL API: INITIALIZING BUYER NOTIFICATION ---');
+    console.log('--- GMAIL API: INITIALIZING BROADCAST PROTOCOL ---');
     
-    // 1. Fetch all buyer emails from the profiles table
+    // 1. Fetch all buyer emails
     const { data: buyers, error } = await supabase
       .from('profiles')
       .select('email')
       .eq('user_type', 'buyer');
 
     if (error) throw error;
-    
-    if (!buyers || buyers.length === 0) {
-      console.warn('Gmail API Service: No eligible buyer recipients found in the database.');
-      return { success: false, reason: 'no_buyers' };
-    }
+    if (!buyers || buyers.length === 0) return { success: false, reason: 'no_buyers' };
 
     const recipientEmails = buyers.map(b => b.email).filter(Boolean);
     const auctionDateFormatted = new Date(auction_date).toLocaleDateString('en-BW', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
     });
 
-    // 2. Prepare the Intelligence Alert Content
     const subject = `[Auprolis Alert] New Asset Verified: ${title}`;
     const body = `
 DEAR INVESTOR,
@@ -50,28 +70,52 @@ REGARDS,
 AUPROLIS GOVERNANCE PROTOCOL
     `.trim();
 
-    // 3. Gmail API Execution (Simulation for now since OAuth token is required for 'me/messages/send')
-    // In a production environment, the token would be fetched from the user's session 
-    // or a secure server-side vault (Vault/Service Account).
-    
-    console.log(`Gmail API: Preparing to broadcast to ${recipientEmails.length} buyers.`);
-    console.log(`Content Body: \n${body}`);
+    // 2. Execution Path
+    if (!accessToken) {
+        console.warn('Gmail API: Access Token omitted. Simulating broadcast protocol.');
+        return { 
+            success: true, 
+            broadcast_count: recipientEmails.length,
+            status: 'Simulation Mode (Token Missing)'
+        };
+    }
 
-    // This is where the actual POST to https://gmail.googleapis.com/gmail/v1/users/me/messages/send would happen
-    // const response = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send?key=AIzaSyC3VcZh-50x8BYjzqWdduRaBOTIEnPRpXs', {
-    //   method: 'POST',
-    //   headers: { 'Authorization': `Bearer ${ACCESS_TOKEN}`, 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ raw: createRawMessage(recipientEmails, subject, body) })
-    // });
+    // 3. Actual Send via Google API
+    // We send individual emails to maintain privacy/institutional feel
+    let successCount = 0;
+    const errors = [];
+
+    for (const email of recipientEmails) {
+        try {
+            const raw = createRawMessage(email, subject, body);
+            const response = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ raw })
+            });
+
+            if (response.ok) {
+                successCount++;
+            } else {
+                const errData = await response.json();
+                errors.push(errData.error?.message || 'Unknown API Error');
+            }
+        } catch (e) {
+            errors.push(e.message);
+        }
+    }
 
     return { 
-      success: true, 
-      broadcast_count: recipientEmails.length,
-      protocol: 'Gmail API REST',
-      status: 'Broadcast Simulated (OAuth Token Required for Live Send)'
+      success: successCount > 0, 
+      broadcast_count: successCount,
+      total_attempted: recipientEmails.length,
+      errors: errors.length > 0 ? errors : null
     };
   } catch (err) {
-    console.error('Gmail API Notification Failure:', err);
+    console.error('Gmail API Broadcast Failure:', err);
     return { success: false, error: err.message };
   }
 };
@@ -79,9 +123,9 @@ AUPROLIS GOVERNANCE PROTOCOL
 /**
  * Creates a base64url encoded RFC 2822 message.
  */
-function createRawMessage(toAddresses, subject, body) {
+function createRawMessage(to, subject, body) {
   const message = [
-    `To: ${toAddresses.join(', ')}`,
+    `To: ${to}`,
     'Content-Type: text/plain; charset=utf-8',
     'MIME-Version: 1.0',
     `Subject: ${subject}`,

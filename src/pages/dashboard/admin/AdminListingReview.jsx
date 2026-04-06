@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import AdminDashboardLayout from '../../../components/dashboard/AdminDashboardLayout';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useToast } from '@/components/ui/use-toast';
-import { notifyBuyersOfNewListing } from '@/lib/gmail';
+import { notifyBuyersOfNewListing, requestGmailToken } from '@/lib/gmail';
 
 const AdminListingReview = () => {
   const { id } = useParams();
@@ -56,7 +56,27 @@ const AdminListingReview = () => {
     try {
       setIsApproving(true);
       
-      // 1. Update Asset Status
+      // 1. Request Google OAuth2 Token for Gmail Send scope
+      toast({
+          title: "Authenticating Authority",
+          description: "Launching Google Identity Protocol for investor broadcast..."
+      });
+      
+      let token;
+      try {
+          token = await requestGmailToken();
+      } catch (authErr) {
+          console.error('Auth failure:', authErr);
+          toast({
+              title: "Authentication Failed",
+              description: "Google authorization is required for investor broadcast.",
+              variant: "destructive"
+          });
+          setIsApproving(false);
+          return;
+      }
+
+      // 2. Update Asset Status
       const { error: updateError } = await supabase
         .from('properties')
         .update({ status: 'approved', moderation_notes: notes })
@@ -64,10 +84,10 @@ const AdminListingReview = () => {
 
       if (updateError) throw updateError;
 
-      // 2. Broadcast to Buyers via Gmail API
-      const broadcastResult = await notifyBuyersOfNewListing(property);
+      // 3. Broadcast to Buyers via Gmail API
+      const broadcastResult = await notifyBuyersOfNewListing(property, token);
       
-      // 3. Create Internal Notification for Seller
+      // 4. Create Internal Notification for Seller
       await supabase.from('notifications').insert({
         recipient_id: property.seller_id,
         title: 'Asset Verified & Broadcasted',
@@ -78,8 +98,8 @@ const AdminListingReview = () => {
       toast({
         title: "Intelligence Verified",
         description: broadcastResult.success 
-          ? `Broadcast success: ${broadcastResult.broadcast_count} buyers notified via Gmail.`
-          : `Asset approved, but buyer broadcast failed: ${broadcastResult.error || 'Check logs'}`,
+          ? `Broadcast success: ${broadcastResult.broadcast_count} investors notified via verified Gmail stream.`
+          : `Asset approved, but broadcast failed: ${broadcastResult.errors?.[0] || 'Check logs'}`,
       });
 
       navigate('/admin/listings');

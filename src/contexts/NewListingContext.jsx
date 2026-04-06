@@ -16,7 +16,7 @@ export const useNewListing = () => {
 };
 
 export const NewListingProvider = ({ children }) => {
-    const { user } = useAuth();
+    const { user, profile } = useAuth();
     const { toast } = useToast();
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -135,7 +135,11 @@ export const NewListingProvider = ({ children }) => {
             });
 
             resetListingData();
-            navigate('/seller/listings');
+            if (profile?.user_type === 'admin') {
+                navigate('/admin/listings');
+            } else {
+                navigate('/seller/listings');
+            }
             return true;
         } catch (error) {
             console.error('Error submitting listing:', error);

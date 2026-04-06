@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import AdminSidebar from './AdminSidebar';
 import AdminTopBar from './AdminTopBar';
 
-const AdminDashboardLayout = ({ children, title, subtitle = "System control and platform moderation." }) => {
+const AdminDashboardLayout = ({ children, title, subtitle = "System control and platform moderation.", headerAction }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
@@ -24,7 +24,7 @@ const AdminDashboardLayout = ({ children, title, subtitle = "System control and 
       <div className="lg:ml-[260px] transition-all duration-300">
         <AdminTopBar title={title} onMenuClick={toggleSidebar} />
         
-        <main className="pt-24 pb-16 px-6 lg:px-16 min-h-screen space-y-12 bg-surface">
+        <main className="pt-24 pb-16 px-6 lg:px-16 min-h-screen space-y-12 bg-surface font-label">
           <header className="flex flex-col md:flex-row md:items-end justify-between gap-8 py-10 max-w-[1600px] mx-auto border-b border-outline-variant/10">
             <div className="space-y-3">
               <span className="text-[10px] font-black tracking-[0.25em] text-primary uppercase mb-2 block font-headline">Authority Console</span>
@@ -36,7 +36,11 @@ const AdminDashboardLayout = ({ children, title, subtitle = "System control and 
               </p>
             </div>
             
-
+            {headerAction && (
+              <div className="mb-2">
+                {headerAction}
+              </div>
+            )}
           </header>
           
           <div className="max-w-[1600px] mx-auto">

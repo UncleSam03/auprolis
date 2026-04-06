@@ -32,6 +32,10 @@ import AdminListings from '@/pages/dashboard/admin/AdminListings';
 import AdminListingReview from '@/pages/dashboard/admin/AdminListingReview';
 import AdminUsers from '@/pages/dashboard/admin/AdminUsers';
 import AdminInstitutions from '@/pages/dashboard/admin/AdminInstitutions';
+import AdminNewListingStep1 from '@/pages/dashboard/admin/AdminNewListingStep1';
+import AdminNewListingStep2 from '@/pages/dashboard/admin/AdminNewListingStep2';
+import AdminNewListingStep3 from '@/pages/dashboard/admin/AdminNewListingStep3';
+import AdminNewListingStep4 from '@/pages/dashboard/admin/AdminNewListingStep4';
 
 
 import AdminDashboard from '@/pages/AdminDashboard';
@@ -161,6 +165,20 @@ function AppRoutes() {
         <Route path="/admin/listings/review/:id" element={<ProtectedRoute allowedTypes={['admin']}><AdminListingReview /></ProtectedRoute>} />
         <Route path="/admin/users" element={<ProtectedRoute allowedTypes={['admin']}><AdminUsers /></ProtectedRoute>} />
         <Route path="/admin/institutions" element={<ProtectedRoute allowedTypes={['admin']}><AdminInstitutions /></ProtectedRoute>} />
+        
+        <Route path="/admin/listings/new/*" element={
+          <ProtectedRoute allowedTypes={['admin']}>
+            <NewListingProvider>
+                <Routes>
+                    <Route path="step-1" element={<AdminNewListingStep1 />} />
+                    <Route path="step-2" element={<AdminNewListingStep2 />} />
+                    <Route path="step-3" element={<AdminNewListingStep3 />} />
+                    <Route path="step-4" element={<AdminNewListingStep4 />} />
+                    <Route path="*" element={<Navigate to="step-1" replace />} />
+                </Routes>
+            </NewListingProvider>
+          </ProtectedRoute>
+        } />
 
         
         <Route path="/agent-dashboard" element={<ProtectedRoute><AgentDashboard /></ProtectedRoute>} /> 
