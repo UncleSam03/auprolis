@@ -110,7 +110,7 @@ export const NewListingProvider = ({ children }) => {
                 .from('properties')
                 .insert([{
                     seller_id: user.id,
-                    listing_title: listingData.title || 'Untitled Listing',
+                    title: listingData.title || 'Untitled Listing',
                     description: listingData.description,
                     property_type: listingData.property_type,
                     location: listingData.location,
