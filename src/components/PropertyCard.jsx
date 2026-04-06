@@ -39,8 +39,8 @@ const PropertyCardContent = ({ property, subscriptionType = 'free' }) => {
   const { toast } = useToast();
   
   // Safe access to properties with defaults
-  const title = property.title || 'Untitled Property';
-  const type = property.type || 'Unknown';
+  const title = property.listing_title || property.title || 'Untitled Property';
+  const type = property.property_type || property.type || 'Unknown';
   const address = property.address_lot_number || property.location || 'Location not specified';
   const date = property.auction_date;
   const status = property.status;
@@ -179,7 +179,7 @@ const PropertyCardContent = ({ property, subscriptionType = 'free' }) => {
              </div>
              <div className="flex items-center gap-2 text-slate-600">
                 <User className="h-3 w-3 text-green-600" />
-                <span>Seller: {property.seller_contact_entity}</span>
+                <span>Seller: {property.profiles?.name || property.seller_contact_entity || 'Private Seller'}</span>
              </div>
               <div className="flex items-center gap-2 text-slate-600">
                 <Gavel className="h-3 w-3 text-green-600" />

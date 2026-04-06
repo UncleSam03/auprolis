@@ -25,14 +25,7 @@ export const useProperties = (options = {}) => {
       setError(null);
       let query = supabase
         .from('properties')
-        .select(`
-          *,
-          profiles:seller_id (
-            name,
-            phone
-          )
-        `)
-        .order('created_at', { ascending: false });
+        .select('*')
 
       if (sellerId) {
         query = query.eq('seller_id', sellerId);
@@ -41,6 +34,8 @@ export const useProperties = (options = {}) => {
       if (status && status !== 'all') {
         query = query.eq('status', status);
       }
+      
+      query = query.order('created_at', { ascending: false });
 
       if (searchQuery) {
         query = query.or(`title.ilike.%${searchQuery}%,case_number.ilike.%${searchQuery}%,location.ilike.%${searchQuery}%`);
@@ -50,9 +45,13 @@ export const useProperties = (options = {}) => {
         query = query.limit(limit);
       }
 
-      const { data, error } = await query;
+      const { data, error: fetchError } = await query;
 
-      if (error) throw error;
+      if (fetchError) {
+        console.error('Error fetching properties:', fetchError);
+        console.error('Error details:', fetchError.message, fetchError.hint);
+        throw fetchError;
+      }
 
       setProperties(data || []);
     } catch (error) {
@@ -82,13 +81,7 @@ export const useProperties = (options = {}) => {
     try {
       const { data, error } = await supabase
         .from('properties')
-        .select(`
-          *,
-          profiles:seller_id (
-            name,
-            phone
-          )
-        `)
+        .select('*')
         .eq('id', id)
         .single();
       

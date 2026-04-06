@@ -50,8 +50,15 @@ export const debugPropertyData = async () => {
           'auction_date', 'price_usd', 'status'
         ];
         
-        const rowKeys = Object.keys(data[0]);
-        const missingCols = expectedColumns.filter(col => !rowKeys.includes(col));
+        const row = data[0];
+        const rowKeys = Object.keys(row);
+        
+        // Flexible check for title column names
+        const hasTitle = row.listing_title !== undefined || row.title !== undefined;
+        const missingCols = expectedColumns.filter(col => {
+          if (col === 'listing_title') return !hasTitle;
+          return row[col] === undefined;
+        });
 
         if (missingCols.length > 0) {
           report.errors.push(`Missing expected columns: ${missingCols.join(', ')}`);
