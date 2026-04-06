@@ -16,6 +16,7 @@ const AdminNewListingStep4 = () => {
     React.useEffect(() => {
       if (listingData.latitude && listingData.longitude) {
         loadGoogleMaps(GOOGLE_MAPS_API_KEY).then(() => {
+          if (!miniMapRef.current) return;
           const map = new google.maps.Map(miniMapRef.current, {
             center: { lat: listingData.latitude, lng: listingData.longitude },
             zoom: 14,

@@ -21,7 +21,7 @@ const AdminListingReview = () => {
       try {
         const { data, error } = await supabase
           .from('properties')
-          .select('*, profiles:seller_id(*)')
+          .select('*, profiles!seller_id(*)')
           .eq('id', id)
           .single();
 
@@ -147,7 +147,7 @@ const AdminListingReview = () => {
             </div>
             <div>
               <h3 className="text-sm font-black text-amber-800 uppercase tracking-[0.2em] font-headline mb-2 leading-none">Pending Governance Approval</h3>
-              <p className="text-xs font-medium text-amber-700/70 max-w-xl leading-relaxed italic pr-10">Submitted by <strong className="text-amber-800">{property?.profiles?.full_name || 'Anonymous Entity'}</strong> • Real-time SLA active for compliance reporting.</p>
+              <p className="text-xs font-medium text-amber-700/70 max-w-xl leading-relaxed italic pr-10">Submitted by <strong className="text-amber-800">{property?.profiles?.name || 'Anonymous Entity'}</strong> • Real-time SLA active for compliance reporting.</p>
             </div>
           </div>
           <div className="text-right flex flex-col gap-2">
@@ -193,7 +193,7 @@ const AdminListingReview = () => {
                     <div className="w-10 h-10 rounded-2xl bg-white flex items-center justify-center text-primary shadow-sm border border-outline-variant/10">
                       <span className="material-symbols-outlined text-xl">account_circle</span>
                     </div>
-                    <span className="text-[11px] font-[900] text-on-surface uppercase tracking-widest leading-none font-headline">{property?.profiles?.full_name || 'Private Entity'}</span>
+                    <span className="text-[11px] font-[900] text-on-surface uppercase tracking-widest leading-none font-headline">{property?.profiles?.name || 'Private Entity'}</span>
                   </div>
                 </div>
                 <div className="flex flex-col gap-4">

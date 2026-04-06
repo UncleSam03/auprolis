@@ -118,12 +118,8 @@ export const NewListingProvider = ({ children }) => {
                     longitude: listingData.longitude,
                     price_usd: parseFloat(listingData.price_pula.toString().replace(/[^0-9.]/g, '')) || 0,
                     status: submitStatus,
-                    bedroom_count: parseInt(listingData.bedrooms) || 0,
-                    bathroom_count: parseInt(listingData.bathrooms) || 0,
-                    land_size: listingData.land_size,
-                    year_built: parseInt(listingData.year_built) || 0,
                     case_number: listingData.case_number || 'N/A',
-                    listing_category: listingData.case_type,
+                    images: listingData.images, // Added images field which was missing in the insert
                     created_at: new Date().toISOString()
                 }]);
 
@@ -142,7 +138,7 @@ export const NewListingProvider = ({ children }) => {
             }
             return true;
         } catch (error) {
-            console.error('Error submitting listing:', error);
+            console.error('Error submitting listing:', error.message || error);
             toast({
                 variant: "destructive",
                 title: "Submission Failed",

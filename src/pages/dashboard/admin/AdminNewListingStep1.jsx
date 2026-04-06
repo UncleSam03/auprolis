@@ -46,7 +46,7 @@ const AdminNewListingStep1 = () => {
       }
 
       // 2. Initialize Map (Gaborone default)
-      const defaultCenter = { lat: -24.6282, lng: 25.9231 };
+      if (!mapRef.current) return;
       const newMap = new window.google.maps.Map(mapRef.current, {
         center: defaultCenter,
         zoom: 13,

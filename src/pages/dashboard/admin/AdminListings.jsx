@@ -21,7 +21,7 @@ const AdminListings = () => {
         .from('properties')
         .select(`
           *,
-          profiles(name)
+          profiles!seller_id(name)
         `)
         .order('created_at', { ascending: false });
 
