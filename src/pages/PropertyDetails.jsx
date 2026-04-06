@@ -63,7 +63,7 @@ const PropertyDetails = () => {
     try {
       const { data, error } = await supabase
         .from('properties')
-        .select('*, profiles:seller_id(name, email, phone)')
+        .select('*, profiles:seller_id(name, phone)')
         .eq('id', id)
         .single();
       
