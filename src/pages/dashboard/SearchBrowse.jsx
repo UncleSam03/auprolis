@@ -3,14 +3,20 @@ import React, { useState } from 'react';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import PropertyCard from '../../components/dashboard/PropertyCard';
 import EmptyState from '../../components/dashboard/EmptyState';
-import { formatCurrency } from '../../lib/utils';
+import { usePropertyData } from '../../hooks/usePropertyData';
 
 const SearchBrowse = () => {
   const [searchLocation, setSearchLocation] = useState('');
   const [searchKeywords, setSearchKeywords] = useState('');
+  const { properties, loading } = usePropertyData();
 
-  // Empty state as requested
-  const properties = [];
+  const filteredProperties = properties.filter(prop => {
+    const locMatch = !searchLocation || (prop.location || '').toLowerCase().includes(searchLocation.toLowerCase());
+    const keywordMatch = !searchKeywords || 
+      (prop.title || prop.listing_title || '').toLowerCase().includes(searchKeywords.toLowerCase()) ||
+      (prop.description || '').toLowerCase().includes(searchKeywords.toLowerCase());
+    return locMatch && keywordMatch;
+  });
 
   return (
     <DashboardLayout title="Dossier Explorer">
@@ -77,7 +83,7 @@ const SearchBrowse = () => {
           <div>
             <h3 className="font-headline text-3xl font-extrabold tracking-tighter text-on-surface">Available Leads</h3>
             <p className="text-secondary font-label text-sm mt-1">
-              {properties.length} results found in your current view
+              {filteredProperties.length} results found in your current view
             </p>
           </div>
           <div className="flex items-center gap-2 text-primary font-bold text-sm bg-primary/10 px-4 py-2 rounded-full cursor-pointer hover:bg-primary/20 transition-colors">
@@ -86,10 +92,21 @@ const SearchBrowse = () => {
           </div>
         </div>
 
-        {properties.length > 0 ? (
+        {loading ? (
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                {[1,2,3,4].map(i => <div key={i} className="h-64 bg-slate-100 animate-pulse rounded-xl" />)}
+             </div>
+        ) : filteredProperties.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {properties.map((prop) => (
-              <PropertyCard key={prop.id} property={prop} />
+            {filteredProperties.map((prop) => (
+              <PropertyCard key={prop.id} property={{
+                ...prop,
+                title: prop.title || prop.listing_title,
+                price: `P ${prop.price_usd?.toLocaleString()}`,
+                imageUrl: prop.images?.[0] || 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=800',
+                location: prop.location,
+                status: [prop.property_type || 'Unknown', prop.status || 'Pending']
+              }} />
             ))}
           </div>
         ) : (

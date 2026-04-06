@@ -5,21 +5,23 @@ import PropertyCard from '../../components/dashboard/PropertyCard';
 import EmptyState from '../../components/dashboard/EmptyState';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/SupabaseAuthContext';
+import { usePropertyData } from '../../hooks/usePropertyData';
 
 const DashboardHome = () => {
-  const { profile, loading } = useAuth();
+  const { profile, loading: authLoading } = useAuth();
+  const { properties, loading: propertiesLoading } = usePropertyData();
   const navigate = useNavigate();
 
   // Role-based redirection for consolidated dashboard entry point
   React.useEffect(() => {
-    if (!loading && profile) {
+    if (!authLoading && profile) {
       if (['seller', 'agent', 'bank', 'sheriff'].includes(profile.user_type)) {
         navigate('/seller', { replace: true });
       } else if (profile.user_type === 'admin') {
         navigate('/admin', { replace: true });
       }
     }
-  }, [profile, loading, navigate]);
+  }, [profile, authLoading, navigate]);
 
   const plans = [
     {
@@ -49,9 +51,6 @@ const DashboardHome = () => {
     },
   ];
 
-  // Empty state for properties as requested
-  const properties = [];
-
   return (
     <DashboardLayout title="Dossier Explorer">
       <div className="max-w-7xl mx-auto space-y-16">
@@ -59,11 +58,11 @@ const DashboardHome = () => {
         <section className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-2">
             <h1 className="font-headline text-4xl font-extrabold tracking-tighter text-on-surface leading-none">
-              Welcome, user!
+              Welcome, {profile?.name || 'Explorer'}!
             </h1>
             <div className="flex items-center gap-3">
               <span className="px-3 py-1 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest rounded-full">
-                Current plan: Free
+                Current plan: {profile?.subscription_type || 'Free'}
               </span>
               <p className="text-secondary text-sm font-medium">Upgrade to unlock full property intelligence. Plans start at P15/mo</p>
             </div>
@@ -97,10 +96,21 @@ const DashboardHome = () => {
             </Link>
           </div>
 
-          {properties.length > 0 ? (
+          {propertiesLoading ? (
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {[1,2,3].map(i => <div key={i} className="h-48 bg-slate-100 animate-pulse rounded-xl" />)}
+             </div>
+          ) : properties.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {properties.map((prop) => (
-                <PropertyCard key={prop.id} property={prop} />
+                <PropertyCard key={prop.id} property={{
+                  ...prop,
+                  title: prop.title || prop.listing_title,
+                  price: `P ${prop.price_usd?.toLocaleString()}`,
+                  imageUrl: prop.images?.[0],
+                  location: prop.location,
+                  status: [prop.property_type, prop.status]
+                }} />
               ))}
             </div>
           ) : (
