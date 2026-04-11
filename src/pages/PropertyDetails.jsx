@@ -225,8 +225,13 @@ const PropertyDetails = () => {
                         ) : (
                           <Bell className="mr-2 h-5 w-5" />
                         )}
-                        {isAttending ? "Attending Auction" : "Notify Me / RSVP"}
+                        {isAttending ? "Interested & Notified" : "Mark Interest & Notify Me"}
                       </Button>
+                      <p className="text-[10px] text-center text-slate-400 font-medium">
+                        {isAttending 
+                          ? "You'll receive email and in-app updates for this listing." 
+                          : "Get notified via email when price or auction details change."}
+                      </p>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 mb-6">

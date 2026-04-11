@@ -141,8 +141,19 @@ const Notifications = () => {
                         {n.message}
                       </p>
                       {n.link && (
-                        <div className="flex items-center gap-2 mt-4 text-[10px] font-black text-primary uppercase tracking-widest hover:underline">
-                          View Details <span className="material-symbols-outlined text-xs">arrow_forward</span>
+                        <div className="flex items-center justify-between mt-4">
+                          <div 
+                            onClick={(e) => { e.stopPropagation(); window.location.href = n.link; }}
+                            className="flex items-center gap-2 text-[10px] font-black text-primary uppercase tracking-widest hover:underline"
+                          >
+                            View Details <span className="material-symbols-outlined text-xs">arrow_forward</span>
+                          </div>
+                          {n.type === 'listing_update' && (
+                            <div className="flex items-center gap-1 text-[9px] font-bold text-secondary/60 uppercase tracking-tighter bg-secondary/5 px-2 py-1 rounded-md">
+                              <span className="material-symbols-outlined text-[10px]">mail</span>
+                              Email Alert Sent
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>
