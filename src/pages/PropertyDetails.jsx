@@ -2,24 +2,31 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/customSupabaseClient';
-import { Loader2, ArrowLeft, MapPin, Calendar, CheckCircle, Gavel } from 'lucide-react';
+import { Loader2, ArrowLeft, MapPin, Calendar, CheckCircle, Gavel, Eye, Users, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { loadGoogleMaps } from '@/lib/googleMaps';
-import PropertyDisclaimer from '@/components/PropertyDisclaimer'; // New import
+import PropertyDisclaimer from '@/components/PropertyDisclaimer';
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const PropertyDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isAttending, setIsAttending] = useState(false);
+  const [rsvpLoading, setRsvpLoading] = useState(false);
   const mapRef = useRef(null);
   const [isStale, setIsStale] = useState(false);
+  const [isMapsLoaded, setIsMapsLoaded] = useState(false);
 
   useEffect(() => {
     fetchProperty();
+    incrementViews();
+    checkIfAttending();
     loadGoogleMaps(GOOGLE_MAPS_API_KEY).then(() => setIsMapsLoaded(true));
 
     const channel = supabase.channel(`public:properties:id=${id}`)
@@ -39,7 +46,53 @@ const PropertyDetails = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [id]);
+  }, [id, user]);
+
+  const incrementViews = async () => {
+    try {
+      await supabase.rpc('increment_property_views', { property_id: id });
+    } catch (err) {
+      console.error('Error incrementing views:', err);
+    }
+  };
+
+  const checkIfAttending = async () => {
+    if (!user) return;
+    try {
+      const { data, error } = await supabase
+        .from('property_attendees')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('property_id', id)
+        .maybeSingle();
+      
+      if (data) setIsAttending(true);
+    } catch (err) {
+      console.error('Error checking RSVP status:', err);
+    }
+  };
+
+  const toggleRSVP = async () => {
+    if (!user) {
+      alert('Please sign in to RSVP for this auction.');
+      navigate('/signin');
+      return;
+    }
+
+    try {
+      setRsvpLoading(true);
+      const { data, error } = await supabase.rpc('toggle_property_rsvp', { property_id_param: id });
+      
+      if (error) throw error;
+      setIsAttending(data);
+      // Property data will update via realtime channel
+    } catch (err) {
+      console.error('Error toggling RSVP:', err);
+      alert('Failed to update RSVP. Please try again.');
+    } finally {
+      setRsvpLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (isMapsLoaded && mapRef.current && property && property.latitude && property.longitude) {
@@ -111,12 +164,25 @@ const PropertyDetails = () => {
                       {property.location}
                    </div>
                    
-                   <div className="prose max-w-none text-gray-700">
+                    <div className="prose max-w-none text-gray-700 mb-8">
                       <h3 className="text-lg font-semibold text-gray-900 mb-2">Description</h3>
                       <p>{property.description || "No detailed description provided."}</p>
-                   </div>
-                   {/* Property Disclaimer */}
-                   <PropertyDisclaimer />
+                    </div>
+
+                    {property.sheriff_information && (
+                      <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 mb-8">
+                        <div className="flex items-center gap-2 mb-3 text-amber-800">
+                          <Gavel className="h-5 w-5" />
+                          <h3 className="font-bold uppercase tracking-wider text-sm">Sheriff / Auction Information</h3>
+                        </div>
+                        <p className="text-amber-900 text-sm leading-relaxed whitespace-pre-wrap">
+                          {property.sheriff_information}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Property Disclaimer */}
+                    <PropertyDisclaimer />
                 </div>
              </div>
 
@@ -141,9 +207,40 @@ const PropertyDetails = () => {
                       <p className="text-4xl font-bold text-blue-600">P{property.price_usd ? property.price_usd.toLocaleString('en-BW', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'}</p>
                    </div>
 
-                   <Button className="w-full size-lg text-lg bg-slate-900 hover:bg-slate-800 mb-4 h-12">
-                     <Gavel className="mr-2 h-5 w-5" /> Place Bid
-                   </Button>
+                    <div className="flex flex-col gap-3 mb-6">
+                      <Button className="w-full size-lg text-lg bg-blue-600 hover:bg-blue-700 h-12">
+                        <Gavel className="mr-2 h-5 w-5" /> Place Bid
+                      </Button>
+                      
+                      <Button 
+                        variant={isAttending ? "outline" : "default"}
+                        onClick={toggleRSVP}
+                        disabled={rsvpLoading}
+                        className={`w-full size-lg text-lg h-12 ${isAttending ? 'border-green-600 text-green-600 hover:bg-green-50' : 'bg-slate-900 hover:bg-slate-800'}`}
+                      >
+                        {rsvpLoading ? (
+                          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        ) : isAttending ? (
+                          <CheckCircle className="mr-2 h-5 w-5" />
+                        ) : (
+                          <Bell className="mr-2 h-5 w-5" />
+                        )}
+                        {isAttending ? "Attending Auction" : "Notify Me / RSVP"}
+                      </Button>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                       <div className="flex items-center gap-2 text-gray-500 text-sm bg-white p-3 rounded-lg border border-slate-100">
+                         <Eye className="h-4 w-4" />
+                         <span className="font-bold text-gray-900">{property.views_count || 0}</span>
+                         <span>Views</span>
+                       </div>
+                       <div className="flex items-center gap-2 text-gray-500 text-sm bg-white p-3 rounded-lg border border-slate-100">
+                         <Users className="h-4 w-4" />
+                         <span className="font-bold text-gray-900">{property.attendees_count || 0}</span>
+                         <span>Going</span>
+                       </div>
+                    </div>
 
                    {/* Trust Bar */}
                    <div className="flex items-center justify-center gap-4 py-3 border-t border-slate-200 text-xs text-slate-500">

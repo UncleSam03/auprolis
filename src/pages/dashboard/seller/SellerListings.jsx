@@ -1,14 +1,52 @@
-/* src/pages/dashboard/seller/SellerListings.jsx */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { supabase } from '@/lib/customSupabaseClient';
+import { useAuth } from '@/contexts/SupabaseAuthContext';
 import SellerDashboardLayout from '../../../components/dashboard/SellerDashboardLayout';
 import SellerListingRow from '../../../components/dashboard/seller/SellerListingRow';
 import EmptyState from '../../../components/dashboard/EmptyState';
+import { Loader2 } from 'lucide-react';
 
 const SellerListings = () => {
-  const listings = [];
+  const { user } = useAuth();
+  const [listings, setListings] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      fetchListings();
+    }
+  }, [user]);
+
+  const fetchListings = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('properties')
+        .select('*')
+        .eq('seller_id', user.id)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setListings(data || []);
+    } catch (err) {
+      console.error('Error fetching seller listings:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // If testing empty state, set listings to []
-  const isEmpty = listings.length === 0;
+  const isEmpty = !loading && listings.length === 0;
+
+  if (loading) {
+    return (
+      <SellerDashboardLayout title="My Listings">
+        <div className="py-20 flex justify-center items-center">
+          <Loader2 className="h-10 w-10 animate-spin text-primary" />
+        </div>
+      </SellerDashboardLayout>
+    );
+  }
 
   return (
     <SellerDashboardLayout title="My Listings">
@@ -101,7 +139,7 @@ const SellerListings = () => {
             {/* Pagination Editorial */}
             <div className="px-8 py-6 flex items-center justify-between bg-surface-container-lowest border-t border-outline-variant/10">
               <p className="text-[11px] font-bold text-outline/50 tracking-tight">
-                Showing <span className="text-on-surface font-black">0-0</span> of 0 listings
+                Showing <span className="text-on-surface font-black">1-{listings.length}</span> of {listings.length} listings
               </p>
               <div className="flex items-center gap-1">
                 <button className="w-10 h-10 flex items-center justify-center rounded-full text-outline/30 hover:bg-surface-container-low transition-all">

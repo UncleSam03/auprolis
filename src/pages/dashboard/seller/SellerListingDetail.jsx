@@ -1,11 +1,105 @@
-/* src/pages/dashboard/seller/SellerListingDetail.jsx */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { supabase } from '@/lib/customSupabaseClient';
+import { useAuth } from '@/contexts/SupabaseAuthContext';
 import SellerDashboardLayout from '../../../components/dashboard/SellerDashboardLayout';
+import { Loader2, Save, Trash2, ArrowLeft, Info } from 'lucide-react';
 
 const SellerListingDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  
+  const [property, setProperty] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [formData, setFormData] = useState({
+    title: '',
+    location: '',
+    price_usd: 0,
+    description: '',
+    type: '',
+    sheriff_information: '',
+    status: 'Draft'
+  });
+
+  useEffect(() => {
+    if (id) {
+      fetchProperty();
+    }
+  }, [id]);
+
+  const fetchProperty = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('properties')
+        .select('*')
+        .eq('id', id)
+        .single();
+      
+      if (error) throw error;
+      if (data) {
+        setProperty(data);
+        setFormData({
+          title: data.title || '',
+          location: data.location || '',
+          price_usd: data.price_usd || 0,
+          description: data.description || '',
+          type: data.type || '',
+          sheriff_information: data.sheriff_information || '',
+          status: data.status || 'Draft'
+        });
+      }
+    } catch (err) {
+      console.error('Error fetching property:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = async () => {
+    try {
+      setSaving(true);
+      const { error } = await supabase
+        .from('properties')
+        .update({
+          title: formData.title,
+          location: formData.location,
+          price_usd: formData.price_usd,
+          description: formData.description,
+          type: formData.type,
+          sheriff_information: formData.sheriff_information,
+          status: formData.status
+        })
+        .eq('id', id);
+
+      if (error) throw error;
+      alert('Listing updated successfully!');
+    } catch (err) {
+      console.error('Error updating listing:', err);
+      alert('Failed to update listing: ' + err.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <SellerDashboardLayout title="Edit Listing">
+        <div className="py-20 flex justify-center items-center">
+          <Loader2 className="h-10 w-10 animate-spin text-primary" />
+        </div>
+      </SellerDashboardLayout>
+    );
+  }
+
+  if (!property) return <div className="p-10 text-center">Property not found.</div>;
 
   return (
     <SellerDashboardLayout title={`Edit Listing ${id || ''}`}>
@@ -14,17 +108,24 @@ const SellerListingDetail = () => {
         <div className="mb-12 flex flex-col md:flex-row items-center justify-between bg-amber-50 border border-amber-200/50 p-8 rounded-3xl shadow-sm">
           <div className="flex items-center gap-6 mb-6 md:mb-0">
             <div className="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-600 shadow-inner">
-              <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>pending_actions</span>
+              <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>{formData.status === 'Active' || formData.status === 'Live' ? 'check_circle' : 'pending_actions'}</span>
             </div>
             <div>
-              <h3 className="font-[800] text-on-surface font-headline text-lg leading-none mb-2 tracking-tight">Pending Review</h3>
+              <h3 className="font-[800] text-on-surface font-headline text-lg leading-none mb-2 tracking-tight">{formData.status}</h3>
               <p className="text-sm text-on-surface-variant font-medium opacity-70 max-w-xl">
-                Your listing is currently being verified by our compliance team. Expected window: 24-48 hours from submission.
+                {formData.status === 'Pending' 
+                  ? "Your listing is currently being verified by our compliance team. Expected window: 24-48 hours."
+                  : "Listing is currently " + formData.status.toLowerCase() + ". You can manage its visibility and details here."}
               </p>
             </div>
           </div>
           <div className="flex gap-4">
-            <button className="px-8 py-3 text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all">Discard Draft</button>
+            <button 
+              onClick={() => navigate('/seller/listings')}
+              className="px-8 py-3 text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all"
+            >
+              Back to List
+            </button>
             <button className="px-8 py-3 text-[10px] font-black uppercase tracking-widest bg-white border border-outline-variant/30 text-primary rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all">Preview Live</button>
           </div>
         </div>
@@ -59,44 +160,85 @@ const SellerListingDetail = () => {
             </div>
 
             <div className="bg-surface-container-low/50 p-8 rounded-[2rem] space-y-6 shadow-inner border border-outline-variant/5">
-              <h4 className="font-headline font-black text-[10px] text-on-surface uppercase tracking-[0.2em] opacity-40">Intelligence Audit</h4>
-              <div className="flex items-center justify-between text-base">
-                <span className="text-on-surface-variant font-bold">Quality Score</span>
-                <span className="text-secondary font-black tracking-tighter">9.2/10</span>
+              <h4 className="font-headline font-black text-[10px] text-on-surface uppercase tracking-[0.2em] opacity-40">Property Analytics</h4>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white p-4 rounded-2xl shadow-sm">
+                  <p className="text-[10px] font-black text-outline uppercase tracking-widest mb-1">Total Views</p>
+                  <p className="text-2xl font-black text-on-surface">{(property.views_count || 0).toLocaleString()}</p>
+                </div>
+                <div className="bg-white p-4 rounded-2xl shadow-sm">
+                  <p className="text-[10px] font-black text-outline uppercase tracking-widest mb-1">Total RSVPs</p>
+                  <p className="text-2xl font-black text-primary">{(property.attendees_count || 0).toLocaleString()}</p>
+                </div>
               </div>
-              <div className="w-full h-2.5 bg-white/50 rounded-full overflow-hidden shadow-inner">
-                <div className="w-[92%] h-full bg-secondary rounded-full shadow-[0_0_10px_var(--secondary)]"></div>
-              </div>
-              <p className="text-xs text-on-surface-variant leading-relaxed font-medium opacity-60 italic">High resolution and professional lighting detected. This will increase engagement by approx 14%.</p>
+              <p className="text-xs text-on-surface-variant leading-relaxed font-medium opacity-60 italic text-center">Engagement is healthy. Consider adding more photos to boost views.</p>
             </div>
           </div>
 
           {/* Right Column: Editable Fields */}
           <div className="col-span-12 lg:col-span-8 space-y-10">
-            {/* Section: Location */}
             <section className="bg-surface-container-lowest rounded-[2.5rem] p-12 shadow-authoritative border border-outline-variant/5 group">
               <div className="flex items-center gap-5 mb-10">
                 <div className="w-12 h-12 rounded-2xl bg-primary/5 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                  <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>location_on</span>
+                  <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>edit_note</span>
                 </div>
-                <h2 className="font-headline text-3xl font-[800] text-on-surface tracking-tighter leading-none">Property Location</h2>
+                <h2 className="font-headline text-3xl font-[800] text-on-surface tracking-tighter leading-none">Listing Information</h2>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="md:col-span-2 space-y-3">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-outline/60 ml-1">Street Address</label>
-                  <input className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-6 focus:ring-2 focus:ring-primary/20 transition-all font-bold text-on-surface" type="text" defaultValue="8821 Marble Canyon Way" />
+              <div className="grid grid-cols-1 gap-8">
+                <div className="space-y-3">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-outline/60 ml-1">Listing Title</label>
+                  <input 
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
+                    className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-6 focus:ring-2 focus:ring-primary/20 transition-all font-bold text-on-surface" 
+                    type="text" 
+                  />
                 </div>
                 <div className="space-y-3">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-outline/60 ml-1">City</label>
-                  <input className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-6 focus:ring-2 focus:ring-primary/20 transition-all font-bold text-on-surface" type="text" defaultValue="Aspen" />
+                  <label className="text-[10px] font-black uppercase tracking-widest text-outline/60 ml-1">Property Location / Address</label>
+                  <input 
+                    name="location"
+                    value={formData.location}
+                    onChange={handleChange}
+                    className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-6 focus:ring-2 focus:ring-primary/20 transition-all font-bold text-on-surface" 
+                    type="text" 
+                  />
                 </div>
                 <div className="space-y-3">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-outline/60 ml-1">State / ZIP</label>
-                  <div className="flex gap-4">
-                    <input className="w-1/3 bg-surface-container-low border-none rounded-2xl py-5 px-6 focus:ring-2 focus:ring-primary/20 transition-all font-bold text-on-surface text-center" type="text" defaultValue="CO" />
-                    <input className="w-2/3 bg-surface-container-low border-none rounded-2xl py-5 px-6 focus:ring-2 focus:ring-primary/20 transition-all font-bold text-on-surface" type="text" defaultValue="81611" />
-                  </div>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-outline/60 ml-1">Starting Price (P)</label>
+                  <input 
+                    name="price_usd"
+                    value={formData.price_usd}
+                    onChange={handleChange}
+                    className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-6 focus:ring-2 focus:ring-primary/20 transition-all font-bold text-on-surface font-headline text-xl" 
+                    type="number" 
+                  />
                 </div>
+              </div>
+            </section>
+
+            {/* Section: Sheriff Information */}
+            <section className="bg-surface-container-lowest rounded-[2.5rem] p-12 shadow-authoritative border border-outline-variant/5 group">
+              <div className="flex items-center gap-5 mb-10">
+                <div className="w-12 h-12 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary group-hover:scale-110 transition-transform">
+                  <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>gavel</span>
+                </div>
+                <div className="flex-1">
+                  <h2 className="font-headline text-3xl font-[800] text-on-surface tracking-tighter leading-none">Sheriff/Seller Information</h2>
+                  <p className="text-xs text-on-surface-variant mt-2 font-medium">Add important auction-specific details, terms, or contact information for the sheriff.</p>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <label className="text-[10px] font-black uppercase tracking-widest text-outline/60 ml-1">Sheriff's Note / Auction Details</label>
+                <textarea 
+                  name="sheriff_information"
+                  value={formData.sheriff_information}
+                  onChange={handleChange}
+                  rows={6}
+                  placeholder="Insert any legal references, auctioneer comments, or specific viewing instructions here..."
+                  className="w-full bg-surface-container-low border-none rounded-3xl py-6 px-6 focus:ring-2 focus:ring-secondary/20 transition-all font-medium text-on-surface leading-loose"
+                />
               </div>
             </section>
 
@@ -133,16 +275,21 @@ const SellerListingDetail = () => {
               </div>
             </section>
 
-            {/* Actions */}
             <div className="flex items-center justify-end gap-6 pt-10 pb-20">
               <button 
                 onClick={() => navigate('/seller/listings')}
-                className="px-10 py-4 text-[11px] font-black uppercase tracking-widest text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all"
+                disabled={saving}
+                className="px-10 py-4 text-[11px] font-black uppercase tracking-widest text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all disabled:opacity-50"
               >
                 Cancel Changes
               </button>
-              <button className="px-14 py-5 bg-gradient-to-br from-primary to-primary-container text-white rounded-full font-black text-[11px] uppercase tracking-[0.2em] shadow-2xl shadow-primary/30 hover:scale-[1.03] active:scale-95 transition-all">
-                Save & Resubmit
+              <button 
+                onClick={handleSave}
+                disabled={saving}
+                className="flex items-center gap-3 px-14 py-5 bg-gradient-to-br from-primary to-primary-container text-white rounded-full font-black text-[11px] uppercase tracking-[0.2em] shadow-2xl shadow-primary/30 hover:scale-[1.03] active:scale-95 transition-all disabled:opacity-50 disabled:scale-100"
+              >
+                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                {saving ? 'Updating...' : 'Save & Resubmit'}
               </button>
             </div>
 
