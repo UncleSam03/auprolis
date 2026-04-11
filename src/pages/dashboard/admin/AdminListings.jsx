@@ -5,10 +5,6 @@ import { supabase } from '../../../lib/customSupabaseClient';
 import { formatCurrency } from '../../../lib/utils';
 import { useToast } from '@/components/ui/use-toast';
 
-import { useToast } from '@/components/ui/use-toast';
-
-import { useToast } from '@/components/ui/use-toast';
-
 
 const AdminListings = () => {
   const navigate = useNavigate();
@@ -16,19 +12,30 @@ const AdminListings = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { toast } = useToast();
-  const [isProcessing, setIsProcessing] = useState(null);
-  const [statusFilter, setStatusFilter] = useState('All Statuses');
-  const [typeFilter, setTypeFilter] = useState('All Property Types');
-  const [sortBy, setSortBy] = useState('Latest Submission');
-
-  const { toast } = useToast();
-  const [isProcessing, setIsProcessing] = useState(null);
-  const [statusFilter, setStatusFilter] = useState('All Statuses');
-  const [typeFilter, setTypeFilter] = useState('All Property Types');
-  const [sortBy, setSortBy] = useState('Latest Submission');
-
-  const { toast } = useToast();
   const [isProcessing, setIsProcessing] = useState(null); // To track which ID is being processed
+  const [statusFilter, setStatusFilter] = useState('All Statuses');
+  const [typeFilter, setTypeFilter] = useState('All Property Types');
+  const [sortBy, setSortBy] = useState('Latest Submission');
+
+  const filteredListings = listings.filter(item => {
+    const statusMatch = statusFilter === 'All Statuses' || 
+      (statusFilter === 'Live Assets' && item.status?.toLowerCase() === 'live') ||
+      (statusFilter === 'Pending Moderation' && (item.status?.toLowerCase() === 'pending' || !item.status)) ||
+      (statusFilter === 'Suspended Intelligence' && item.status?.toLowerCase() === 'denied');
+      
+    const typeMatch = typeFilter === 'All Property Types' || 
+      item.property_type === typeFilter || item.type === typeFilter;
+      
+    return statusMatch && typeMatch;
+  }).sort((a, b) => {
+    if (sortBy === 'Latest Submission') {
+      return new Date(b.created_at) - new Date(a.created_at);
+    }
+    if (sortBy === 'Maximum Valuation') {
+      return (Number(b.price_usd) || 0) - (Number(a.price_usd) || 0);
+    }
+    return 0;
+  });
 
 
   useEffect(() => {

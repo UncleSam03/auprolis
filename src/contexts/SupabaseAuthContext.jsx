@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
       console.log(`AuthProvider: Fetching profile for ${userId} (attempt ${i + 1}/${retries})`);
       try {
         // Add a safety timeout to the supabase call
-        const { data, error } = await Promise.race([
+        const { data, error, status } = await Promise.race([
           supabase.from('profiles').select('*').eq('id', userId).single(),
           new Promise((_, reject) => setTimeout(() => reject(new Error('Profile fetch timeout')), 5000))
         ]);
@@ -28,10 +28,19 @@ export const AuthProvider = ({ children }) => {
           return data;
         }
         
-        if (error && error.code !== 'PGRST116') { // PGRST116 is 'no rows found'
-          console.error('AuthProvider: Error fetching profile:', error);
-        } else if (!data) {
-          console.warn('AuthProvider: Profile row not found (PGRST116)');
+        if (error) {
+          // Handle 406 specifically (Project Paused)
+          if (status === 406 || (error.message && error.message.includes('406'))) {
+            console.error('AuthProvider: CRITICAL ERROR 406 - Project is likely PAUSED. Please check Supabase dashboard.');
+            return null; // Don't retry if project is paused
+          }
+
+          if (error.code === 'PGRST116') { // PGRST116 is 'no rows found'
+            console.warn('AuthProvider: Profile row not found (PGRST116)');
+            return null; // Don't retry if profile doesn't exist
+          } else {
+            console.error('AuthProvider: Error fetching profile:', error);
+          }
         }
         
         // Wait before retrying (exponential backoff)
@@ -42,6 +51,9 @@ export const AuthProvider = ({ children }) => {
         }
       } catch (err) {
         console.error(`AuthProvider: Error on attempt ${i + 1}:`, err.message || err);
+        if (err.message === 'Profile fetch timeout') {
+           // On timeout, we can retry, but maybe the network is just dead
+        }
         if (i < retries - 1) {
           await new Promise(resolve => setTimeout(resolve, 1000));
         }

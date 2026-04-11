@@ -73,7 +73,36 @@ const ProtectedRoute = ({ children, allowedTypes = [] }) => {
 
   if (allowedTypes.length > 0) {
     if (!profile) {
-      return <div className="p-10 text-center">Loading profile…</div>;
+      return (
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+          <div className="max-w-md w-full bg-white shadow-lg rounded-xl p-8 text-center">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-100 mb-6">
+              <AlertCircle className="h-10 w-10 text-red-600" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Unable to load profile</h2>
+            <p className="text-gray-600 mb-8 text-sm">
+              We couldn't retrieve your user information. This usually happens if the database project is paused or there's a network issue.
+            </p>
+            <div className="space-y-3">
+              <button 
+                onClick={() => window.location.reload()}
+                className="w-full bg-[#2563eb] text-white py-3 px-4 rounded-lg font-semibold hover:bg-[#1d4ed8] transition-colors shadow-sm"
+              >
+                Retry Connection
+              </button>
+              <button 
+                onClick={() => window.location.href = '/signin'}
+                className="w-full bg-white text-gray-700 py-3 px-4 rounded-lg font-semibold border border-gray-300 hover:bg-gray-50 transition-colors"
+              >
+                Back to Sign In
+              </button>
+            </div>
+            <p className="mt-6 text-xs text-gray-400">
+              Developer Tip: Check the browser console for "406 Not Acceptable" errors.
+            </p>
+          </div>
+        </div>
+      );
     }
     
     const isSellerRole = SELLER_ROLES.includes(profile.user_type);
