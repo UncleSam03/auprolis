@@ -130,6 +130,20 @@ const AdminNewListingStep2 = () => {
                     <span className="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-outline/40" style={{ fontVariationSettings: "'FILL' 1" }}>event</span>
                   </div>
                 </div>
+                <div className="flex flex-col gap-3">
+                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-outline/60 ml-1 font-headline opacity-60">Auction Date</label>
+                  <div className="relative">
+                    <input 
+                        name="auction_date"
+                        value={listingData.auction_date || ''}
+                        onChange={handleChange}
+                        className="w-full bg-surface-container-low border-none rounded-2xl py-5 px-14 focus:ring-2 focus:ring-primary/20 text-on-surface font-bold" 
+                        type="date" 
+                    />
+                    <span className="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>calendar_today</span>
+                  </div>
+                </div>
+
                 <div className="flex flex-col gap-3 md:col-span-2">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-outline/60 ml-1 font-headline opacity-60">Distressed Status Flag</label>
                   <div className="relative">

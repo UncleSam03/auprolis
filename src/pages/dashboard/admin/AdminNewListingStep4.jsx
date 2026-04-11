@@ -127,6 +127,13 @@ const AdminNewListingStep4 = () => {
                   <p className="text-4xl font-[900] text-primary tracking-tighter font-headline leading-none">{formatCurrency(listingData.price_pula)}</p>
                 </div>
                 <div className="space-y-3">
+                  <span className="text-[10px] font-black text-outline/40 uppercase tracking-widest block font-headline">Auction Schedule</span>
+                  <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-secondary text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>calendar_today</span>
+                    <p className="text-xl font-bold text-on-surface font-headline">{listingData.auction_date ? new Date(listingData.auction_date).toLocaleDateString() : "Not scheduled"}</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
                   <span className="text-[10px] font-black text-outline/40 uppercase tracking-widest block font-headline">Property Theme</span>
                   <p className="text-xl font-bold text-on-surface font-headline leading-none">{listingData.property_type}</p>
                 </div>
