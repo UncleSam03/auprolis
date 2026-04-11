@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/components/ui/use-toast';
-import { Loader2, ArrowLeft, Building2, Phone } from 'lucide-react';
+import { Loader2, ArrowLeft, Building2, Phone, Eye, EyeOff } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const SignUp = () => {
@@ -22,6 +22,7 @@ const SignUp = () => {
     institution: '',
     userType: 'buyer'
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -184,17 +185,29 @@ const SignUp = () => {
 
             <div>
               <Label htmlFor="password">Password</Label>
-              <div className="mt-1">
+              <div className="mt-1 relative">
                 <Input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   autoComplete="new-password"
                   required
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="••••••••"
+                  className="pr-10"
                 />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" aria-hidden="true" />
+                  ) : (
+                    <Eye className="h-5 w-5" aria-hidden="true" />
+                  )}
+                </button>
               </div>
             </div>
 
