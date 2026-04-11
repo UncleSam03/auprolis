@@ -27,9 +27,12 @@ const PropertyForm = () => {
   const autocompleteInstance = useRef(null);
   
   const [formData, setFormData] = useState({
-    title: '',
+    court_name: '',
+    court_held_at: '',
+    plaintiff: '',
+    defendant_owner: '',
     case_number: '',
-    listing_type: 'Sale', // Sale, Auction, Rental
+    listing_type: 'Auction', // Sale, Auction, Rental
     location: '', 
     latitude: null,
     longitude: null,
@@ -44,13 +47,14 @@ const PropertyForm = () => {
     title_deed_number: '',
     bedrooms: '',
     description: '',
+    legal_description: '',
+    developments: '',
     terms_of_sale: '',
     seller_contact_entity: '',
     contact_numbers: '',
     attorney: '',
-    plaintiff: '',
-    defendant_owner: '',
     notice_date: '',
+    notice_issued_at: '',
     images: [],
     status: 'pending'
   });
@@ -191,8 +195,12 @@ const PropertyForm = () => {
       
       setFormData({
         title: data.title,
+        court_name: data.court_name || '',
+        court_held_at: data.court_held_at || '',
+        plaintiff: data.plaintiff || '',
+        defendant_owner: data.defendant_owner || '',
         case_number: data.case_number || '',
-        listing_type: data.listing_type || 'Sale',
+        listing_type: data.listing_type || 'Auction',
         location: data.location,
         latitude: data.latitude,
         longitude: data.longitude,
@@ -207,13 +215,14 @@ const PropertyForm = () => {
         title_deed_number: data.title_deed_number || '',
         bedrooms: data.bedrooms || '',
         description: data.description,
+        legal_description: data.legal_description || '',
+        developments: data.developments || '',
         terms_of_sale: data.terms_of_sale || '',
         seller_contact_entity: data.seller_contact_entity || '',
         contact_numbers: data.contact_numbers || '',
         attorney: data.attorney || '',
-        plaintiff: data.plaintiff || '',
-        defendant_owner: data.defendant_owner || '',
         notice_date: data.notice_date || '',
+        notice_issued_at: data.notice_issued_at || '',
         images: data.images || [],
         status: data.status || 'pending'
       });
@@ -282,6 +291,10 @@ const PropertyForm = () => {
 
       const propertyData = {
         title: formData.title,
+        court_name: formData.court_name,
+        court_held_at: formData.court_held_at,
+        plaintiff: formData.plaintiff,
+        defendant_owner: formData.defendant_owner,
         case_number: formData.case_number,
         listing_type: formData.listing_type,
         location: formData.location,
@@ -298,13 +311,14 @@ const PropertyForm = () => {
         title_deed_number: formData.title_deed_number || null,
         bedrooms: formData.bedrooms ? parseInt(formData.bedrooms) : null,
         description: formData.description,
+        legal_description: formData.legal_description || null,
+        developments: formData.developments || null,
         terms_of_sale: formData.terms_of_sale || null,
         seller_contact_entity: formData.seller_contact_entity || null,
         contact_numbers: formData.contact_numbers || null,
         attorney: formData.attorney || null,
-        plaintiff: formData.plaintiff || null,
-        defendant_owner: formData.defendant_owner || null,
         notice_date: formData.notice_date || null,
+        notice_issued_at: formData.notice_issued_at || null,
         images: formData.images,
         seller_id: user.id,
         status: statusToSave
@@ -329,6 +343,38 @@ const PropertyForm = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const generateDescription = () => {
+    const { 
+      type, bedrooms, developments, legal_description, 
+      location, size_m2, title_deed_number, 
+      auction_date, auction_time, auction_venue 
+    } = formData;
+    
+    let generated = `This ${type.toLowerCase()} property`;
+    if (size_m2) generated += `, measuring approximately ${size_m2},`;
+    if (bedrooms) generated += ` features ${bedrooms} bedrooms`;
+    if (developments) generated += ` and includes ${developments}.`;
+    else generated += `.`;
+
+    if (legal_description) {
+      generated += `\n\nThe property is ${legal_description}.`;
+    }
+
+    if (title_deed_number) {
+      generated += ` Recorded under ${title_deed_number}.`;
+    }
+
+    if (auction_date) {
+      generated += `\n\nScheduled for auction on ${auction_date}`;
+      if (auction_time) generated += ` at ${auction_time}`;
+      if (auction_venue) generated += ` at ${auction_venue}.`;
+      else generated += `.`;
+    }
+
+    setFormData(prev => ({ ...prev, description: generated }));
+    toast({ title: "Description Generated", description: "The property description has been updated based on your legal inputs." });
   };
 
   return (
@@ -459,8 +505,19 @@ const PropertyForm = () => {
                   </div>
                 </TabsContent>
 
-                <TabsContent value="legal" className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+                 <TabsContent value="legal" className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="court_name">Court Name</Label>
+                      <Input id="court_name" name="court_name" value={formData.court_name} onChange={handleChange} placeholder="e.g. In the High Court of Botswana" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="court_held_at">Held At</Label>
+                      <Input id="court_held_at" name="court_held_at" value={formData.court_held_at} onChange={handleChange} placeholder="e.g. Gaborone" />
+                    </div>
+                  </div>
+
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t">
                     <div className="space-y-2">
                       <Label htmlFor="case_number">Case Number</Label>
                       <Input id="case_number" name="case_number" value={formData.case_number} onChange={handleChange} placeholder="e.g. CVHGB-002250-22" />
@@ -484,7 +541,27 @@ const PropertyForm = () => {
 
                   <div className="space-y-2">
                     <Label htmlFor="auction_venue">Auction Venue</Label>
-                    <Input id="auction_venue" name="auction_venue" value={formData.auction_venue} onChange={handleChange} placeholder="e.g. On-Site: Lot 59217" />
+                    <Input id="auction_venue" name="auction_venue" value={formData.auction_venue} onChange={handleChange} placeholder="e.g. On-Site: Lot 59217, Mmopane" />
+                  </div>
+
+                  <div className="space-y-2 pt-4 border-t">
+                    <Label htmlFor="legal_description">Legal Property Description</Label>
+                    <textarea 
+                      id="legal_description" name="legal_description" 
+                      value={formData.legal_description} onChange={handleChange}
+                      className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 transition-all"
+                      placeholder="e.g. Tribal Lot No. 1488, Mmopane in the Bakwena Tribal Territory..."
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="developments">Developments / Features List</Label>
+                    <textarea 
+                      id="developments" name="developments" 
+                      value={formData.developments} onChange={handleChange}
+                      className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 transition-all"
+                      placeholder="e.g. 5 bedrooms, 1 sitting room, 1 kitchen, security wall..."
+                    />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t">
@@ -499,8 +576,19 @@ const PropertyForm = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="attorney">Attorney</Label>
-                    <Input id="attorney" name="attorney" value={formData.attorney} onChange={handleChange} />
+                    <Label htmlFor="attorney">Attorneys for Plaintiff</Label>
+                    <Input id="attorney" name="attorney" value={formData.attorney} onChange={handleChange} placeholder="e.g. MINCHIN & KELLY (BOTSWANA)" />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t">
+                    <div className="space-y-2">
+                      <Label htmlFor="notice_date">Notice Dated</Label>
+                      <Input id="notice_date" name="notice_date" type="date" value={formData.notice_date} onChange={handleChange} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="notice_issued_at">Issued At</Label>
+                      <Input id="notice_issued_at" name="notice_issued_at" value={formData.notice_issued_at} onChange={handleChange} placeholder="e.g. Gaborone" />
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t">
@@ -522,7 +610,12 @@ const PropertyForm = () => {
 
                 <TabsContent value="media" className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
                   <div className="space-y-2">
-                    <Label htmlFor="description">Full Property Description</Label>
+                    <div className="flex justify-between items-center mb-1">
+                      <Label htmlFor="description">Full Property Description</Label>
+                      <Button type="button" variant="secondary" size="xs" onClick={generateDescription} className="h-7 text-[10px] bg-slate-100 text-slate-600 hover:bg-slate-200">
+                        Auto-Generate from Legal Info
+                      </Button>
+                    </div>
                     <textarea
                       id="description"
                       name="description"

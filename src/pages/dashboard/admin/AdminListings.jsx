@@ -3,12 +3,33 @@ import { useNavigate } from 'react-router-dom';
 import AdminDashboardLayout from '../../../components/dashboard/AdminDashboardLayout';
 import { supabase } from '../../../lib/customSupabaseClient';
 import { formatCurrency } from '../../../lib/utils';
+import { useToast } from '@/components/ui/use-toast';
+
+import { useToast } from '@/components/ui/use-toast';
+
+import { useToast } from '@/components/ui/use-toast';
+
 
 const AdminListings = () => {
   const navigate = useNavigate();
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { toast } = useToast();
+  const [isProcessing, setIsProcessing] = useState(null);
+  const [statusFilter, setStatusFilter] = useState('All Statuses');
+  const [typeFilter, setTypeFilter] = useState('All Property Types');
+  const [sortBy, setSortBy] = useState('Latest Submission');
+
+  const { toast } = useToast();
+  const [isProcessing, setIsProcessing] = useState(null);
+  const [statusFilter, setStatusFilter] = useState('All Statuses');
+  const [typeFilter, setTypeFilter] = useState('All Property Types');
+  const [sortBy, setSortBy] = useState('Latest Submission');
+
+  const { toast } = useToast();
+  const [isProcessing, setIsProcessing] = useState(null); // To track which ID is being processed
+
 
   useEffect(() => {
     fetchListings();
@@ -23,7 +44,7 @@ const AdminListings = () => {
           *,
           profiles!seller_id(name)
         `)
-//        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
       setListings(data || []);
@@ -34,6 +55,61 @@ const AdminListings = () => {
       setLoading(false);
     }
   };
+
+  const handleApprove = async (id) => {
+    try {
+      setIsProcessing(id);
+      const { error } = await supabase
+        .from('properties')
+        .update({ status: 'live' })
+        .eq('id', id);
+
+      if (error) throw error;
+      
+      toast({
+        title: "Asset Live",
+        description: "The property has been approved and moved to market intelligence.",
+      });
+      
+      fetchListings();
+    } catch (err) {
+      toast({
+        title: "Action Failed",
+        description: err.message,
+        variant: "destructive"
+      });
+    } finally {
+      setIsProcessing(null);
+    }
+  };
+
+  const handleDeny = async (id) => {
+    try {
+      setIsProcessing(id);
+      const { error } = await supabase
+        .from('properties')
+        .update({ status: 'denied' })
+        .eq('id', id);
+
+      if (error) throw error;
+      
+      toast({
+        title: "Asset Denied",
+        description: "The property listing has been rejected and archived.",
+      });
+      
+      fetchListings();
+    } catch (err) {
+      toast({
+        title: "Action Failed",
+        description: err.message,
+        variant: "destructive"
+      });
+    } finally {
+      setIsProcessing(null);
+    }
+  };
+
 
   return (
     <AdminDashboardLayout 
@@ -54,29 +130,43 @@ const AdminListings = () => {
         <section className="flex flex-wrap items-center gap-8 bg-surface-container-low/30 p-8 rounded-[2rem] border border-outline-variant/10 shadow-inner">
           <div className="flex items-center bg-white px-6 py-3 rounded-2xl gap-4 shadow-sm border border-outline-variant/5">
             <span className="text-[10px] font-black uppercase tracking-widest text-outline/40">Status:</span>
-            <select className="bg-transparent border-none text-xs font-[800] text-on-surface focus:ring-0 py-0 pr-8 cursor-pointer">
+            <select 
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="bg-transparent border-none text-xs font-[800] text-on-surface focus:ring-0 py-0 pr-8 cursor-pointer"
+            >
               <option>All Statuses</option>
               <option>Live Assets</option>
               <option>Pending Moderation</option>
               <option>Suspended Intelligence</option>
             </select>
+
           </div>
           <div className="flex items-center bg-white px-6 py-3 rounded-2xl gap-4 shadow-sm border border-outline-variant/5">
             <span className="text-[10px] font-black uppercase tracking-widest text-outline/40">Type:</span>
-            <select className="bg-transparent border-none text-xs font-[800] text-on-surface focus:ring-0 py-0 pr-8 cursor-pointer">
+            <select 
+              value={typeFilter}
+              onChange={(e) => setTypeFilter(e.target.value)}
+              className="bg-transparent border-none text-xs font-[800] text-on-surface focus:ring-0 py-0 pr-8 cursor-pointer"
+            >
               <option>All Property Types</option>
               <option>Commercial Suite</option>
               <option>Residential Villa</option>
               <option>Industrial Complex</option>
             </select>
+
           </div>
           <div className="flex items-center bg-white px-6 py-3 rounded-2xl gap-4 shadow-sm border border-outline-variant/5">
             <span className="text-[10px] font-black uppercase tracking-widest text-outline/40">Sort By:</span>
-            <select className="bg-transparent border-none text-xs font-[800] text-on-surface focus:ring-0 py-0 pr-8 cursor-pointer">
+            <select 
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="bg-transparent border-none text-xs font-[800] text-on-surface focus:ring-0 py-0 pr-8 cursor-pointer"
+            >
               <option>Latest Submission</option>
-              <option>Highest Engagement</option>
               <option>Maximum Valuation</option>
             </select>
+
           </div>
           <button className="ml-auto flex items-center gap-3 text-primary font-black text-[10px] uppercase tracking-[0.2em] hover:bg-primary/5 px-6 py-3 rounded-full transition-all">
             <span className="material-symbols-outlined text-[20px]">filter_list</span>
@@ -106,12 +196,13 @@ const AdminListings = () => {
                       <td colSpan={7} className="px-10 py-8 bg-surface-container-low/20 h-24 whitespace-nowrap"></td>
                     </tr>
                   ))
-                ) : listings.length === 0 ? (
+                ) : filteredListings.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="px-10 py-20 text-center opacity-40 font-black uppercase tracking-widest text-[10px]">No active intelligence recorded</td>
+                    <td colSpan={7} className="px-10 py-20 text-center opacity-40 font-black uppercase tracking-widest text-[10px]">No intelligence matching selected filters</td>
                   </tr>
                 ) : (
-                  listings.map((item) => (
+                  filteredListings.map((item) => (
+
                     <tr key={item.id} className="group hover:bg-surface transition-all duration-300">
                       <td className="px-10 py-8 text-xs font-black text-on-surface-variant opacity-40 font-mono tracking-tighter truncate max-w-[120px]">
                         #{item.id.slice(0, 8).toUpperCase()}
@@ -150,10 +241,41 @@ const AdminListings = () => {
                         <p className="text-[8px] font-black uppercase tracking-widest text-outline/30 mt-1">Unique Imprints</p>
                       </td>
                       <td className="px-10 py-8 text-right">
-                        <button className="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-outline/30 hover:bg-on-surface hover:text-white transition-all shadow-md group-hover:shadow-lg">
-                          <span className="material-symbols-outlined text-xl">settings_intelligence</span>
-                        </button>
+                        <div className="flex items-center justify-end gap-3">
+                          {(item.status?.toLowerCase() === 'pending' || !item.status) && (
+                            <>
+                              <button 
+                                onClick={() => handleApprove(item.id)}
+                                disabled={isProcessing === item.id}
+                                className="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-md active:scale-95 disabled:opacity-50"
+                                title="Quick Approve"
+                              >
+                                {isProcessing === item.id ? (
+                                  <span className="material-symbols-outlined text-xl animate-spin">refresh</span>
+                                ) : (
+                                  <span className="material-symbols-outlined text-xl">check_circle</span>
+                                )}
+                              </button>
+                              <button 
+                                onClick={() => handleDeny(item.id)}
+                                disabled={isProcessing === item.id}
+                                className="w-10 h-10 rounded-full bg-error/10 text-error flex items-center justify-center hover:bg-error hover:text-white transition-all shadow-md active:scale-95 disabled:opacity-50"
+                                title="Deny Intelligence"
+                              >
+                                <span className="material-symbols-outlined text-xl">block</span>
+                              </button>
+                            </>
+                          )}
+                          <button 
+                            onClick={() => navigate(`/admin/listings/review/${item.id}`)}
+                            className="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-outline/30 hover:bg-on-surface hover:text-white transition-all shadow-md group-hover:shadow-lg"
+                            title="Full Moderation Review"
+                          >
+                            <span className="material-symbols-outlined text-xl">settings_intelligence</span>
+                          </button>
+                        </div>
                       </td>
+
                     </tr>
                   ))
                 )}
@@ -162,7 +284,8 @@ const AdminListings = () => {
           </div>
           
           <footer className="px-10 py-8 flex items-center justify-between bg-surface-container-low/30 border-t border-outline-variant/10">
-            <span className="text-[11px] font-black uppercase tracking-widest text-outline/40 italic">Aggregated Intelligence: {listings.length} Active Listings</span>
+            <span className="text-[11px] font-black uppercase tracking-widest text-outline/40 italic">Aggregated Intelligence: {filteredListings.length} Active Listings</span>
+
             <div className="flex items-center gap-3">
               <button className="w-10 h-10 rounded-xl bg-surface-container-high text-outline/40 flex items-center justify-center hover:bg-white transition-all shadow-inner">
                 <span className="material-symbols-outlined">chevron_left</span>

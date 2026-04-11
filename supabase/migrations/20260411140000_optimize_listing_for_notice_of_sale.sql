@@ -1,0 +1,23 @@
+-- Add columns to properties table to support full "Notice of Sale in Execution" requirements
+ALTER TABLE public.properties 
+ADD COLUMN IF NOT EXISTS court_name TEXT,
+ADD COLUMN IF NOT EXISTS court_held_at TEXT,
+ADD COLUMN IF NOT EXISTS plaintiff TEXT,
+ADD COLUMN IF NOT EXISTS defendant_owner TEXT,
+ADD COLUMN IF NOT EXISTS attorney TEXT,
+ADD COLUMN IF NOT EXISTS auction_time TEXT,
+ADD COLUMN IF NOT EXISTS auction_venue TEXT,
+ADD COLUMN IF NOT EXISTS terms_of_sale TEXT,
+ADD COLUMN IF NOT EXISTS notice_date DATE,
+ADD COLUMN IF NOT EXISTS notice_issued_at TEXT,
+ADD COLUMN IF NOT EXISTS title_deed_number TEXT,
+ADD COLUMN IF NOT EXISTS listing_type TEXT DEFAULT 'Auction',
+ADD COLUMN IF NOT EXISTS size_m2 TEXT,
+ADD COLUMN IF NOT EXISTS seller_contact_entity TEXT,
+ADD COLUMN IF NOT EXISTS contact_numbers TEXT,
+ADD COLUMN IF NOT EXISTS legal_description TEXT,
+ADD COLUMN IF NOT EXISTS developments TEXT,
+ADD COLUMN IF NOT EXISTS sheriff_name TEXT,
+ADD COLUMN IF NOT EXISTS sheriff_cell TEXT,
+ADD COLUMN IF NOT EXISTS sheriff_tel TEXT,
+ADD COLUMN IF NOT EXISTS sheriff_address TEXT;

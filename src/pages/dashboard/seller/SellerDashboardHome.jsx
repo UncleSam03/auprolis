@@ -4,18 +4,43 @@ import SellerDashboardLayout from '../../../components/dashboard/SellerDashboard
 import KPIBlock from '../../../components/dashboard/seller/KPIBlock';
 import SellerListingSummary from '../../../components/dashboard/seller/SellerListingSummary';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../contexts/SupabaseAuthContext';
+import { useProperties } from '../../../hooks/useProperties';
+import { formatCurrency } from '../../../lib/utils';
 
 const SellerDashboardHome = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  
+  // Fetch real data for current user
+  const { properties, loading } = useProperties({ 
+    sellerId: user?.id,
+    enabled: !!user?.id
+  });
+
+  // Calculate real KPIs from data
+  const totalListings = properties.length;
+  const liveCount = properties.filter(p => p.status?.toLowerCase() === 'live' || p.status?.toLowerCase() === 'approved').length;
+  const pendingCount = properties.filter(p => p.status?.toLowerCase() === 'pending' || !p.status).length;
+  const totalViews = properties.reduce((acc, p) => acc + (p.views_count || 0), 0);
 
   const kpis = [
-    { label: 'Total listings', value: '0', trend: '---', icon: 'inventory_2', color: 'primary' },
-    { label: 'Live', value: '0', trend: '---', icon: 'check_circle', color: 'secondary' },
-    { label: 'Pending review', value: '0', trend: '---', icon: 'hourglass_empty', color: 'tertiary' },
-    { label: 'Total Views', value: '0', trend: '---', icon: 'visibility', color: 'tertiary' },
+    { label: 'Total listings', value: totalListings.toString(), trend: 'Portfolio wide', icon: 'inventory_2', color: 'primary' },
+    { label: 'Live on Market', value: liveCount.toString(), trend: 'Active', icon: 'check_circle', color: 'secondary' },
+    { label: 'Pending review', value: pendingCount.toString(), trend: 'SLA active', icon: 'hourglass_empty', color: 'tertiary' },
+    { label: 'Total Engagement', value: totalViews.toLocaleString(), trend: 'Views', icon: 'visibility', color: 'tertiary' },
   ];
 
-  const recentListings = [];
+  const recentListings = properties.slice(0, 5).map(p => ({
+    id: p.id,
+    title: p.title || p.listing_title || 'Untitled Asset',
+    address: p.location || 'Unknown Location',
+    type: p.property_type || 'Residential',
+    status: p.status || 'Pending',
+    price: formatCurrency(p.price_usd || p.price_pula),
+    views: p.views_count || 0,
+    imageUrl: (p.images && p.images[0]) || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=200'
+  }));
 
   return (
     <SellerDashboardLayout title="Seller Dashboard">
@@ -40,9 +65,15 @@ const SellerDashboardHome = () => {
             </button>
           </div>
           <div className="space-y-4">
-            {recentListings.length > 0 ? (
+            {loading ? (
+              <div className="space-y-4">
+                {[1, 2, 3].map(i => (
+                  <div key={i} className="h-24 bg-surface-container-low/20 animate-pulse rounded-2xl"></div>
+                ))}
+              </div>
+            ) : recentListings.length > 0 ? (
               recentListings.map((listing, idx) => (
-                <SellerListingSummary key={idx} {...listing} />
+                <SellerListingSummary key={listing.id || idx} {...listing} />
               ))
             ) : (
               <div className="bg-surface-container-low/20 rounded-3xl p-12 flex flex-col items-center justify-center text-center">
@@ -74,7 +105,11 @@ const SellerDashboardHome = () => {
           <div className="bg-gradient-to-br from-primary to-primary-container p-10 rounded-[1.5rem] text-white shadow-xl shadow-primary/20 relative overflow-hidden group">
             <div className="relative z-10">
               <h3 className="text-2xl font-extrabold mb-2 tracking-tight">Intelligence Report</h3>
-              <p className="text-white/80 text-sm mb-8 leading-relaxed max-w-xs">Your portfolio insights will appear here once listings are active.</p>
+              <p className="text-white/80 text-sm mb-8 leading-relaxed max-w-xs italic opacity-60">
+                 {recentListings.length > 0 
+                  ? `${recentListings.length} assets integrated in your stream. Auprolis is monitoring network velocity.`
+                  : "Your portfolio insights will appear here once listings are active."}
+              </p>
               <button 
                 onClick={() => navigate('/seller/performance')}
                 className="w-full bg-white text-primary font-black py-4 rounded-full hover:bg-white/90 active:scale-95 transition-all text-xs uppercase tracking-widest shadow-lg shadow-black/10"

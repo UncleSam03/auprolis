@@ -30,6 +30,7 @@ export const NewListingProvider = ({ children }) => {
         latitude: null,
         longitude: null,
         description: '',
+        auction_date: '',
 
         // Step 2: Media & Specs
         images: [],
@@ -72,6 +73,7 @@ export const NewListingProvider = ({ children }) => {
             latitude: null,
             longitude: null,
             description: '',
+            auction_date: '',
             images: [],
             bedrooms: 0,
             bathrooms: 0,
@@ -120,6 +122,7 @@ export const NewListingProvider = ({ children }) => {
                     status: submitStatus,
                     case_number: listingData.case_number || 'N/A',
                     images: listingData.images, // Added images field which was missing in the insert
+                    auction_date: listingData.auction_date || null,
                     created_at: new Date().toISOString()
                 }]);
 

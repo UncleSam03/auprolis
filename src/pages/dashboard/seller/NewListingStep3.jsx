@@ -21,7 +21,7 @@ const NewListingStep3 = () => {
     };
 
     const checklistItems = [
-        { id: 'title_deed', title: 'Certified Title Deed', subtitle: 'Original digital copy (PDF/A)', status: listingData.documents.title_deed ? 'uploaded' : 'pending' },
+        { id: 'title_deed', title: 'Certified Title Deed', subtitle: 'Original digital copy (PDF/A) - Optional', status: listingData.documents.title_deed ? 'uploaded' : 'pending' },
         { id: 'seller_id', title: 'Seller Identification', subtitle: 'Government ID or Passport', status: listingData.documents.seller_id ? 'uploaded' : 'pending' },
         { id: 'court_order', title: 'Court Order of Foreclosure', subtitle: 'Mandatory for Distressed Sales', status: listingData.documents.court_order ? 'uploaded' : 'pending' },
         { id: 'tax_clearance', title: 'Tax Clearance Certificate', subtitle: 'Proof of zero outstanding municipal debt', status: listingData.documents.tax_clearance ? 'uploaded' : 'pending' },
@@ -46,7 +46,7 @@ const NewListingStep3 = () => {
               <div className="flex-1">
                 <h3 className="text-2xl font-[800] text-on-surface font-headline leading-none">Compliance Checklist</h3>
                 <p className="text-on-surface-variant text-sm mt-3 leading-relaxed font-medium opacity-60 max-w-2xl">
-                  Please ensure all regulatory documentation is uploaded. These files are required for the Sheriff's Office to authorize the listing for public auction.
+                  Please ensure all regulatory documentation is uploaded. While Title Deeds are preferred, they are not mandatory if not available for the specific property.
                 </p>
               </div>
             </div>
